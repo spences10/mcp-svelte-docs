@@ -1,93 +1,165 @@
 # mcp-svelte-docs
 
-An MCP server that provides access to Svelte documentation via the
-llms.txt convention, with vector similarity search capabilities.
+A Model Context Protocol (MCP) server that provides efficient access
+to Svelte documentation with advanced caching, search capabilities,
+and optimised content delivery. This server integrates directly with
+Svelte's official documentation, offering both full and compressed
+variants suitable for different LLM context window sizes.
+
+<a href="https://glama.ai/mcp/servers/svelte-docs">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/svelte-docs/badge" />
+</a>
 
 ## Features
 
-- Serves Svelte documentation through MCP Resources
-- Vector similarity search for documentation content
-- Local caching with LibSQL
-- Automatic document embedding generation
-- Support for all Svelte llms.txt formats:
-  - Root level: llms.txt, llms-full.txt, llms-small.txt
-  - Package level: docs/svelte/llms.txt, docs/kit/llms.txt,
-    docs/cli/llms.txt
-
-## Installation
-
-```bash
-npm install -g mcp-svelte-docs
-```
+- 📚 Complete Svelte documentation access through MCP Resources
+- 🔍 Advanced semantic search with relevance scoring
+- 💾 Efficient caching with LibSQL
+- 🔄 Automatic content freshness checks
+- 📦 Support for package-specific documentation (Svelte, Kit, CLI)
+- 📏 Smart content chunking for large documents
+- 🗜️ Compressed variants for smaller context windows
+- 🏗️ Built on the Model Context Protocol
 
 ## Configuration
 
-The server requires the following environment variables:
+This server requires configuration through your MCP client. Here are
+examples for different environments:
+
+### Cline Configuration
+
+Add this to your Cline MCP settings:
+
+```json
+{
+	"mcpServers": {
+		"svelte-docs": {
+			"command": "node",
+			"args": ["-y", "mcp-svelte-docs"],
+			"env": {
+				"LIBSQL_URL": "file:local.db",
+				"LIBSQL_AUTH_TOKEN": "your-auth-token-if-using-remote-db"
+			}
+		}
+	}
+}
+```
+
+### Claude Desktop with WSL Configuration
+
+For WSL environments, add this to your Claude Desktop configuration:
+
+```json
+{
+	"mcpServers": {
+		"svelte-docs": {
+			"command": "wsl.exe",
+			"args": [
+				"bash",
+				"-c",
+				"LIBSQL_URL=file:local.db LIBSQL_AUTH_TOKEN=your-token node mcp-svelte-docs"
+			]
+		}
+	}
+}
+```
+
+### Environment Variables
+
+The server supports the following environment variables:
 
 - `LIBSQL_URL` (optional): URL for the LibSQL database. Defaults to
   `file:local.db`
 - `LIBSQL_AUTH_TOKEN` (optional): Auth token for remote LibSQL
   database
 
-## Usage
+## API
 
-### Starting the Server
+The server implements both MCP Resources and Tools:
 
-```bash
-mcp-svelte-docs
-```
+### Resources
 
-### MCP Resources
+Access documentation through these URIs:
 
-Access documentation through the following URIs:
-
-- `svelte-docs://llms.txt` - Documentation index
-- `svelte-docs://llms-full.txt` - Complete documentation
-- `svelte-docs://llms-small.txt` - Compressed documentation
+- `svelte-docs://docs/llms.txt` - Documentation index
+- `svelte-docs://docs/llms-full.txt` - Complete documentation
+- `svelte-docs://docs/llms-small.txt` - Compressed documentation
 - `svelte-docs://docs/{package}/llms.txt` - Package-specific
   documentation
   - Supported packages: svelte, kit, cli
 
-### MCP Tools
+### Tools
 
 #### search_docs
 
-Search documentation using vector similarity:
+Search documentation using semantic similarity with relevance scoring.
 
-```typescript
-{
-  name: 'search_docs',
-  arguments: {
-    query: string,    // Search query text
-    limit?: number    // Max results (1-20, default: 5)
-  }
-}
-```
+Parameters:
 
-#### refresh_docs
+- `query` (string, required): Search query text
+- `limit` (number, optional): Maximum results to return (1-20,
+  default: 5)
 
-Refresh documentation cache and update database:
+#### get_next_chunk
 
-```typescript
-{
-  name: 'refresh_docs',
-  arguments: {}
-}
-```
+Retrieve subsequent chunks of large documents.
+
+Parameters:
+
+- `uri` (string, required): Document URI
+- `chunk_number` (number, required): Chunk number to retrieve
+  (1-based)
 
 ## Development
 
+### Setup
+
+1. Clone the repository
+2. Install dependencies:
+
 ```bash
-# Install dependencies
 pnpm install
+```
 
-# Build
+3. Build the project:
+
+```bash
 pnpm build
+```
 
-# Run with inspector
+4. Run in development mode:
+
+```bash
 pnpm dev
 ```
 
+### Publishing
+
+1. Update version in package.json
+2. Build the project:
+
+```bash
+pnpm build
+```
+
+3. Publish to npm:
+
+```bash
+pnpm publish
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
 ## License
 
-MIT
+MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Built on the
+  [Model Context Protocol](https://github.com/modelcontextprotocol)
+- Powered by [Svelte Documentation](https://svelte.dev)
+- Uses [LibSQL](https://github.com/libsql/libsql) for efficient
+  caching
