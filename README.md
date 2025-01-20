@@ -6,8 +6,8 @@ and optimised content delivery. This server integrates directly with
 Svelte's official documentation, offering both full and compressed
 variants suitable for different LLM context window sizes.
 
-<a href="https://glama.ai/mcp/servers/svelte-docs">
-  <img width="380" height="200" src="https://glama.ai/mcp/servers/svelte-docs/badge" />
+<a href="https://glama.ai/mcp/servers/wu4hy1xtjb">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/wu4hy1xtjb/badge" />
 </a>
 
 ## Features
