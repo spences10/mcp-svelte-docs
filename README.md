@@ -35,7 +35,7 @@ Add this to your Cline MCP settings:
 {
 	"mcpServers": {
 		"svelte-docs": {
-			"command": "node",
+			"command": "npx",
 			"args": ["-y", "mcp-svelte-docs"],
 			"env": {
 				"LIBSQL_URL": "file:local.db",
@@ -58,7 +58,7 @@ For WSL environments, add this to your Claude Desktop configuration:
 			"args": [
 				"bash",
 				"-c",
-				"LIBSQL_URL=file:local.db LIBSQL_AUTH_TOKEN=your-token node mcp-svelte-docs"
+				"LIBSQL_URL=file:local.db LIBSQL_AUTH_TOKEN=your-token npx -y mcp-svelte-docs"
 			]
 		}
 	}
