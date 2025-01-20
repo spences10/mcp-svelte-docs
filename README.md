@@ -13,7 +13,7 @@ variants suitable for different LLM context window sizes.
 ## Features
 
 - 📚 Complete Svelte documentation access through MCP Resources
-- 🔍 Advanced semantic search with relevance scoring
+- 🔍 Text search with basic relevance scoring (occurrence count, position, and section weighting)
 - 💾 Efficient caching with LibSQL
 - 🔄 Automatic content freshness checks
 - 📦 Support for package-specific documentation (Svelte, Kit, CLI)
@@ -92,7 +92,7 @@ Access documentation through these URIs:
 
 #### search_docs
 
-Search documentation using semantic similarity with relevance scoring.
+Search documentation using text matching with basic relevance scoring.
 
 Parameters:
 
