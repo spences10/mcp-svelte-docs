@@ -13,7 +13,8 @@ variants suitable for different LLM context window sizes.
 ## Features
 
 - 📚 Complete Svelte documentation access through MCP Resources
-- 🔍 Text search with basic relevance scoring (occurrence count, position, and section weighting)
+- 🔍 Text search with basic relevance scoring (occurrence count,
+  position, and section weighting)
 - 💾 Efficient caching with LibSQL
 - 🔄 Automatic content freshness checks
 - 📦 Support for package-specific documentation (Svelte, Kit, CLI)
@@ -151,6 +152,10 @@ pnpm publish
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Roadmap
+
+- 🧠 Semantic search implementation using embeddings stored in LibSQL
 
 ## License
 
