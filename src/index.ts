@@ -25,7 +25,8 @@ const { name, version } = pkg;
 
 // Database client
 const db = createClient({
-	url: 'file:../svelte-docs.db',
+	url: process.env.LIBSQL_URL || 'file:../svelte-docs.db',
+	authToken: process.env.LIBSQL_AUTH_TOKEN,
 });
 
 // Initialize database schema
