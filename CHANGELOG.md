@@ -1,5 +1,16 @@
 # mcp-svelte-docs
 
+## 0.0.8
+
+### Patch Changes
+
+- Refactor index.ts to modularize database and document handling.
+  Removed legacy database client and caching functions, integrating
+  new document-fetching and processing utilities. Enhanced chunking
+  and metadata management for large documents, improving performance
+  and maintainability. This update sets the stage for more efficient
+  document retrieval and search capabilities.
+
 ## 0.0.7
 
 ### Patch Changes
