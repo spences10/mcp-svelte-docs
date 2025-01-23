@@ -12,8 +12,8 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0
       '@modelcontextprotocol/sdk':
-        specifier: 1.3.2
-        version: 1.3.2
+        specifier: 1.4.0
+        version: 1.4.0
     devDependencies:
       '@changesets/cli':
         specifier: ^2.27.11
@@ -143,8 +143,8 @@ packages:
   '@manypkg/get-packages@1.1.3':
     resolution: {integrity: sha512-fo+QhuU3qE/2TQMQmbVMqaQ6EWbMhi4ABWP+O4AM1NqPBuy0OrApV5LO6BrrgnhtAHS2NH6RrVk9OL181tTi8A==}
 
-  '@modelcontextprotocol/sdk@1.3.2':
-    resolution: {integrity: sha512-Go+Iv/QTilhOxZppH2IuX+RaR9a4mjg/+PX17imoKqbb7mvYMN2dgjASL6PhKj07tRR4F8VM3ScPPlBenZ+gIw==}
+  '@modelcontextprotocol/sdk@1.4.0':
+    resolution: {integrity: sha512-50YTsT4H9PuqmgwXkr/BPl0ankfEfxqVtFG8I378XqUThasnYRdNwE2PqktiJNm5MncOf3s5q37juv6kMe6WZQ==}
     engines: {node: '>=18'}
 
   '@neon-rs/load@0.0.4':
@@ -241,6 +241,14 @@ packages:
     resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
     engines: {node: '>=4'}
     hasBin: true
+
+  eventsource-parser@3.0.0:
+    resolution: {integrity: sha512-T1C0XCUimhxVQzW4zFipdx0SficT651NnkR0ZSH3yQwh+mFMdLfgjABVi4YtMTtaL4s168593DaoaRLMqryavA==}
+    engines: {node: '>=18.0.0'}
+
+  eventsource@3.0.2:
+    resolution: {integrity: sha512-YolzkJNxsTL3tCJMWFxpxtG2sCjbZ4LQUBUrkdaJK0ub0p6lmJt+2+1SwhKjLc652lpH9L/79Ptez972H9tphw==}
+    engines: {node: '>=18.0.0'}
 
   extendable-error@0.1.7:
     resolution: {integrity: sha512-UOiS2in6/Q0FK0R0q6UY9vYpQ21mr/Qn1KOnte7vsACuNJf514WvCCUHSRCPcgjPT2bAhNIJdlE6bVap1GKmeg==}
@@ -790,9 +798,10 @@ snapshots:
       globby: 11.1.0
       read-yaml-file: 1.1.0
 
-  '@modelcontextprotocol/sdk@1.3.2':
+  '@modelcontextprotocol/sdk@1.4.0':
     dependencies:
       content-type: 1.0.5
+      eventsource: 3.0.2
       raw-body: 3.0.0
       zod: 3.24.1
       zod-to-json-schema: 3.24.1(zod@3.24.1)
@@ -871,6 +880,12 @@ snapshots:
       strip-ansi: 6.0.1
 
   esprima@4.0.1: {}
+
+  eventsource-parser@3.0.0: {}
+
+  eventsource@3.0.2:
+    dependencies:
+      eventsource-parser: 3.0.0
 
   extendable-error@0.1.7: {}
 
