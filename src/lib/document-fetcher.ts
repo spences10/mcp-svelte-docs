@@ -96,7 +96,8 @@ function extract_hierarchy(content: string): SectionHierarchy {
 		}
 	});
 
-	return root;
+	// Return the first real section if it exists, otherwise return root
+	return root.children[0] || root;
 }
 
 // Fetch and cache document

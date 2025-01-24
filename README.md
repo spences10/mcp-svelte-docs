@@ -13,8 +13,16 @@ variants suitable for different LLM context window sizes.
 ## Features
 
 - 📚 Complete Svelte documentation access through MCP Resources
-- 🔍 Text search with basic relevance scoring (occurrence count,
-  position, and section weighting)
+- 🔍 Advanced search capabilities:
+  - Document type filtering (API, Tutorial, Example, Error)
+  - Section hierarchy awareness
+  - Intelligent relevance scoring based on:
+    - Term frequency
+    - Section importance
+    - Document type relevance
+    - Exact phrase matching
+  - Context-aware result excerpts
+  - Related search suggestions
 - 💾 Efficient caching with LibSQL
 - 🔄 Automatic content freshness checks
 - 📦 Support for package-specific documentation (Svelte, Kit, CLI)
@@ -93,13 +101,39 @@ Access documentation through these URIs:
 
 #### search_docs
 
-Search documentation using text matching with basic relevance scoring.
+Enhanced search functionality with advanced filtering and context
+awareness.
 
 Parameters:
 
-- `query` (string, required): Search query text
-- `limit` (number, optional): Maximum results to return (1-20,
-  default: 5)
+- `query` (string, required): Search keywords or natural language
+  query
+- `doc_type` (string, optional): Filter by documentation type
+  - Values: 'api', 'tutorial', 'example', 'error', 'all'
+  - Default: 'all'
+- `context` (number, optional): Number of surrounding paragraphs (0-3)
+  - Default: 1
+- `include_hierarchy` (boolean, optional): Include section hierarchy
+  - Default: true
+
+Example Usage:
+
+```json
+// API Reference Search
+{
+  "query": "bind:value directive",
+  "doc_type": "api",
+  "context": 1
+}
+
+// Tutorial Search
+{
+  "query": "routing sveltekit",
+  "doc_type": "tutorial",
+  "context": 2,
+  "include_hierarchy": true
+}
+```
 
 #### get_next_chunk
 
@@ -152,10 +186,6 @@ pnpm publish
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Roadmap
-
-- 🧠 Semantic search implementation using embeddings stored in LibSQL
 
 ## License
 
