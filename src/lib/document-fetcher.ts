@@ -1,4 +1,5 @@
-import { get_cached_doc, cache_doc } from './database.js';
+import { cache_doc, get_cached_doc } from './database.js';
+import { DocumentMetadata, SectionHierarchy } from './schema.js';
 
 // Resource paths
 export const SVELTE_BASE_URL = 'https://svelte.dev';
@@ -33,6 +34,71 @@ async function check_freshness(path: string, base_url: string) {
 	}
 }
 
+function detect_doc_type(
+	content: string,
+	path: string,
+): DocumentMetadata['doc_type'] {
+	const lower_content = content.toLowerCase();
+	const lower_path = path.toLowerCase();
+
+	if (
+		lower_path.includes('/api/') ||
+		lower_content.includes('api reference')
+	) {
+		return 'api';
+	}
+	if (
+		lower_path.includes('/tutorial/') ||
+		lower_content.includes('tutorial:')
+	) {
+		return 'tutorial';
+	}
+	if (
+		lower_path.includes('/examples/') ||
+		lower_content.match(/example\s*\d+:/)
+	) {
+		return 'example';
+	}
+	if (
+		lower_path.includes('/errors/') ||
+		lower_content.includes('error code:')
+	) {
+		return 'error';
+	}
+	return 'general';
+}
+
+function extract_hierarchy(content: string): SectionHierarchy {
+	const lines = content.split('\n');
+	const root: SectionHierarchy = {
+		title: '',
+		level: 0,
+		children: [],
+	};
+	const stack: SectionHierarchy[] = [root];
+
+	lines.forEach((line) => {
+		const match = line.match(/^(#{1,6})\s+(.+)$/);
+		if (match) {
+			const level = match[1].length;
+			const title = match[2].trim();
+			const node: SectionHierarchy = { title, level, children: [] };
+
+			while (
+				stack.length > 1 &&
+				stack[stack.length - 1].level >= level
+			) {
+				stack.pop();
+			}
+
+			stack[stack.length - 1].children.push(node);
+			stack.push(node);
+		}
+	});
+
+	return root;
+}
+
 // Fetch and cache document
 export async function fetch_doc(path: string): Promise<string> {
 	const is_fresh = await check_freshness(path, SVELTE_BASE_URL);
@@ -53,7 +119,14 @@ export async function fetch_doc(path: string): Promise<string> {
 			new Date().toUTCString();
 		const etag = response.headers.get('etag');
 
-		await cache_doc(path, content, last_modified, etag);
+		const doc_type = detect_doc_type(content, path);
+		const hierarchy = extract_hierarchy(content);
+
+		await cache_doc(path, content, last_modified, etag, {
+			doc_type,
+			hierarchy,
+			last_indexed: new Date().toISOString(),
+		});
 		return content;
 	} catch (error) {
 		console.error('Error fetching document:', error);
@@ -108,13 +181,17 @@ export function process_small_doc(content: string): {
 			original_size: content.length,
 			compressed_size: compressed.length,
 			compression_ratio:
-				((1 - compressed.length / content.length) * 100).toFixed(1) + '%',
+				((1 - compressed.length / content.length) * 100).toFixed(1) +
+				'%',
 			estimated_tokens: Math.round(token_estimate),
 		},
 	};
 }
 
-export function chunk_document(content: string, chunk_size = 40000): {
+export function chunk_document(
+	content: string,
+	chunk_size = 40000,
+): {
 	chunks: string[];
 	metadata: {
 		total_chunks: number;
