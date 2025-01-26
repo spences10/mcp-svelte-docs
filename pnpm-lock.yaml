@@ -12,8 +12,8 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0
       '@modelcontextprotocol/sdk':
-        specifier: 1.4.0
-        version: 1.4.0
+        specifier: 1.4.1
+        version: 1.4.1
     devDependencies:
       '@changesets/cli':
         specifier: ^2.27.11
@@ -143,8 +143,8 @@ packages:
   '@manypkg/get-packages@1.1.3':
     resolution: {integrity: sha512-fo+QhuU3qE/2TQMQmbVMqaQ6EWbMhi4ABWP+O4AM1NqPBuy0OrApV5LO6BrrgnhtAHS2NH6RrVk9OL181tTi8A==}
 
-  '@modelcontextprotocol/sdk@1.4.0':
-    resolution: {integrity: sha512-50YTsT4H9PuqmgwXkr/BPl0ankfEfxqVtFG8I378XqUThasnYRdNwE2PqktiJNm5MncOf3s5q37juv6kMe6WZQ==}
+  '@modelcontextprotocol/sdk@1.4.1':
+    resolution: {integrity: sha512-wS6YC4lkUZ9QpP+/7NBTlVNiEvsnyl0xF7rRusLF+RsG0xDPc/zWR7fEEyhKnnNutGsDAZh59l/AeoWGwIb1+g==}
     engines: {node: '>=18'}
 
   '@neon-rs/load@0.0.4':
@@ -798,7 +798,7 @@ snapshots:
       globby: 11.1.0
       read-yaml-file: 1.1.0
 
-  '@modelcontextprotocol/sdk@1.4.0':
+  '@modelcontextprotocol/sdk@1.4.1':
     dependencies:
       content-type: 1.0.5
       eventsource: 3.0.2
