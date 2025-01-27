@@ -1,5 +1,12 @@
 # mcp-svelte-docs
 
+## 0.0.11
+
+### Patch Changes
+
+- feat: Enhance documentation search with advanced categorization and
+  term weighting
+
 ## 0.0.10
 
 ### Patch Changes
