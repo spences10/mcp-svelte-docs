@@ -1,5 +1,12 @@
 # mcp-svelte-docs
 
+## 0.0.10
+
+### Patch Changes
+
+- feat: Implement comprehensive Svelte documentation server with
+  advanced search and resource management
+
 ## 0.0.9
 
 ### Patch Changes
