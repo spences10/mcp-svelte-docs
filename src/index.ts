@@ -53,7 +53,8 @@ const get_next_chunk_tool: Tool = {
 
 const search_docs_tool: Tool = {
 	name: 'search_docs',
-	description: 'Search Svelte documentation with advanced filtering',
+	description:
+		'Search Svelte documentation and receive relevant sections with context. Required: query (string). Optional: doc_type (api/tutorial/example/error), context (0-3 paragraphs), include_hierarchy (boolean). Returns JSON with matched sections and their surrounding context. Best for finding specific documentation sections or error solutions.',
 	inputSchema: {
 		type: 'object',
 		required: ['query'],
@@ -146,7 +147,6 @@ const server = new Server(
 		},
 	},
 );
-
 
 // Handle tool listing
 server.setRequestHandler(ListToolsRequestSchema, async () => {
