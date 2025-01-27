@@ -305,13 +305,43 @@ export const get_doc_resources = async () => {
 	return {
 		resources: [
 			// Root level docs
-			{ uri: 'svelte-docs://docs/llms.txt' },
-			{ uri: 'svelte-docs://docs/llms-full.txt' },
-			{ uri: 'svelte-docs://docs/llms-small.txt' },
+			{ 
+				uri: 'svelte-docs://docs/llms.txt',
+				name: 'Svelte Documentation (Standard)',
+				description: 'Standard documentation covering Svelte core concepts and features',
+				mimeType: 'text/plain'
+			},
+			{ 
+				uri: 'svelte-docs://docs/llms-full.txt',
+				name: 'Svelte Documentation (Full)',
+				description: 'Comprehensive documentation including advanced topics and detailed examples',
+				mimeType: 'text/plain'
+			},
+			{ 
+				uri: 'svelte-docs://docs/llms-small.txt',
+				name: 'Svelte Documentation (Concise)',
+				description: 'Condensed documentation focusing on essential concepts',
+				mimeType: 'text/plain'
+			},
 			// Package docs
-			{ uri: 'svelte-docs://docs/svelte/llms.txt' },
-			{ uri: 'svelte-docs://docs/kit/llms.txt' },
-			{ uri: 'svelte-docs://docs/cli/llms.txt' },
+			{ 
+				uri: 'svelte-docs://docs/svelte/llms.txt',
+				name: 'Svelte Core Documentation',
+				description: 'Documentation specific to Svelte core library features and APIs',
+				mimeType: 'text/plain'
+			},
+			{ 
+				uri: 'svelte-docs://docs/kit/llms.txt',
+				name: 'SvelteKit Documentation',
+				description: 'Documentation for SvelteKit application framework and routing',
+				mimeType: 'text/plain'
+			},
+			{ 
+				uri: 'svelte-docs://docs/cli/llms.txt',
+				name: 'Svelte CLI Documentation',
+				description: 'Documentation for Svelte command-line tools and utilities',
+				mimeType: 'text/plain'
+			}
 		],
 	};
 };

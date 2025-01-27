@@ -53,8 +53,44 @@ const get_next_chunk_tool: Tool = {
 
 const search_docs_tool: Tool = {
 	name: 'search_docs',
-	description:
-		'Search Svelte documentation and receive relevant sections with context. Required: query (string). Optional: doc_type (api/tutorial/example/error), context (0-3 paragraphs), include_hierarchy (boolean). Returns JSON with matched sections and their surrounding context. Best for finding specific documentation sections or error solutions.',
+	description: `Search Svelte documentation using specific technical terms and concepts. Returns relevant documentation sections with context.
+
+Query Guidelines:
+- Use technical terms found in documentation (e.g., "route parameters", "state management", "lifecycle hooks")
+- Search for specific features or concepts rather than asking questions
+- Include relevant package names for targeted results (e.g., "sveltekit", "stores")
+
+Example Queries by Category:
+
+1. Svelte 5 Runes:
+- "state management runes"          (finds $state and state management docs)
+- "derived state calculation"       (locates $derived documentation)
+- "effect lifecycle runes"          (finds $effect usage patterns)
+- "bindable props svelte"          (shows $bindable property usage)
+
+2. Component Patterns:
+- "component lifecycle"             (finds lifecycle documentation)
+- "event handling svelte5"          (shows new event handling patterns)
+- "component state management"      (locates state management docs)
+- "props typescript definition"     (finds prop typing information)
+
+3. SvelteKit Features:
+- "route parameters sveltekit"      (finds routing documentation)
+- "server routes api"               (locates API route docs)
+- "page data loading"              (shows data loading patterns)
+- "form actions sveltekit"         (finds form handling docs)
+
+4. Error Documentation:
+- "missing export error"           (finds specific error docs)
+- "binding validation errors"      (locates validation error info)
+- "lifecycle hook errors"          (shows lifecycle-related errors)
+- "typescript prop errors"         (finds prop typing errors)
+
+Query Pattern Examples:
+❌ "How do I manage state?" → ✅ "state management runes"
+❌ "What are lifecycle hooks?" → ✅ "component lifecycle"
+❌ "How do I handle events?" → ✅ "event handling svelte5"
+❌ "How do I create dynamic routes?" → ✅ "route parameters sveltekit"`,
 	inputSchema: {
 		type: 'object',
 		required: ['query'],
