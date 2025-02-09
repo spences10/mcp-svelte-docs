@@ -10,11 +10,12 @@
 	},
 	"files": [
 		"dist",
+		"src/docs",
 		"README.md",
 		"LICENSE"
 	],
 	"scripts": {
-		"build": "tsc && chmod +x dist/index.js",
+		"build": "tsc && cp -r src/docs dist/ && chmod +x dist/index.js",
 		"start": "node dist/index.js",
 		"dev": "npx @modelcontextprotocol/inspector dist/index.js",
 		"changeset": "changeset",
@@ -24,7 +25,6 @@
 	"keywords": [
 		"mcp",
 		"model-context-protocol",
-		"jinaai",
 		"reader",
 		"web-content",
 		"documentation",
