@@ -4,24 +4,19 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
 	CallToolRequestSchema,
-	ListResourcesRequestSchema,
+	ErrorCode,
 	ListToolsRequestSchema,
-	ReadResourceRequestSchema,
-	Tool,
+	McpError,
 } from '@modelcontextprotocol/sdk/types.js';
 import { readFileSync } from 'fs';
+import { randomUUID } from 'node:crypto';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { db, init_db, verify_db } from './db/client.js';
-import {
-	DocVariant,
-	fetch_docs,
-	get_doc_resources,
-	init_docs,
-	Package,
-	should_update_docs,
-} from './docs/fetcher.js';
-import { search_docs, SearchOptions } from './search/index.js';
+import { embeddings } from './processor/embeddings.js';
+import { process_markdown_directory } from './processor/markdown.js';
+import { VectorSearchEngine } from './search/engine.js';
+import { CodeCategory } from './types.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -30,406 +25,359 @@ const pkg = JSON.parse(
 );
 const { name, version } = pkg;
 
-// Define tools
-const get_next_chunk_tool: Tool = {
-	name: 'get_next_chunk',
-	description: 'Retrieve subsequent chunks of large documents',
-	inputSchema: {
-		type: 'object',
-		required: ['uri', 'chunk_number'],
-		properties: {
-			uri: {
-				type: 'string',
-				description: 'Document URI',
-			},
-			chunk_number: {
-				type: 'number',
-				description: 'Chunk number to retrieve (1-based)',
-				minimum: 1,
-			},
-		},
-	},
-};
+class SvelteDocsServer {
+	private server: Server;
+	private search_engine: VectorSearchEngine;
 
-const search_docs_tool: Tool = {
-	name: 'search_docs',
-	description: `Search Svelte documentation using specific technical terms and concepts. Returns relevant documentation sections with context.
-
-Query Guidelines:
-- Use technical terms found in documentation (e.g., "route parameters", "state management", "lifecycle hooks")
-- Search for specific features or concepts rather than asking questions
-- Include relevant package names for targeted results (e.g., "sveltekit", "stores")
-
-Example Queries by Category:
-
-1. Svelte 5 Runes:
-- "state management runes"          (finds $state and state management docs)
-- "derived state calculation"       (locates $derived documentation)
-- "effect lifecycle runes"          (finds $effect usage patterns)
-- "bindable props svelte"          (shows $bindable property usage)
-
-2. Component Patterns:
-- "component lifecycle"             (finds lifecycle documentation)
-- "event handling svelte5"          (shows new event handling patterns)
-- "component state management"      (locates state management docs)
-- "props typescript definition"     (finds prop typing information)
-
-3. SvelteKit Features:
-- "route parameters sveltekit"      (finds routing documentation)
-- "server routes api"               (locates API route docs)
-- "page data loading"              (shows data loading patterns)
-- "form actions sveltekit"         (finds form handling docs)
-
-4. Error Documentation:
-- "missing export error"           (finds specific error docs)
-- "binding validation errors"      (locates validation error info)
-- "lifecycle hook errors"          (shows lifecycle-related errors)
-- "typescript prop errors"         (finds prop typing errors)
-
-Query Pattern Examples:
-❌ "How do I manage state?" → ✅ "state management runes"
-❌ "What are lifecycle hooks?" → ✅ "component lifecycle"
-❌ "How do I handle events?" → ✅ "event handling svelte5"
-❌ "How do I create dynamic routes?" → ✅ "route parameters sveltekit"`,
-	inputSchema: {
-		type: 'object',
-		required: ['query'],
-		properties: {
-			query: {
-				type: 'string',
-				description: 'Search keywords or natural language query',
-			},
-			doc_type: {
-				type: 'string',
-				enum: ['api', 'tutorial', 'example', 'error', 'all'],
-				default: 'all',
-				description: 'Filter by documentation type',
-			},
-			context: {
-				type: 'number',
-				minimum: 0,
-				maximum: 3,
-				default: 1,
-				description: 'Number of surrounding paragraphs',
-			},
-			include_hierarchy: {
-				type: 'boolean',
-				default: true,
-				description: 'Include section hierarchy',
-			},
-			package: {
-				type: 'string',
-				enum: ['svelte', 'kit', 'cli'],
-				description: 'Filter by package',
-			},
-		},
-	},
-};
-
-// Create MCP server instance
-const server = new Server(
-	{
-		name,
-		version,
-	},
-	{
-		capabilities: {
-			tools: {
-				schema: {
-					type: 'object',
-					properties: {
-						tools: {
-							type: 'array',
-							items: {
+	constructor() {
+		this.server = new Server(
+			{ name, version },
+			{
+				capabilities: {
+					tools: {
+						search_docs: {
+							name: 'search_docs',
+							description:
+								'Search Svelte documentation using specific technical terms, concepts, and code patterns. Returns relevant documentation sections with context.',
+							inputSchema: {
 								type: 'object',
 								properties: {
-									name: { type: 'string' },
-									description: { type: 'string' },
-									inputSchema: { type: 'object' },
-								},
-								required: ['name', 'inputSchema'],
-							},
-						},
-					},
-					required: ['tools'],
-				},
-				tools: [search_docs_tool, get_next_chunk_tool],
-			},
-			resources: {
-				schema: {
-					type: 'object',
-					properties: {
-						resources: {
-							type: 'array',
-							items: {
-								type: 'object',
-								properties: {
-									uri: { type: 'string' },
-									metadata: {
-										type: 'object',
-										properties: {
-											contentType: { type: 'string' },
-										},
+									query: {
+										type: 'string',
+										description:
+											'Search keywords or natural language query',
+									},
+									doc_type: {
+										type: 'string',
+										enum: [
+											'api',
+											'tutorial',
+											'example',
+											'error',
+											'all',
+										],
+										default: 'all',
+										description: 'Filter by documentation type',
+									},
+									context: {
+										type: 'number',
+										minimum: 0,
+										maximum: 3,
+										default: 1,
+										description: 'Number of surrounding paragraphs',
+									},
+									include_hierarchy: {
+										type: 'boolean',
+										default: true,
+										description: 'Include section hierarchy',
+									},
+									package: {
+										type: 'string',
+										enum: ['svelte', 'kit', 'cli'],
+										description: 'Filter by package',
+									},
+									category: {
+										type: 'string',
+										enum: [
+											'state_management',
+											'effects',
+											'components',
+											'events',
+											'routing',
+											'security',
+											'general',
+										],
+										description: 'Filter by code category',
+									},
+									has_runes: {
+										type: 'array',
+										items: { type: 'string' },
+										description:
+											'Filter by presence of specific runes',
+									},
+									has_functions: {
+										type: 'array',
+										items: { type: 'string' },
+										description:
+											'Filter by presence of specific functions',
+									},
+									has_components: {
+										type: 'array',
+										items: { type: 'string' },
+										description:
+											'Filter by presence of specific components',
 									},
 								},
-								required: ['uri'],
+								required: ['query'],
 							},
 						},
 					},
-					required: ['resources'],
 				},
-				schemes: ['svelte-docs'],
 			},
-		},
-	},
-);
+		);
 
-// Handle tool listing
-server.setRequestHandler(ListToolsRequestSchema, async () => {
-	return {
-		tools: [search_docs_tool, get_next_chunk_tool],
-	};
-});
+		this.search_engine = new VectorSearchEngine(db);
 
-// Handle tool calls
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
-	const { name: tool_name, arguments: params } = request.params;
+		this.setup_handlers();
 
-	if (tool_name === 'get_next_chunk') {
-		try {
-			if (
-				!params ||
-				typeof params.uri !== 'string' ||
-				typeof params.chunk_number !== 'number'
-			) {
-				throw new Error(
-					'Invalid parameters: uri and chunk_number are required',
-				);
-			}
+		this.server.onerror = (error) =>
+			console.error('[MCP Error]', error);
+	}
 
-			const { uri, chunk_number } = params;
-			if (!uri.startsWith('svelte-docs://docs/')) {
-				throw new Error(`Invalid URI: ${uri}`);
-			}
-
-			const path = uri.substring('svelte-docs://docs/'.length);
-			let package_name: Package | undefined;
-			let variant: DocVariant | undefined;
-
-			if (
-				path.startsWith('svelte/') ||
-				path.startsWith('kit/') ||
-				path.startsWith('cli/')
-			) {
-				const [pkg] = path.split('/') as [Package];
-				package_name = pkg;
-			} else {
-				const variant_map: Record<string, DocVariant> = {
-					'llms.txt': 'llms',
-					'llms-full.txt': 'llms-full',
-					'llms-small.txt': 'llms-small',
-				};
-				variant = variant_map[path];
-				if (!variant) {
-					throw new Error(`Invalid doc variant: ${path}`);
-				}
-			}
-
-			const chunk_size = 50000; // 50KB chunks
-			const result = await db.execute({
-				sql: `SELECT content FROM docs 
-					  WHERE package = ? AND variant = ?
-					  ORDER BY id
-					  LIMIT 1 OFFSET ?`,
-				args: [
-					package_name === undefined ? null : package_name,
-					variant === undefined ? null : variant,
-					chunk_number - 1,
+	private setup_handlers() {
+		this.server.setRequestHandler(
+			ListToolsRequestSchema,
+			async () => ({
+				tools: [
+					{
+						name: 'search_docs',
+						description:
+							'Search Svelte documentation using specific technical terms and concepts. Returns relevant documentation sections with context.',
+						inputSchema: {
+							type: 'object',
+							properties: {
+								query: {
+									type: 'string',
+									description:
+										'Search keywords or natural language query',
+								},
+								doc_type: {
+									type: 'string',
+									enum: [
+										'api',
+										'tutorial',
+										'example',
+										'error',
+										'all',
+									],
+									default: 'all',
+									description: 'Filter by documentation type',
+								},
+								context: {
+									type: 'number',
+									minimum: 0,
+									maximum: 3,
+									default: 1,
+									description: 'Number of surrounding paragraphs',
+								},
+								include_hierarchy: {
+									type: 'boolean',
+									default: true,
+									description: 'Include section hierarchy',
+								},
+								package: {
+									type: 'string',
+									enum: ['svelte', 'kit', 'cli'],
+									description: 'Filter by package',
+								},
+							},
+							required: ['query'],
+						},
+					},
 				],
+			}),
+		);
+
+		this.server.setRequestHandler(
+			CallToolRequestSchema,
+			async (request) => {
+				if (request.params.name !== 'search_docs') {
+					throw new McpError(
+						ErrorCode.MethodNotFound,
+						`Unknown tool: ${request.params.name}`,
+					);
+				}
+
+				const args = request.params.arguments as {
+					query: string;
+					doc_type?: string;
+					context?: number;
+					include_hierarchy?: boolean;
+					package?: string;
+					category?: CodeCategory;
+					has_runes?: string[];
+					has_functions?: string[];
+					has_components?: string[];
+				};
+
+				const {
+					query,
+					doc_type,
+					context,
+					include_hierarchy,
+					package: pkg,
+					category,
+					has_runes,
+					has_functions,
+					has_components,
+				} = args;
+
+				try {
+					const results = await this.search_engine.search(query, {
+						limit: 5,
+						include_patterns: true,
+						filters: {
+							...(doc_type && doc_type !== 'all' ? { doc_type } : {}),
+							...(pkg ? { concepts: [pkg] } : {}),
+							...(category ? { category } : {}),
+							...(has_runes?.length ? { has_runes } : {}),
+							...(has_functions?.length ? { has_functions } : {}),
+							...(has_components?.length ? { has_components } : {}),
+						},
+					});
+
+					return {
+						content: [
+							{
+								type: 'text',
+								text: JSON.stringify(results, null, 2),
+							},
+						],
+					};
+				} catch (error) {
+					console.error('Search error:', error);
+					throw new McpError(
+						ErrorCode.InternalError,
+						'Failed to perform search',
+					);
+				}
+			},
+		);
+	}
+
+	async initialize() {
+		try {
+			// Initialize database
+			await init_db();
+
+			// Process markdown files from src/docs
+			const docs_path = join(__dirname, '..', 'src', 'docs');
+			console.error(`Looking for docs in: ${docs_path}`);
+			const docs = await process_markdown_directory(docs_path);
+
+			// Prepare all embeddings first
+			const docs_with_embeddings = await Promise.all(
+				docs.map(async (doc) => {
+					const embedding = await embeddings.generate_embedding(
+						doc.content,
+					);
+					const doc_id = randomUUID();
+					return { doc, embedding, doc_id };
+				}),
+			);
+
+			// Batch insert docs
+			const docs_values = docs_with_embeddings.map(
+				({ doc, embedding, doc_id }) => [
+					doc_id,
+					doc.content,
+					doc.concept,
+					JSON.stringify(doc.related_concepts),
+					JSON.stringify(doc.code_examples),
+					doc.difficulty,
+					JSON.stringify(doc.tags),
+					Buffer.from(embeddings.vector_to_blob(embedding)),
+				],
+			);
+
+			await db.execute({
+				sql: `
+            INSERT INTO docs (
+              id, content, concept, related_concepts, code_examples,
+              difficulty, tags, embedding
+            ) VALUES ${docs_values
+							.map(() => '(?, ?, ?, ?, ?, ?, ?, ?)')
+							.join(', ')}
+          `,
+				args: docs_values.flat(),
 			});
 
-			if (result.rows.length === 0) {
-				return {
-					content: [
-						{
-							type: 'text',
-							text: 'No more chunks available',
-						},
-					],
-					isError: true,
-				};
-			}
-
-			return {
-				content: [
-					{
-						type: 'text',
-						text: result.rows[0].content,
-					},
-				],
-			};
-		} catch (error) {
-			return {
-				content: [
-					{
-						type: 'text',
-						text: `Error retrieving chunk: ${
-							error instanceof Error ? error.message : String(error)
-						}`,
-					},
-				],
-				isError: true,
-			};
-		}
-	} else if (tool_name === 'search_docs') {
-		try {
-			if (!params || typeof params.query !== 'string') {
-				throw new Error(
-					'Invalid search parameters: query is required',
+			// Prepare code metadata
+			const code_metadata = [];
+			for (const { doc, doc_id } of docs_with_embeddings) {
+				const examples_with_embeddings = await Promise.all(
+					doc.code_examples.map(async (example) => {
+						const code_embedding =
+							await embeddings.generate_embedding(example.code);
+						return [
+							randomUUID(),
+							doc_id,
+							example.category,
+							JSON.stringify(example.runes),
+							JSON.stringify(example.functions),
+							JSON.stringify(example.components),
+							Buffer.from(embeddings.vector_to_blob(code_embedding)),
+						];
+					}),
 				);
+				code_metadata.push(...examples_with_embeddings);
 			}
 
-			const search_params: SearchOptions = {
-				query: params.query,
-				doc_type: params.doc_type as SearchOptions['doc_type'],
-				context: params.context as number,
-				include_hierarchy: params.include_hierarchy as boolean,
-				package: params.package as SearchOptions['package'],
-			};
+			// Batch insert code metadata
+			if (code_metadata.length > 0) {
+				await db.execute({
+					sql: `
+              INSERT INTO code_metadata (
+                id, doc_id, category, runes, functions, components, embedding
+              ) VALUES ${code_metadata
+								.map(() => '(?, ?, ?, ?, ?, ?, ?)')
+								.join(', ')}
+            `,
+					args: code_metadata.flat(),
+				});
+			}
 
-			const results = await search_docs(search_params);
-			return {
-				content: [
-					{
-						type: 'text',
-						text: JSON.stringify(results, null, 2),
-					},
-				],
-			};
-		} catch (error) {
-			return {
-				content: [
-					{
-						type: 'text',
-						text: `Error searching docs: ${
-							error instanceof Error ? error.message : String(error)
-						}`,
-					},
-				],
-				isError: true,
-			};
+			// Prepare patterns
+			const patterns = [];
+			for (const { doc, doc_id } of docs_with_embeddings) {
+				const patterns_with_embeddings = await Promise.all(
+					doc.common_patterns.map(async (pattern) => {
+						const pattern_embedding =
+							await embeddings.generate_embedding(pattern.pattern);
+						return [
+							randomUUID(),
+							doc_id,
+							pattern.pattern,
+							pattern.context || null,
+							Buffer.from(
+								embeddings.vector_to_blob(pattern_embedding),
+							),
+						];
+					}),
+				);
+				patterns.push(...patterns_with_embeddings);
+			}
+
+			// Batch insert patterns
+			if (patterns.length > 0) {
+				await db.execute({
+					sql: `
+              INSERT INTO llm_query_patterns (
+                id, doc_id, pattern, context, embedding
+              ) VALUES ${patterns
+								.map(() => '(?, ?, ?, ?, ?)')
+								.join(', ')}
+            `,
+					args: patterns.flat(),
+				});
+			}
+			await verify_db();
+		} catch (error: unknown) {
+			console.error('Initialization failed:', error);
+			throw error;
 		}
 	}
 
-	throw new Error(`Unknown tool: ${tool_name}`);
-});
-
-// Handle resource requests
-server.setRequestHandler(
-	ReadResourceRequestSchema,
-	async (request) => {
-		const { uri } = request.params;
-
-		if (!uri.startsWith('svelte-docs://docs/')) {
-			throw new Error(`Invalid URI: ${uri}`);
-		}
-
-		const path = uri.substring('svelte-docs://docs/'.length);
-
-		// Parse the path to determine what docs to fetch
-		let package_name: Package | undefined;
-		let variant: DocVariant | undefined;
-
-		if (
-			path.startsWith('svelte/') ||
-			path.startsWith('kit/') ||
-			path.startsWith('cli/')
-		) {
-			// Package-specific docs
-			const [pkg] = path.split('/') as [Package];
-			package_name = pkg;
-		} else {
-			// Root level docs
-			const variant_map: Record<string, DocVariant> = {
-				'llms.txt': 'llms',
-				'llms-full.txt': 'llms-full',
-				'llms-small.txt': 'llms-small',
-			};
-			variant = variant_map[path];
-
-			if (!variant) {
-				throw new Error(`Invalid doc variant: ${path}`);
-			}
-		}
-
-		try {
-			// Check if docs need updating
-			if (await should_update_docs(package_name, variant)) {
-				await fetch_docs(package_name, variant);
-			}
-
-			// Return appropriate doc variant
-			const result = await db.execute({
-				sql: `SELECT content FROM docs WHERE package = ? AND variant = ?`,
-				args: [package_name || null, variant || null],
-			});
-
-			if (result.rows.length === 0) {
-				throw new Error('Documentation not found');
-			}
-
-			return {
-				content: [
-					{
-						type: 'text',
-						text: result.rows[0].content,
-					},
-				],
-				metadata: {
-					contentType: 'text/plain',
-				},
-			};
-		} catch (error) {
-			return {
-				content: [
-					{
-						type: 'text',
-						text: `Error fetching docs: ${
-							error instanceof Error ? error.message : String(error)
-						}`,
-					},
-				],
-				isError: true,
-			};
-		}
-	},
-);
-
-// Add resource listing handler
-server.setRequestHandler(ListResourcesRequestSchema, async () => {
-	return await get_doc_resources();
-});
-
-// Run server
-async function run_server() {
-	try {
-		await init_db();
-		console.error('Initialized database schema');
-
-		await init_docs();
-		await verify_db();
-		console.error('Verified database population');
-
+	async run(): Promise<void> {
+		await this.initialize();
 		const transport = new StdioServerTransport();
-		await server.connect(transport);
-		console.error('Svelte Docs MCP Server running on stdio');
-	} catch (error) {
-		console.error('Fatal error during server initialization:', error);
-		process.exit(1);
+		await this.server.connect(transport);
+		console.error('Svelte docs MCP server running on stdio');
 	}
 }
 
-run_server().catch((error) => {
-	console.error('Fatal error running server:', error);
+const server = new SvelteDocsServer();
+server.run().catch((error: unknown) => {
+	console.error('Server error:', error);
 	process.exit(1);
 });
