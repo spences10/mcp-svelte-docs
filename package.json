@@ -6,7 +6,8 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"bin": {
-		"mcp-svelte-docs": "./dist/index.js"
+		"mcp-svelte-docs": "./dist/index.js",
+		"docs-processor": "./dist/cli/docs-processor.js"
 	},
 	"files": [
 		"dist",
@@ -15,9 +16,10 @@
 		"LICENSE"
 	],
 	"scripts": {
-		"build": "tsc && cp -r src/docs dist/ && chmod +x dist/index.js",
+		"build": "tsc && cp -r src/docs dist/ && chmod +x dist/index.js && chmod +x dist/cli/docs-processor.js",
 		"start": "node dist/index.js",
 		"dev": "npx @modelcontextprotocol/inspector dist/index.js",
+		"docs-processor": "node dist/cli/docs-processor.js",
 		"changeset": "changeset",
 		"version": "changeset version",
 		"release": "pnpm run build && changeset publish"
@@ -47,11 +49,16 @@
 	"homepage": "https://github.com/spences10/mcp-svelte-docs#readme",
 	"dependencies": {
 		"@libsql/client": "^0.14.0",
-		"@modelcontextprotocol/sdk": "1.4.1"
+		"@modelcontextprotocol/sdk": "1.4.1",
+		"glob": "^11.0.1",
+		"gray-matter": "^4.0.3",
+		"unzip-stream": "^0.3.4"
 	},
 	"devDependencies": {
 		"@changesets/cli": "^2.27.11",
+		"@types/glob": "^8.1.0",
 		"@types/node": "^22.10.7",
+		"@types/unzip-stream": "^0.3.4",
 		"typescript": "^5.7.3"
 	}
 }

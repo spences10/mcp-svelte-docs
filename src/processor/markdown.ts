@@ -120,7 +120,9 @@ function extract_components(code: string): string[] {
 	return Array.from(components);
 }
 
-function extract_code_blocks(content: string): ExtractedCode[] {
+export function extract_code_blocks(
+	content: string,
+): ExtractedCode[] {
 	const code_blocks: ExtractedCode[] = [];
 	const regex = /```(\w+)?\n([\s\S]*?)```(?:\n*(.*?)(?=\n|$))?/g;
 
