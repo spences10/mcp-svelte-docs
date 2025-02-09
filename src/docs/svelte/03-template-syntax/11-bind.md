@@ -1,5 +1,25 @@
-﻿---
-title: bind:
+---
+title: '"bind:"'
+description: >-
+  The general syntax is bind:property={expression}, where expression is an
+  _lvalue_ (i.e. a variable or an object property). When the expression is an
+  identifier with the same name as the property, we can omit the expression — in
+  other words these are equivalent:
+category: 03-template-syntax
+tags:
+  - svelte
+  - 03-template-syntax
+  - bind
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Data ordinarily flows down, from parent to child. The `bind:` directive allows data to flow the other way, from child to parent.

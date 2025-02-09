@@ -1,5 +1,22 @@
 ---
-title: Scoped styles
+title: '"Scoped styles"'
+description: >-
+  This works by adding a class to affected elements, which is based on a hash of
+  the component styles (e.g. svelte-123xyz).
+category: 04-styling
+tags:
+  - svelte
+  - 04-styling
+  - scoped
+  - styles
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Svelte components can include a `<style>` element containing CSS that belongs to the component. This CSS is _scoped_ by default, meaning that styles will not apply to any elements on the page outside the component in question.

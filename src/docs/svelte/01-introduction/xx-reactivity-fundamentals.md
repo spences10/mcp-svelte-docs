@@ -1,5 +1,22 @@
 ---
-title: Reactivity fundamentals
+title: '"Reactivity fundamentals"'
+description: Runes
+category: 01-introduction
+tags:
+  - svelte
+  - 01-introduction
+  - xx
+  - reactivity
+  - fundamentals
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Reactivity is at the heart of interactive UIs. When you click a button, you expect some kind of response. It's your job as a developer to make this happen. It's Svelte's job to make your job as intuitive as possible, by providing a good API to express reactive systems.

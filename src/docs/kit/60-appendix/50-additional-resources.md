@@ -1,5 +1,22 @@
 ---
-title: Additional resources
+title: '"Additional resources"'
+description: >-
+  Please see the [SvelteKit FAQ](faq) for solutions to common issues and helpful
+  tips and tricks.
+category: 60-appendix
+tags:
+  - kit
+  - 60-appendix
+  - additional
+  - resources
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 ## FAQs

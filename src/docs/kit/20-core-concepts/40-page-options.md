@@ -1,5 +1,32 @@
 ---
-title: Page options
+title: '"Page options"'
+description: >-
+  You can control each of these on a page-by-page basis by exporting options
+  from [+page.js](routingpage-page.js) or
+  [+page.server.js](routingpage-page.server.js), or for groups of pages using a
+  shared [+layout.js](routinglayout-layout.js) or
+  [+layout.server.js](routinglayout-layout.server.js). To define an option for
+  the whole app, export it from the root layout. Child layouts and pages
+  override values set in parent layouts, so — for example — you can enable
+  prerendering for your entire app then disable it for pages that need to be
+  dynamically rendered.
+category: 20-core-concepts
+tags:
+  - kit
+  - 20-core-concepts
+  - page
+  - options
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 By default, SvelteKit will render (or [prerender](glossary#Prerendering)) any component first on the server and send it to the client as HTML. It will then render the component again in the browser to make it interactive in a process called [**hydration**](glossary#Hydration). For this reason, you need to ensure that components can run in both places. SvelteKit will then initialize a [**router**](routing) that takes over subsequent navigations.

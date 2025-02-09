@@ -1,5 +1,27 @@
 ---
-title: Getting started
+title: '"Getting started"'
+description: |-
+  |-
+    |-
+      bash
+      npx sv create myapp
+      cd myapp
+      npm install
+      npm run dev
+category: 01-introduction
+tags:
+  - svelte
+  - 01-introduction
+  - getting
+  - started
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 We recommend using [SvelteKit](../kit), the official application framework from the Svelte team powered by [Vite](https://vite.dev/):

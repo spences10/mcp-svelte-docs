@@ -1,5 +1,25 @@
 ---
-title: Images
+title: '"Images"'
+description: |-
+  |-
+    |-
+      - generate optimal formats like .avif and .webp
+      - create different sizes for different screens
+      - ensure that assets can be cached effectively
+category: 40-best-practices
+tags:
+  - kit
+  - 40-best-practices
+  - images
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Images can have a big impact on your app's performance. For best results, you should optimize them by doing the following:

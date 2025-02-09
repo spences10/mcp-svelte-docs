@@ -1,5 +1,25 @@
 ---
-title: Frequently asked questions
+title: '"Frequently asked questions"'
+description: >-
+  We think the best way to get started is playing through the interactive
+  [tutorial](/tutorial). Each step there is mainly focused on one specific
+  aspect and is easy to follow. You'll be editing and running real Svelte
+  components right in your browser.
+category: 07-misc
+tags:
+  - svelte
+  - 07-misc
+  - faq
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 ## I'm new to Svelte. Where should I start?

@@ -1,5 +1,25 @@
 ---
-title: $inspect
+title: '"$inspect"'
+description: >-
+  The $inspect rune is roughly equivalent to console.log, with the exception
+  that it will re-run whenever its argument changes. $inspect tracks reactive
+  state deeply, meaning that updating something inside an object or array using
+  fine-grained reactivity will cause it to re-fire
+  ([demo](/playground/untitledH4sIAAAAAAAACkWQ0YqDQAxFfyUMhSotdZ-tCvu431AXtGOqQ2NmmMm0LOK_r7Utfby5JzeXTOpiCIPKT5PidkSVq2_n1F7Jn3uIcEMSXHSw0evHpAjaGydVzbUQCmgbWaCETZBWMPlKj29nxBDaHj_edkAiu12JhdkYDg61JGvE_s2nR8gyuBuiJZuDJTyQ7eE-IEOzog1YD80Lb0APLfdYc5F9qnFxjiKWwbImo6_llKRQVs-2u91c_bD2OCJLkT3JZasw7KLA2XCX31qKWE6vIzNk1fKE0XbmYrBTufiI8-_8D2cUWBA_AQAA)):
+category: 02-runes
+tags:
+  - svelte
+  - 02-runes
+  - $inspect
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 > [!NOTE] `$inspect` only works during development. In a production build it becomes a noop.

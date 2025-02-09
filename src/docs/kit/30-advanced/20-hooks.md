@@ -1,5 +1,22 @@
 ---
-title: Hooks
+title: '"Hooks"'
+description: 'There are three hooks files, all optional:'
+category: 30-advanced
+tags:
+  - kit
+  - 30-advanced
+  - hooks
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 'Hooks' are app-wide functions you declare that SvelteKit will call in response to specific events, giving you fine-grained control over the framework's behaviour.

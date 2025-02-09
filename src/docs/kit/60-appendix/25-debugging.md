@@ -1,5 +1,22 @@
 ---
-title: Breakpoint Debugging
+title: '"Breakpoint Debugging"'
+description: The following guides assume your JavaScript runtime environment is Node.js.
+category: 60-appendix
+tags:
+  - kit
+  - 60-appendix
+  - debugging
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 In addition to the [`@debug`](../svelte/@debug) tag, you can also debug Svelte and SvelteKit projects using breakpoints within various tools and development environments. This includes both frontend and backend code.

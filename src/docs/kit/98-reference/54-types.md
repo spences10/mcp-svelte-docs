@@ -1,5 +1,25 @@
 ---
-title: Types
+title: '"Types"'
+description: >-
+  The RequestHandler and Load types both accept a Params argument allowing you
+  to type the params object. For example this endpoint expects foo, bar and baz
+  params:
+category: 98-reference
+tags:
+  - kit
+  - 98-reference
+  - types
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/52-cli.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 ## Generated types

@@ -1,5 +1,25 @@
 ---
-title: Custom elements
+title: '"Custom elements"'
+description: >-
+  Svelte components can also be compiled to custom elements (aka web components)
+  using the customElement: true compiler option. You should specify a tag name
+  for the component using the <svelte:options> [element](svelte-options).
+category: 07-misc
+tags:
+  - svelte
+  - 07-misc
+  - custom
+  - elements
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 <!-- - [basically what we have today](https://svelte.dev/docs/custom-elements-api) -->

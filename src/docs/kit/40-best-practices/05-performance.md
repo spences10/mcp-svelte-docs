@@ -1,5 +1,32 @@
 ---
-title: Performance
+title: '"Performance"'
+description: |-
+  |-
+    |-
+      - Code-splitting, so that only the code you need for the current page is loaded
+      - Asset preloading, so that 'waterfalls' (of files requesting other files) are prevented
+      - File hashing, so that your assets can be cached forever
+      - Request coalescing, so that data fetched from separate server load functions is grouped into a single HTTP request
+      - Parallel loading, so that separate universal load functions fetch data simultaneously
+      - Data inlining, so that requests made with fetch during server rendering can be replayed in the browser without issuing a new request
+      - Conservative invalidation, so that load functions are only re-run when necessary
+      - Prerendering (configurable on a per-route basis, if necessary) so that pages without dynamic data can be served instantaneously
+      - Link preloading, so that data and code requirements for a client-side navigation are eagerly anticipated
+category: 40-best-practices
+tags:
+  - kit
+  - 40-best-practices
+  - performance
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Out of the box, SvelteKit does a lot of work to make your applications as performant as possible:

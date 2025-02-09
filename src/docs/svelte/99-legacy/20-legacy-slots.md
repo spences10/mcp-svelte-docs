@@ -1,5 +1,22 @@
 ---
-title: <slot>
+title: '"<slot>"'
+description: >-
+  In legacy mode, content inside component tags is considered _slotted content_,
+  which can be rendered by the component using a <slot> element:
+category: 99-legacy
+tags:
+  - svelte
+  - 99-legacy
+  - legacy
+  - slots
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 In Svelte 5, content can be passed to components in the form of [snippets](snippet) and rendered using [render tags](@render).

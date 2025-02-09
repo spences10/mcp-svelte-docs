@@ -1,5 +1,23 @@
 ---
-title: Public API of a component
+title: '"Public API of a component"'
+description: >-
+  Svelte uses the $props rune to declare _properties_ or _props_, which means
+  describing the public interface of the component which becomes accessible to
+  consumers of the component.
+category: 01-introduction
+tags:
+  - svelte
+  - 01-introduction
+  - xx
+  - props
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 ### Public API of a component

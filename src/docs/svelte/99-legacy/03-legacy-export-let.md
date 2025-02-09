@@ -1,5 +1,24 @@
 ---
-title: export let
+title: '"export let"'
+description: >-
+  In legacy mode, props are marked with the export keyword, and can have a
+  default value:
+category: 99-legacy
+tags:
+  - svelte
+  - 99-legacy
+  - legacy
+  - export
+  - let
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 In runes mode, [component props](basic-markup#Component-props) are declared with the [`$props`]($props) rune, allowing parent components to pass in data.

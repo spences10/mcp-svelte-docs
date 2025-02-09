@@ -1,5 +1,28 @@
 ---
-title: Accessibility
+title: '"Accessibility"'
+description: >-
+  Here's how SvelteKit's built-in accessibility features work and what you need
+  to do to help these features to work as well as possible. Keep in mind that
+  while SvelteKit provides an accessible foundation, you are still responsible
+  for making sure your application code is accessible. If you're new to
+  accessibility, see the ["further reading"](accessibilityFurther-reading)
+  section of this guide for additional resources.
+category: 40-best-practices
+tags:
+  - kit
+  - 40-best-practices
+  - accessibility
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 SvelteKit strives to provide an accessible platform for your app by default. Svelte's [compile-time accessibility checks](../svelte/compiler-warnings) will also apply to any SvelteKit application you build.

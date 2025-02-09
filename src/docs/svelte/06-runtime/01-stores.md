@@ -1,5 +1,23 @@
 ---
-title: Stores
+title: '"Stores"'
+description: >-
+  A _store_ is an object that allows reactive access to a value via a simple
+  _store contract_. The [svelte/store module](../svelte-store) contains minimal
+  store implementations which fulfil this contract.
+category: 06-runtime
+tags:
+  - svelte
+  - 06-runtime
+  - stores
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 <!-- - how to use

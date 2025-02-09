@@ -1,5 +1,26 @@
 ---
-title: Form actions
+title: '"Form actions"'
+description: >-
+  When using <form>, client-side JavaScript is optional, but you can easily
+  _progressively enhance_ your form interactions with JavaScript to provide the
+  best user experience.
+category: 20-core-concepts
+tags:
+  - kit
+  - 20-core-concepts
+  - form
+  - actions
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 A `+page.server.js` file can export _actions_, which allow you to `POST` data to the server using the `<form>` element.

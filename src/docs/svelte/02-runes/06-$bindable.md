@@ -1,5 +1,23 @@
 ---
-title: $bindable
+title: '"$bindable"'
+description: >-
+  In Svelte, component props can be _bound_, which means that data can also flow
+  _up_ from child to parent. This isn't something you should do often, but it
+  can simplify your code if used sparingly and carefully.
+category: 02-runes
+tags:
+  - svelte
+  - 02-runes
+  - $bindable
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Ordinarily, props go one way, from parent to child. This makes it easy to understand how data flows around your app.

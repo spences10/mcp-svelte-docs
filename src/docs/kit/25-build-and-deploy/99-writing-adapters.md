@@ -1,5 +1,22 @@
 ---
-title: Writing adapters
+title: '"Writing adapters"'
+description: 'Adapter packages implement the following API, which creates an Adapter:'
+category: 25-build-and-deploy
+tags:
+  - kit
+  - 25-build-and-deploy
+  - writing
+  - adapters
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 If an adapter for your preferred environment doesn't yet exist, you can build your own. We recommend [looking at the source for an adapter](https://github.com/sveltejs/kit/tree/main/packages) to a platform similar to yours and copying it as a starting point.

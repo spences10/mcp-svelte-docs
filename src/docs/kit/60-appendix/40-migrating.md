@@ -1,5 +1,25 @@
 ---
-title: Migrating from Sapper
+title: '"Migrating from Sapper"'
+description: >-
+  If you have an existing Sapper app that you plan to migrate to SvelteKit,
+  there are a number of changes you will need to make. You may find it helpful
+  to view [some examples](additional-resourcesExamples) while migrating.
+category: 60-appendix
+tags:
+  - kit
+  - 60-appendix
+  - migrating
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 rank: 1
 ---
 

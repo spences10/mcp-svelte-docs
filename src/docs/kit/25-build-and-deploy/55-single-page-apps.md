@@ -1,5 +1,29 @@
 ---
-title: Single-page apps
+title: '"Single-page apps"'
+description: |-
+  |-
+    |-
+      js
+      /// file: src/routes/+layout.js
+      export const ssr = false;
+category: 25-build-and-deploy
+tags:
+  - kit
+  - 25-build-and-deploy
+  - single
+  - page
+  - apps
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 You can turn any SvelteKit app, using any adapter, into a fully client-rendered single-page app (SPA) by disabling SSR at the root layout:

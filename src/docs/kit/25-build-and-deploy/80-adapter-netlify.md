@@ -1,5 +1,25 @@
 ---
-title: Netlify
+title: '"Netlify"'
+description: >-
+  This adapter will be installed by default when you use
+  [adapter-auto](adapter-auto), but adding it to your project allows you to
+  specify Netlify-specific options.
+category: 25-build-and-deploy
+tags:
+  - kit
+  - 25-build-and-deploy
+  - adapter
+  - netlify
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 To deploy to Netlify, use [`adapter-netlify`](https://github.com/sveltejs/kit/tree/main/packages/adapter-netlify).

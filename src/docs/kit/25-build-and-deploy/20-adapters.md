@@ -1,5 +1,23 @@
 ---
-title: Adapters
+title: '"Adapters"'
+description: >-
+  Official adapters exist for a variety of platforms — these are documented on
+  the following pages:
+category: 25-build-and-deploy
+tags:
+  - kit
+  - 25-build-and-deploy
+  - adapters
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Before you can deploy your SvelteKit app, you need to _adapt_ it for your deployment target. Adapters are small plugins that take the built app as input and generate output for deployment.

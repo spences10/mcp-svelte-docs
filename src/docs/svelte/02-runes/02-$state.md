@@ -1,5 +1,20 @@
 ---
-title: $state
+title: '"$state"'
+description: "|-\n  |-\n    svelte\n    <script>\n    \tlet count = $state(0);\n    </script>"
+category: 02-runes
+tags:
+  - svelte
+  - 02-runes
+  - $state
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 The `$state` rune allows you to create _reactive state_, which means that your UI _reacts_ when it changes.

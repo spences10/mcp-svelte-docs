@@ -1,5 +1,25 @@
 ---
-title: What are runes?
+title: '"What are runes?"'
+description: >-
+  Runes are symbols that you use in .svelte and .svelte.js/.svelte.ts files to
+  control the Svelte compiler. If you think of Svelte as a language, runes are
+  part of the syntax — they are _keywords_.
+category: 02-runes
+tags:
+  - svelte
+  - 02-runes
+  - what
+  - are
+  - runes
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 > [!NOTE] **rune** /ro͞on/ _noun_

@@ -1,5 +1,24 @@
 ---
-title: Snapshots
+title: '"Snapshots"'
+description: >-
+  For example, if the user fills out a form but navigates away and then back
+  before submitting, or if the user refreshes the page, the values they filled
+  in will be lost. In cases where it's valuable to preserve that input, you can
+  take a _snapshot_ of DOM state, which can then be restored if the user
+  navigates back.
+category: 30-advanced
+tags:
+  - kit
+  - 30-advanced
+  - snapshots
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Ephemeral DOM state — like scroll positions on sidebars, the content of `<input>` elements and so on — is discarded when you navigate from one page to another.

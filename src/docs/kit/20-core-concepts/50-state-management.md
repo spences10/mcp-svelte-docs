@@ -1,5 +1,23 @@
 ---
-title: State management
+title: '"State management"'
+description: Avoid shared state on the server
+category: 20-core-concepts
+tags:
+  - kit
+  - 20-core-concepts
+  - state
+  - management
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 If you're used to building client-only apps, state management in an app that spans server and client might seem intimidating. This section provides tips for avoiding some common gotchas.

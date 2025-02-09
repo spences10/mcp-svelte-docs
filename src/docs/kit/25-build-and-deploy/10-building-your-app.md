@@ -1,5 +1,27 @@
 ---
-title: Building your app
+title: '"Building your app"'
+description: >-
+  Firstly, Vite creates an optimized production build of your server code, your
+  browser code, and your service worker (if you have one).
+  [Prerendering](page-optionsprerender) is executed at this stage, if
+  appropriate.
+category: 25-build-and-deploy
+tags:
+  - kit
+  - 25-build-and-deploy
+  - building
+  - your
+  - app
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Building a SvelteKit app happens in two stages, which both happen when you run `vite build` (usually via `npm run build`).

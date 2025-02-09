@@ -1,5 +1,23 @@
 ---
-title: animate:
+title: '"animate:"'
+description: >-
+  Animations can be used with Svelte's [built-in animation
+  functions](svelte-animate) or [custom animation
+  functions](Custom-animation-functions).
+category: 03-template-syntax
+tags:
+  - svelte
+  - 03-template-syntax
+  - animate
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 An animation is triggered when the contents of a [keyed each block](each#Keyed-each-blocks) are re-ordered. Animations do not run when an element is added or removed, only when the index of an existing data item within the each block changes. Animate directives must be on an element that is an _immediate_ child of a keyed each block.

@@ -1,5 +1,28 @@
 ---
-title: Reactive $: statements
+title: '"Reactive $: statements"'
+description: >-
+  In legacy mode, any top-level statement (i.e. not inside a block or a
+  function) can be made reactive by prefixing it with a $:
+  [label](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/label).
+  These statements run after other code in the <script> and before the component
+  markup is rendered, then whenever the values that they depend on change.
+category: 99-legacy
+tags:
+  - svelte
+  - 99-legacy
+  - legacy
+  - reactive
+  - assignments
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 In runes mode, reactions to state updates are handled with the [`$derived`]($derived) and [`$effect`]($effect) runes.

@@ -1,5 +1,22 @@
 ---
-title: Link options
+title: '"Link options"'
+description: >-
+  You can customise the behaviour of links with data-sveltekit- attributes.
+  These can be applied to the <a> itself, or to a parent element.
+category: 30-advanced
+tags:
+  - kit
+  - 30-advanced
+  - link
+  - options
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 In SvelteKit, `<a>` elements (rather than framework-specific `<Link>` components) are used to navigate between the routes of your app. If the user clicks on a link whose `href` is 'owned' by the app (as opposed to, say, a link to an external site) then SvelteKit will navigate to the new page by importing its code and then calling any `load` functions it needs to fetch data.

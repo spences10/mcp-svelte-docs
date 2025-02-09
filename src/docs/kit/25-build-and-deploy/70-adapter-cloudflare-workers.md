@@ -1,5 +1,29 @@
 ---
-title: Cloudflare Workers
+title: '"Cloudflare Workers"'
+description: >-
+  > [!NOTE] Unless you have a specific reason to use adapter-cloudflare-workers,
+  it's recommended that you use adapter-cloudflare instead. Both adapters have
+  equivalent functionality, but Cloudflare Pages offers features like GitHub
+  integration with automatic builds and deploys, preview deployments, instant
+  rollback and so on.
+category: 25-build-and-deploy
+tags:
+  - kit
+  - 25-build-and-deploy
+  - adapter
+  - cloudflare
+  - workers
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 To deploy to [Cloudflare Workers](https://workers.cloudflare.com/), use [`adapter-cloudflare-workers`](https://github.com/sveltejs/kit/tree/main/packages/adapter-cloudflare-workers).

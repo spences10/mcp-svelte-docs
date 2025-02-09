@@ -1,5 +1,25 @@
 ---
-title: style:
+title: '"style:"'
+description: |-
+  |-
+    |-
+      svelte
+      <!-- These are equivalent -->
+      <div style:color="red">...</div>
+      <div style="color: red;">...</div>
+category: 03-template-syntax
+tags:
+  - svelte
+  - 03-template-syntax
+  - style
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 The `style:` directive provides a shorthand for setting multiple styles on an element.

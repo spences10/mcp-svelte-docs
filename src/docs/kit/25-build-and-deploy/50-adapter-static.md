@@ -1,5 +1,27 @@
 ---
-title: Static site generation
+title: '"Static site generation"'
+description: >-
+  This will prerender your entire site as a collection of static files. If you'd
+  like to prerender only some pages and dynamically server-render others, you
+  will need to use a different adapter together with [the prerender
+  option](page-optionsprerender).
+category: 25-build-and-deploy
+tags:
+  - kit
+  - 25-build-and-deploy
+  - adapter
+  - static
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 To use SvelteKit as a static site generator (SSG), use [`adapter-static`](https://github.com/sveltejs/kit/tree/main/packages/adapter-static).

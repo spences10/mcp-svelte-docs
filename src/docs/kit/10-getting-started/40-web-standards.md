@@ -1,5 +1,27 @@
 ---
-title: Web standards
+title: '"Web standards"'
+description: >-
+  These APIs are available in all modern browsers and in many non-browser
+  environments like Cloudflare Workers, Deno, and Vercel Functions. During
+  development, and in [adapters](adapters) for Node-based environments
+  (including AWS Lambda), they're made available via polyfills where necessary
+  (for now, that is — Node is rapidly adding support for more web standards).
+category: 10-getting-started
+tags:
+  - kit
+  - 10-getting-started
+  - web
+  - standards
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Throughout this documentation, you'll see references to the standard [Web APIs](https://developer.mozilla.org/en-US/docs/Web/API) that SvelteKit builds on top of. Rather than reinventing the wheel, we _use the platform_, which means your existing web development skills are applicable to SvelteKit. Conversely, time spent learning SvelteKit will help you be a better web developer elsewhere.

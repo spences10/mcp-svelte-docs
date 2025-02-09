@@ -1,5 +1,23 @@
 ---
-title: transition:
+title: '"transition:"'
+description: >-
+  When a block (such as an {if ...} block) is transitioning out, all elements
+  inside it, including those that do not have their own transitions, are kept in
+  the DOM until every transition in the block has been completed.
+category: 03-template-syntax
+tags:
+  - svelte
+  - 03-template-syntax
+  - transition
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 A _transition_ is triggered by an element entering or leaving the DOM as a result of a state change.

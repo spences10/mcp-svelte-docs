@@ -1,5 +1,19 @@
 ---
-title: Overview
+title: '"Overview"'
+description: "|-\n  |-\n    svelte\n    <!--- file: App.svelte --->\n    <script>\n    \tfunction greet() {\n    \t\talert('Welcome to Svelte!');\n    \t}\n    </script>"
+category: 01-introduction
+tags:
+  - svelte
+  - 01-introduction
+  - overview
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Svelte is a framework for building user interfaces on the web. It uses a compiler to turn declarative components written in HTML, CSS and JavaScript...

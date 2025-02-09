@@ -1,5 +1,24 @@
 ---
-title: Advanced routing
+title: '"Advanced routing"'
+description: >-
+  If the number of route segments is unknown, you can use rest syntax — for
+  example you might implement GitHub's file viewer like so...
+category: 30-advanced
+tags:
+  - kit
+  - 30-advanced
+  - advanced
+  - routing
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 ## Rest parameters

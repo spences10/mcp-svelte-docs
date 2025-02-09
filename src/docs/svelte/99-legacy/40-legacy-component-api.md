@@ -1,5 +1,24 @@
 ---
-title: Imperative component API
+title: '"Imperative component API"'
+description: Creating a component
+category: 99-legacy
+tags:
+  - svelte
+  - 99-legacy
+  - legacy
+  - component
+  - api
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/31-legacy-svelte-self.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 In Svelte 3 and 4, the API for interacting with a component is different than in Svelte 5. Note that this page does _not_ apply to legacy mode components in a Svelte 5 application.

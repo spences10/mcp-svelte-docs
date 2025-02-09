@@ -1,5 +1,27 @@
 ---
-title: Routing
+title: '"Routing"'
+description: |-
+  |-
+    |-
+      - src/routes is the root route
+      - src/routes/about creates an /about route
+      - src/routes/blog/[slug] creates a route with a _parameter_, slug, that can be used to load data dynamically when a user requests a page like /blog/hello-world
+category: 20-core-concepts
+tags:
+  - kit
+  - 20-core-concepts
+  - routing
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 At the heart of SvelteKit is a _filesystem-based router_. The routes of your app — i.e. the URL paths that users can access — are defined by the directories in your codebase:

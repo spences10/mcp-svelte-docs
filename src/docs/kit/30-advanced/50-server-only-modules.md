@@ -1,5 +1,23 @@
 ---
-title: Server-only modules
+title: '"Server-only modules"'
+description: Private environment variables
+category: 30-advanced
+tags:
+  - kit
+  - 30-advanced
+  - server
+  - only
+  - modules
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Like a good friend, SvelteKit keeps your secrets. When writing your backend and frontend in the same repository, it can be easy to accidentally import sensitive data into your front-end code (environment variables containing API keys, for example). SvelteKit provides a way to prevent this entirely: server-only modules.

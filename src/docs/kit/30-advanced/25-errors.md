@@ -1,5 +1,21 @@
 ---
-title: Errors
+title: '"Errors"'
+description: Error objects
+category: 30-advanced
+tags:
+  - kit
+  - 30-advanced
+  - errors
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Errors are an inevitable fact of software development. SvelteKit handles errors differently depending on where they occur, what kind of errors they are, and the nature of the incoming request.

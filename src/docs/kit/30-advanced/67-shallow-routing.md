@@ -1,5 +1,28 @@
 ---
-title: Shallow routing
+title: '"Shallow routing"'
+description: >-
+  Sometimes, it's useful to create history entries _without_ navigating. For
+  example, you might want to show a modal dialog that the user can dismiss by
+  navigating back. This is particularly valuable on mobile devices, where swipe
+  gestures are often more natural than interacting directly with the UI. In
+  these cases, a modal that is _not_ associated with a history entry can be a
+  source of frustration, as a user may swipe backwards in an attempt to dismiss
+  it and find themselves on the wrong page.
+category: 30-advanced
+tags:
+  - kit
+  - 30-advanced
+  - shallow
+  - routing
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 As you navigate around a SvelteKit app, you create _history entries_. Clicking the back and forward buttons traverses through this list of entries, re-running any `load` functions and replacing page components as necessary.

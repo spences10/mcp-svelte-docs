@@ -1,5 +1,22 @@
 ---
-title: $$props and $$restProps
+title: '"$$props and $$restProps"'
+description: 'In legacy mode, we use $$props and $$restProps:'
+category: 99-legacy
+tags:
+  - svelte
+  - 99-legacy
+  - legacy
+  - $$props
+  - and
+  - $$restprops
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 In runes mode, getting an object containing all the props that were passed in is easy, using the [`$props`]($props) rune.

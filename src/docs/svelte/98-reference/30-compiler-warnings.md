@@ -1,5 +1,23 @@
 ---
-title: 'Compiler warnings'
+title: '"Compiler warnings"'
+description: >-
+  Some warnings may be incorrect in your concrete use case. You can disable such
+  false positives by placing a <!-- svelte-ignore <code> --> comment above the
+  line that causes the warning. Example:
+category: 98-reference
+tags:
+  - svelte
+  - 98-reference
+  - compiler
+  - warnings
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Svelte warns you at compile time if it catches potential mistakes, such as writing inaccessible markup.

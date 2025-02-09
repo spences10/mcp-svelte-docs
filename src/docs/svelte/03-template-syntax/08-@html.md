@@ -1,5 +1,19 @@
 ---
-title: {@html ...}
+title: '"{@html ...}"'
+description: "|-\n  |-\n    svelte\n    <article>\n    \t{@html content}\n    </article>"
+category: 03-template-syntax
+tags:
+  - svelte
+  - 03-template-syntax
+  - '@html'
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 To inject raw HTML into your component, use the `{@html ...}` tag:

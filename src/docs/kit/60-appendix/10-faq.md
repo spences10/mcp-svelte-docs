@@ -1,5 +1,25 @@
 ---
-title: Frequently asked questions
+title: '"Frequently asked questions"'
+description: >-
+  Please see [the Svelte FAQ](../svelte/faq) and [vite-plugin-svelte
+  FAQ](https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/faq.md) as
+  well for the answers to questions deriving from those libraries.
+category: 60-appendix
+tags:
+  - kit
+  - 60-appendix
+  - faq
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 ## Other resources

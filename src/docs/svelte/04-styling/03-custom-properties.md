@@ -1,5 +1,20 @@
 ---
-title: Custom properties
+title: '"Custom properties"'
+description: "|-\n  |-\n    svelte\n    <Slider\n    \tbind:value\n    \tmin={0}\n    \tmax={100}\n    \t--track-color=\"black\"\n    \t--thumb-color=\"rgb({r} {g} {b})\"\n    />"
+category: 04-styling
+tags:
+  - svelte
+  - 04-styling
+  - custom
+  - properties
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 You can pass CSS custom properties — both static and dynamic — to components:

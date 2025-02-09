@@ -1,5 +1,22 @@
 ---
-title: Packaging
+title: '"Packaging"'
+description: >-
+  When you're creating an app, the contents of src/routes is the public-facing
+  stuff; [src/lib]($lib) contains your app's internal library.
+category: 30-advanced
+tags:
+  - kit
+  - 30-advanced
+  - packaging
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 You can use SvelteKit to build apps as well as component libraries, using the `@sveltejs/package` package (`npx sv create` has an option to set this up for you).

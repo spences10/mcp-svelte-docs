@@ -1,5 +1,25 @@
 ---
-title: TypeScript
+title: '"TypeScript"'
+description: >-
+  You can use TypeScript within Svelte components. IDE extensions like the
+  [Svelte VS Code
+  extension](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode)
+  will help you catch errors right in your editor, and
+  [svelte-check](https://www.npmjs.com/package/svelte-check) does the same on
+  the command line, which you can integrate into your CI.
+category: 07-misc
+tags:
+  - svelte
+  - 07-misc
+  - typescript
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 <!-- - [basically what we have today](https://svelte.dev/docs/typescript)

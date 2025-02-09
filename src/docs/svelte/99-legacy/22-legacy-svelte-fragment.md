@@ -1,5 +1,20 @@
 ---
-title: <svelte:fragment>
+title: '"<svelte:fragment>"'
+description: "|-\n  |-\n    svelte\n    <!--- file: Widget.svelte --->\n    <div>\n    \t<slot name=\"header\">No header was provided</slot>\n    \t<p>Some content between header and footer</p>\n    \t<slot name=\"footer\" />\n    </div>"
+category: 99-legacy
+tags:
+  - svelte
+  - 99-legacy
+  - legacy
+  - fragment
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 The `<svelte:fragment>` element allows you to place content in a [named slot](legacy-slots) without wrapping it in a container DOM element. This keeps the flow layout of your document intact.

@@ -1,5 +1,25 @@
 ---
-title: {#await ...}
+title: '"{#await ...}"'
+description: |-
+  |-
+    |-
+      svelte
+      <!--- copy: false  --->
+      {await expression}...{:then name}...{/await}
+category: 03-template-syntax
+tags:
+  - svelte
+  - 03-template-syntax
+  - await
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 ```svelte

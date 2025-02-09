@@ -1,5 +1,25 @@
 ---
-title: Integrations
+title: '"Integrations"'
+description: >-
+  Including
+  [vitePreprocess](https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/preprocess.md)
+  in your project will allow you to use the various flavors of CSS that Vite
+  supports: PostCSS, SCSS, Less, Stylus, and SugarSS. If you set your project up
+  with TypeScript it will be included by default:
+category: 60-appendix
+tags:
+  - kit
+  - 60-appendix
+  - integrations
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 ## `vitePreprocess`

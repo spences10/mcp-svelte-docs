@@ -1,5 +1,28 @@
 ---
-title: Lifecycle hooks
+title: '"Lifecycle hooks"'
+description: >-
+  In Svelte 5, the component lifecycle consists of only two parts: Its creation
+  and its destruction. Everything in-between — when certain state is updated —
+  is not related to the component as a whole; only the parts that need to react
+  to the state change are notified. This is because under the hood the smallest
+  unit of change is actually not a component, it's the (render) effects that the
+  component sets up upon component initialization. Consequently, there's no such
+  thing as a "before update"/"after update" hook.
+category: 06-runtime
+tags:
+  - svelte
+  - 06-runtime
+  - lifecycle
+  - hooks
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 <!-- - onMount/onDestroy

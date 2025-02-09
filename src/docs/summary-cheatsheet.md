@@ -1,3 +1,21 @@
+---
+title: '"Summary Cheatsheet"'
+description: Overview
+category: ''
+tags:
+  - .
+  - summary
+  - cheatsheet
+related:
+  - svelte/index.md
+  - kit/index.md
+  - svelte/99-legacy/index.md
+code_categories:
+  - typescript
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
+---
 I'm using svelte 5 instead of svelte 4 here is an overview of the
 changes.
 

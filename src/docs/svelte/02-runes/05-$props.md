@@ -1,5 +1,20 @@
 ---
-title: $props
+title: '"$props"'
+description: "|-\n  |-\n    svelte\n    <!--- file: App.svelte --->\n    <script>\n    \timport MyComponent from './MyComponent.svelte';\n    </script>"
+category: 02-runes
+tags:
+  - svelte
+  - 02-runes
+  - $props
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 The inputs to a component are referred to as _props_, which is short for _properties_. You pass props to components just like you pass attributes to elements:

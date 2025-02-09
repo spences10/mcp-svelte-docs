@@ -1,5 +1,20 @@
 ---
-title: Global styles
+title: '"Global styles"'
+description: 'To apply styles to a single selector globally, use the :global(...) modifier:'
+category: 04-styling
+tags:
+  - svelte
+  - 04-styling
+  - global
+  - styles
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 ## :global(...)

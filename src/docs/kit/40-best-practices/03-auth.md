@@ -1,5 +1,20 @@
 ---
-title: Auth
+title: '"Auth"'
+description: Sessions vs tokens
+category: 40-best-practices
+tags:
+  - kit
+  - 40-best-practices
+  - auth
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Auth refers to authentication and authorization, which are common needs when building a web application. Authentication means verifying that the user is who they say they are based on their provided credentials. Authorization means determining which actions they are allowed to take.

@@ -1,5 +1,19 @@
 ---
-title: {@const ...}
+title: '"{@const ...}"'
+description: "|-\n  |-\n    svelte\n    {each boxes as box}\n    \t{@const area = box.width  box.height}\n    \t{box.width}  {box.height} = {area}\n    {/each}"
+category: 03-template-syntax
+tags:
+  - svelte
+  - 03-template-syntax
+  - '@const'
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 The `{@const ...}` tag defines a local constant.

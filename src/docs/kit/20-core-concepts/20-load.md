@@ -1,5 +1,22 @@
 ---
-title: Loading data
+title: '"Loading data"'
+description: Page data
+category: 20-core-concepts
+tags:
+  - kit
+  - 20-core-concepts
+  - load
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Before a [`+page.svelte`](routing#page-page.svelte) component (and its containing [`+layout.svelte`](routing#layout-layout.svelte) components) can be rendered, we often need to get some data. This is done by defining `load` functions.

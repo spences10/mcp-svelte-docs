@@ -1,5 +1,19 @@
 ---
-title: .svelte files
+title: '".svelte files"'
+description: 'All three sections — script, styles and markup — are optional.'
+category: 01-introduction
+tags:
+  - svelte
+  - 01-introduction
+  - files
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Components are the building blocks of Svelte applications. They are written into `.svelte` files, using a superset of HTML.

@@ -1,5 +1,30 @@
 ---
-title: Svelte 5 migration guide
+title: '"Svelte 5 migration guide"'
+description: >-
+  You don't have to migrate to the new syntax right away - Svelte 5 still
+  supports the old Svelte 4 syntax, and you can mix and match components using
+  the new syntax with components using the old and vice versa. We expect many
+  people to be able to upgrade with only a few lines of code changed initially.
+  There's also a [migration script](Migration-script) that helps you with many
+  of these steps automatically.
+category: 07-misc
+tags:
+  - svelte
+  - 07-misc
+  - v5
+  - migration
+  - guide
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Version 5 comes with an overhauled syntax and reactivity system. While it may look different at first, you'll soon notice many similarities. This guide goes over the changes in detail and shows you how to upgrade. Along with it, we also provide information on _why_ we did these changes.

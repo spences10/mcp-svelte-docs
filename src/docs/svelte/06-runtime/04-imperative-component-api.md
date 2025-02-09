@@ -1,5 +1,31 @@
 ---
-title: Imperative component API
+title: '"Imperative component API"'
+description: |-
+  |-
+    |-
+      - mount
+      - unmount
+      - render
+      - hydrate
+      - how they interact with each other -->
+category: 06-runtime
+tags:
+  - svelte
+  - 06-runtime
+  - imperative
+  - component
+  - api
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 <!-- better title needed?

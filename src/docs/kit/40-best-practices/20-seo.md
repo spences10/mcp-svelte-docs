@@ -1,5 +1,22 @@
 ---
-title: SEO
+title: '"SEO"'
+description: Out of the box
+category: 40-best-practices
+tags:
+  - kit
+  - 40-best-practices
+  - seo
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 The most important aspect of SEO is to create high-quality content that is widely linked to from around the web. However, there are a few technical considerations for building sites that rank well.

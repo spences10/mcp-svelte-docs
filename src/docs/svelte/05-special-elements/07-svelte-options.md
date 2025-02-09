@@ -1,5 +1,24 @@
 ---
-title: <svelte:options>
+title: '"<svelte:options>"'
+description: >-
+  The <svelte:options> element provides a place to specify per-component
+  compiler options, which are detailed in the [compiler
+  section](svelte-compilercompile). The possible options are:
+category: 05-special-elements
+tags:
+  - svelte
+  - 05-special-elements
+  - options
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 ```svelte

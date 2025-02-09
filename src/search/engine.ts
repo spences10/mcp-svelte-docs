@@ -107,21 +107,15 @@ export class VectorSearchEngine implements SearchEngine {
 				);
 				const docs_result = await this.db.execute({
 					sql: `
-            WITH top_docs AS (
-              SELECT id, similarity
-              FROM vector_top_k('docs_embedding_idx', vector(?), ?)
-            )
             SELECT 
               d.*,
-              td.similarity as doc_similarity
-            FROM top_docs td
-            JOIN docs d ON d.rowid = td.id
+              vector_distance_cos(d.embedding, ?) as doc_similarity
+            FROM docs d
             WHERE 1=1 ${filter_conditions}
-            ORDER BY td.similarity DESC
+            ORDER BY doc_similarity DESC
             LIMIT ?`,
 					args: [
 						embeddings.vector_to_sql_string(query_embedding),
-						limit * 2, // Get more results to account for filtering
 						limit,
 					],
 				});
@@ -232,18 +226,12 @@ export class VectorSearchEngine implements SearchEngine {
 		try {
 			const result = await this.db.execute({
 				sql: `
-          WITH top_docs AS (
-            SELECT id, similarity
-            FROM vector_top_k('docs_embedding_idx', vector(?), ?)
-          )
           SELECT 
             d.*,
-            td.similarity
-          FROM 
-            top_docs td
-          JOIN 
-            docs d ON d.rowid = td.id
-          ORDER BY td.similarity DESC`,
+            vector_distance_cos(d.embedding, ?) as similarity
+          FROM docs d
+          ORDER BY similarity DESC
+          LIMIT ?`,
 				args: [embeddings.vector_to_sql_string(embedding), limit],
 			});
 

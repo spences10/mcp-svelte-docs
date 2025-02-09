@@ -1,5 +1,21 @@
 ---
-title: Glossary
+title: '"Glossary"'
+description: CSR
+category: 60-appendix
+tags:
+  - kit
+  - 60-appendix
+  - glossary
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 The core of SvelteKit provides a highly configurable rendering engine. This section describes some of the terms used when discussing rendering. A reference for setting these options is provided in the documentation above.

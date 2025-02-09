@@ -1,5 +1,21 @@
 ---
-title: Data fetching
+title: '"Data fetching"'
+description: "|-\n  |-\n    svelte\n    <script>\n    \tlet response = $state();\n    \tfetch('/api/data').then(async (r) => (response = r.json()));\n    </script>"
+category: 03-template-syntax
+tags:
+  - svelte
+  - 03-template-syntax
+  - xx
+  - data
+  - fetching
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Fetching data is a fundamental part of apps interacting with the outside world. Svelte is unopinionated with how you fetch your data. The simplest way would be using the built-in `fetch` method:

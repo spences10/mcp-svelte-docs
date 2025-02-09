@@ -1,5 +1,23 @@
 ---
-title: Node servers
+title: '"Node servers"'
+description: Usage
+category: 25-build-and-deploy
+tags:
+  - kit
+  - 25-build-and-deploy
+  - adapter
+  - node
+related:
+  - index.md
+  - 98-reference/index.md
+  - 98-reference/54-types.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 To generate a standalone Node server, use [`adapter-node`](https://github.com/sveltejs/kit/tree/main/packages/adapter-node).

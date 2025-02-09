@@ -1,5 +1,27 @@
 ---
-title: Svelte 4 migration guide
+title: '"Svelte 4 migration guide"'
+description: >-
+  If you're a library author, consider whether to only support Svelte 4 or if
+  it's possible to support Svelte 3 too. Since most of the breaking changes
+  don't affect many people, this may be easily possible. Also remember to update
+  the version range in your peerDependencies.
+category: 07-misc
+tags:
+  - svelte
+  - 07-misc
+  - v4
+  - migration
+  - guide
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - javascript
+  - server
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 This migration guide provides an overview of how to migrate from Svelte version 3 to 4. See the linked PRs for more details about each change. Use the migration script to migrate some of these automatically: `npx svelte-migrate@latest svelte-4`

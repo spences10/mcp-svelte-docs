@@ -1,5 +1,24 @@
 ---
-title: Context
+title: '"Context"'
+description: >-
+  Most state is component-level state that lives as long as its component lives.
+  There's also section-wide or app-wide state however, which also needs to be
+  handled somehow.
+category: 06-runtime
+tags:
+  - svelte
+  - 06-runtime
+  - context
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+  - server
+  - client
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 <!-- - get/set/hasContext

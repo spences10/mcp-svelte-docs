@@ -1,5 +1,20 @@
 ---
-title: Basic markup
+title: '"Basic markup"'
+description: Tags
+category: 03-template-syntax
+tags:
+  - svelte
+  - 03-template-syntax
+  - basic
+  - markup
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 Markup inside a Svelte component can be thought of as HTML++.

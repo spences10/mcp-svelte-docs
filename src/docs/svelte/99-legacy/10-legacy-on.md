@@ -1,5 +1,20 @@
 ---
-title: on:
+title: '"on:"'
+description: 'In legacy mode, we use the on: directive:'
+category: 99-legacy
+tags:
+  - svelte
+  - 99-legacy
+  - legacy
+  - 'on'
+related:
+  - index.md
+  - 99-legacy/index.md
+  - 99-legacy/40-legacy-component-api.md
+code_categories:
+  - typescript
+difficulty: intermediate
+last_updated: '2025-02-09'
 ---
 
 In runes mode, event handlers are just like any other attribute or prop.
