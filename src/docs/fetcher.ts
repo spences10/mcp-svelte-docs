@@ -4,9 +4,9 @@ const BASE_URL = 'https://svelte.dev';
 
 // Root level docs
 const ROOT_DOCS = {
-	'llms.txt': `${BASE_URL}/docs/llms.txt`,
-	'llms-full.txt': `${BASE_URL}/docs/llms-full.txt`,
-	'llms-small.txt': `${BASE_URL}/docs/llms-small.txt`,
+	'llms.txt': `${BASE_URL}/llms.txt`,
+	'llms-full.txt': `${BASE_URL}/llms-full.txt`,
+	'llms-small.txt': `${BASE_URL}/llms-small.txt`,
 };
 
 // Package level docs
