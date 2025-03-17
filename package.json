@@ -46,7 +46,7 @@
 	},
 	"homepage": "https://github.com/spences10/mcp-svelte-docs#readme",
 	"dependencies": {
-		"@libsql/client": "^0.14.0",
+		"@libsql/client": "^0.15.0",
 		"@modelcontextprotocol/sdk": "1.4.1"
 	},
 	"devDependencies": {
