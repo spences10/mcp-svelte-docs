@@ -1,5 +1,11 @@
 # mcp-svelte-docs
 
+## 0.0.12
+
+### Patch Changes
+
+- effba1e: we go, no, to rag
+
 ## 0.0.11
 
 ### Patch Changes

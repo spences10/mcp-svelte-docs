@@ -1,39 +1,88 @@
 # mcp-svelte-docs
 
-A Model Context Protocol (MCP) server that provides efficient access
-to Svelte documentation with advanced caching, search capabilities,
-and optimised content delivery. This server integrates directly with
-Svelte's official documentation, offering both full and compressed
-variants suitable for different LLM context window sizes.
-
-<a href="https://glama.ai/mcp/servers/wu4hy1xtjb">
-  <img width="380" height="200" src="https://glama.ai/mcp/servers/wu4hy1xtjb/badge" />
-</a>
+A Model Context Protocol (MCP) server that provides a comprehensive
+reference guide for Svelte 5, helping LLMs provide accurate guidance
+when users are working with Svelte. While it includes migration
+patterns from Svelte 4 to Svelte 5, it also serves as a detailed
+reference for Svelte 5 features, common mistakes, and best practices.
 
 ## Features
 
-- 📚 Complete Svelte documentation access through MCP Resources
-- 🔍 Advanced search capabilities:
-  - Document type filtering (API, Tutorial, Example, Error)
-  - Section hierarchy awareness
-  - Intelligent relevance scoring based on:
-    - Term frequency
-    - Section importance
-    - Document type relevance
-    - Exact phrase matching
-  - Context-aware result excerpts
-  - Related search suggestions
-- 💾 Efficient caching with LibSQL
-- 🔄 Automatic content freshness checks
-- 📦 Support for package-specific documentation (Svelte, Kit, CLI)
-- 📏 Smart content chunking for large documents
-- 🗜️ Compressed variants for smaller context windows
-- 🏗️ Built on the Model Context Protocol
+### 📊 Content Categories
 
-## Configuration
+- **Migration Patterns**: Side-by-side comparisons of Svelte 4 and
+  Svelte 5 code
+- **Svelte 5 Features**: Detailed documentation on runes, snippets,
+  props, and events
+- **Common Mistakes**: Patterns showing incorrect code and corrections
+  with explanations
+- **Global State Patterns**: Various approaches to global state
+  management in Svelte 5
 
-This server requires configuration through your MCP client. Here are
-examples for different environments:
+### 🔄 Key Migration Patterns
+
+- **State Declaration**: `let count = 0` → `let count = $state(0)`
+- **Derived Values**: `$: doubled = count * 2` →
+  `const doubled = $derived(count * 2)`
+- **Side Effects**: `$: { /* effect */ }` →
+  `$effect(() => { /* effect */ })`
+- **Event Handling**: `on:click={handler}` → `onclick={handler}`
+- **Props**: `export let prop` → `let { prop } = $props()`
+- **Component Events**: `createEventDispatcher()` → callback props
+- **Slots**: `<slot>` → `{@render children()}`
+
+### 🧩 Svelte 5 Features
+
+- **Runes**: $state, $derived, $effect, $props, and more
+- **Snippets**: Reusable chunks of markup with parameters
+- **Props**: New approach to component props with destructuring
+- **Events**: Standard HTML event attributes and callback props
+
+### ⚠️ Common Mistakes
+
+- **Reactivity**: Exporting state directly, forgetting $state, etc.
+- **Events**: Using on:click instead of onclick, event modifiers, etc.
+- **Props**: Using export let instead of $props, TypeScript issues,
+  etc.
+
+### 🌐 Global State Patterns
+
+- **Function-based**: Getter/setter functions for module-level state
+- **Object-based**: Objects with getters/setters for more ergonomic
+  APIs
+- **Class-based**: Classes with stateful properties for structured
+  state
+- **Context-based**: Svelte contexts for SSR-safe global state
+
+### 💡 Comprehensive Examples
+
+All content includes:
+
+- Both JavaScript and TypeScript examples
+- Clear explanations of concepts and usage
+- Best practices and considerations
+- Common pitfalls to avoid
+
+## Usage
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Start the server
+npm start
+```
+
+### Configuration
+
+The server can be configured by setting environment variables:
+
+- `DEBUG`: Set to 'true' to enable debug logging
 
 ### Cline Configuration
 
@@ -42,110 +91,293 @@ Add this to your Cline MCP settings:
 ```json
 {
 	"mcpServers": {
-		"svelte-docs": {
-			"command": "npx",
-			"args": ["-y", "mcp-svelte-docs"],
+		"mcp-svelte-docs": {
+			"command": "node",
+			"args": ["/path/to/mcp-svelte-docs/dist/index.js"],
 			"env": {
-				"LIBSQL_URL": "file:local.db",
-				"LIBSQL_AUTH_TOKEN": "your-auth-token-if-using-remote-db"
-			}
-		}
-	}
-}
-```
-
-### Claude Desktop with WSL Configuration
-
-For WSL environments, add this to your Claude Desktop configuration:
-
-```json
-{
-	"mcpServers": {
-		"svelte-docs": {
-			"command": "wsl.exe",
-			"args": [
-				"bash",
-				"-c",
-				"LIBSQL_URL=file:local.db LIBSQL_AUTH_TOKEN=your-token npx -y mcp-svelte-docs"
+				"DEBUG": "false"
+			},
+			"disabled": false,
+			"autoApprove": [
+				"svelte_pattern",
+				"svelte5_feature",
+				"svelte5_common_mistakes"
 			]
 		}
 	}
 }
 ```
 
-### Environment Variables
+### Using with LLMs
 
-The server supports the following environment variables:
+When an LLM needs to provide guidance about Svelte, it can use the
+available tools and resources:
 
-- `LIBSQL_URL` (optional): URL for the LibSQL database. Defaults to
-  `file:local.db`
-- `LIBSQL_AUTH_TOKEN` (optional): Auth token for remote LibSQL
-  database
+#### Migration Patterns
+
+```
+<use_mcp_tool>
+<server_name>mcp-svelte-docs</server_name>
+<tool_name>svelte_pattern</tool_name>
+<arguments>
+{
+  "pattern": "event"
+}
+</arguments>
+</use_mcp_tool>
+```
+
+This will return migration patterns related to event handling, showing
+both Svelte 4 and Svelte 5 implementations.
+
+#### Svelte 5 Features
+
+```
+<use_mcp_tool>
+<server_name>mcp-svelte-docs</server_name>
+<tool_name>svelte5_feature</tool_name>
+<arguments>
+{
+  "feature": "state",
+  "includeExamples": true
+}
+</arguments>
+</use_mcp_tool>
+```
+
+This will return detailed information about the $state rune, including
+examples and best practices.
+
+#### Common Mistakes
+
+```
+<use_mcp_tool>
+<server_name>mcp-svelte-docs</server_name>
+<tool_name>svelte5_common_mistakes</tool_name>
+<arguments>
+{
+  "feature": "props"
+}
+</arguments>
+</use_mcp_tool>
+```
+
+This will return common mistakes related to props in Svelte 5, along
+with corrections and explanations.
+
+#### Resource Access
+
+```
+<access_mcp_resource>
+<server_name>mcp-svelte-docs</server_name>
+<uri>svelte5://runes/state</uri>
+</access_mcp_resource>
+```
+
+This will return a detailed reference for the $state rune in markdown
+format.
 
 ## API
 
-The server implements both MCP Resources and Tools:
+The server implements the following MCP Tools:
 
-### Resources
+### svelte_pattern
 
-Access documentation through these URIs:
-
-- `svelte-docs://docs/llms.txt` - Documentation index
-- `svelte-docs://docs/llms-full.txt` - Complete documentation
-- `svelte-docs://docs/llms-small.txt` - Compressed documentation
-- `svelte-docs://docs/{package}/llms.txt` - Package-specific
-  documentation
-  - Supported packages: svelte, kit, cli
-
-### Tools
-
-#### search_docs
-
-Enhanced search functionality with advanced filtering and context
-awareness.
+Get Svelte 4 to Svelte 5 migration patterns.
 
 Parameters:
 
-- `query` (string, required): Search keywords or natural language
-  query
-- `doc_type` (string, optional): Filter by documentation type
-  - Values: 'api', 'tutorial', 'example', 'error', 'all'
-  - Default: 'all'
-- `context` (number, optional): Number of surrounding paragraphs (0-3)
-  - Default: 1
-- `include_hierarchy` (boolean, optional): Include section hierarchy
-  - Default: true
+- `pattern` (string, required): Pattern name or category to search for
 
-Example Usage:
+Example response:
 
 ```json
-// API Reference Search
 {
-  "query": "bind:value directive",
-  "doc_type": "api",
-  "context": 1
-}
-
-// Tutorial Search
-{
-  "query": "routing sveltekit",
-  "doc_type": "tutorial",
-  "context": 2,
-  "include_hierarchy": true
+	"patterns": [
+		{
+			"name": "Basic state",
+			"description": "Declaring and using component state",
+			"svelte4": "<script>\n  let count = 0;\n  \n  function increment() {\n    count++;\n  }\n</script>\n\n<button on:click={increment}>\n  Clicked {count} times\n</button>",
+			"svelte5": "<script>\n  let count = $state(0);\n  \n  function increment() {\n    count++;\n  }\n</script>\n\n<button onclick={increment}>\n  Clicked {count} times\n</button>",
+			"notes": "In Svelte 5, state is explicitly declared using the $state rune, and event handlers use standard HTML attributes (onclick) instead of the directive syntax (on:click)."
+		}
+	]
 }
 ```
 
-#### get_next_chunk
+### svelte5_feature
 
-Retrieve subsequent chunks of large documents.
+Get detailed information about Svelte 5 features.
 
 Parameters:
 
-- `uri` (string, required): Document URI
-- `chunk_number` (number, required): Chunk number to retrieve
-  (1-based)
+- `feature` (string, required): Feature name (e.g., "runes",
+  "snippets", "props")
+- `includeExamples` (boolean, optional): Whether to include code
+  examples
+
+Example response:
+
+```json
+{
+	"features": [
+		{
+			"name": "$state",
+			"description": "The $state rune is used to declare reactive state in Svelte 5.",
+			"examples": [
+				{
+					"code": "<script>\n  let count = $state(0);\n  \n  function increment() {\n    count++;\n  }\n</script>\n\n<button onclick={increment}>\n  Clicked {count} times\n</button>",
+					"explanation": "Basic usage of $state to create a reactive counter. When the button is clicked, the count is incremented and the UI updates automatically."
+				}
+			],
+			"bestPractices": [
+				"Use $state for any value that needs to trigger UI updates when changed",
+				"For large arrays or objects that don't need deep reactivity, consider using $state.raw",
+				"Don't export $state variables directly from modules, use getter/setter functions instead"
+			]
+		}
+	]
+}
+```
+
+### svelte5_common_mistakes
+
+Get common mistakes and corrections for Svelte 5 features.
+
+Parameters:
+
+- `feature` (string, required): Feature name (e.g., "runes",
+  "snippets", "events")
+
+Example response:
+
+```json
+{
+	"mistakes": [
+		{
+			"name": "Exporting state directly",
+			"description": "Directly exporting a stateful variable from a module",
+			"mistake": "// counter.svelte.js\nlet count = $state(0);\n\nexport { count };",
+			"correction": "// counter.svelte.js\nlet count = $state(0);\n\nexport function getCount() {\n  return count;\n}\n\nexport function setCount(value) {\n  count = value;\n}",
+			"explanation": "When you export a stateful variable directly, the reactivity is lost when it's imported elsewhere. This is because the importing module only gets the current value, not the reactive binding. Instead, export functions that access and modify the state."
+		}
+	]
+}
+```
+
+### Resources
+
+The server also provides the following MCP Resources:
+
+#### Direct Resources
+
+- `svelte5://overview`: Overview of Svelte 5 features and changes
+- `svelte5://runes/overview`: Overview of all runes in Svelte 5
+- `svelte5://snippets/overview`: Overview of snippets in Svelte 5
+- `svelte5://global-state/overview`: Overview of global state
+  approaches in Svelte 5
+
+#### Resource Templates
+
+- `svelte5://runes/{rune_name}`: Detailed reference for a specific
+  rune
+- `svelte5://patterns/{category}/{pattern_name}`: Reference for a
+  specific Svelte pattern
+- `svelte5://mistakes/{category}`: Common mistakes for a specific
+  category
 
 ## Development
+
+### Project Structure
+
+```
+src/
+├── index.ts                # MCP server entry point
+├── config.ts               # Basic configuration
+├── tools/                  # Tool implementations
+│   └── handler.ts          # Tool registration
+├── resources/              # Resource implementations
+│   └── index.ts            # Resource registration
+└── patterns/               # Pattern database
+    ├── index.ts            # Exports all patterns
+    ├── state.ts            # State management patterns
+    ├── events.ts           # Event handling patterns
+    ├── props.ts            # Props and component patterns
+    ├── templating.ts       # Templating patterns
+    ├── lifecycle.ts        # Lifecycle patterns
+    ├── svelte5_features.ts # Svelte 5 specific features
+    ├── common_mistakes.ts  # Common mistakes and corrections
+    └── global_state.ts     # Global state patterns
+```
+
+### Adding New Content
+
+#### Migration Patterns
+
+To add new migration patterns, add them to the appropriate pattern
+file in the `src/patterns` directory:
+
+```typescript
+{
+  name: 'Pattern Name',
+  description: 'Description of the pattern',
+  svelte4: `Svelte 4 code example`,
+  svelte5: `Svelte 5 code example`,
+  notes: 'Additional notes about migration considerations'
+}
+```
+
+#### Svelte 5 Features
+
+To add new Svelte 5 features, add them to the
+`src/patterns/svelte5_features.ts` file:
+
+```typescript
+{
+  name: 'Feature Name',
+  description: 'Description of the feature',
+  examples: [
+    {
+      code: `Code example`,
+      explanation: 'Explanation of the example'
+    }
+  ],
+  bestPractices: [
+    'Best practice 1',
+    'Best practice 2'
+  ]
+}
+```
+
+#### Common Mistakes
+
+To add new common mistakes, add them to the
+`src/patterns/common_mistakes.ts` file:
+
+```typescript
+{
+  name: 'Mistake Name',
+  description: 'Description of the common mistake',
+  mistake: `Incorrect code example`,
+  correction: `Corrected code example`,
+  explanation: 'Detailed explanation of why the mistake is problematic and how the correction addresses it'
+}
+```
+
+#### Global State Patterns
+
+To add new global state patterns, add them to the
+`src/patterns/global_state.ts` file:
+
+```typescript
+{
+  name: 'Global State Pattern Name',
+  description: 'Description of the global state pattern',
+  code: `Implementation example`,
+  usage: `Usage example`,
+  notes: 'Additional notes about the pattern, including considerations for server vs. client usage'
+}
+```
 
 ### Setup
 
@@ -153,35 +385,33 @@ Parameters:
 2. Install dependencies:
 
 ```bash
-pnpm install
+npm install
 ```
 
 3. Build the project:
 
 ```bash
-pnpm build
+npm run build
 ```
 
 4. Run in development mode:
 
 ```bash
-pnpm dev
+npm run dev
 ```
 
-### Publishing
+## Troubleshooting
 
-1. Update version in package.json
-2. Build the project:
+### Common Issues
 
-```bash
-pnpm build
-```
-
-3. Publish to npm:
-
-```bash
-pnpm publish
-```
+- **Pattern not found**: Make sure you're searching for a pattern that
+  exists in the database. Try using more general terms like "state" or
+  "event" instead of specific pattern names.
+- **Server not starting**: Ensure you have the correct permissions to
+  run the server and that the port is not already in use.
+- **TypeScript errors**: Make sure you have the correct version of
+  TypeScript installed and that your code follows the project's
+  TypeScript configuration.
 
 ## Contributing
 
@@ -193,8 +423,7 @@ MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-- Built on the
-  [Model Context Protocol](https://github.com/modelcontextprotocol)
-- Powered by [Svelte Documentation](https://svelte.dev)
-- Uses [LibSQL](https://github.com/libsql/libsql) for efficient
-  caching
+Built on:
+
+- [Model Context Protocol](https://github.com/modelcontextprotocol)
+- [Svelte](https://svelte.dev)
