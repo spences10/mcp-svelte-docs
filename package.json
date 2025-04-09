@@ -23,17 +23,7 @@
 	},
 	"keywords": [
 		"mcp",
-		"model-context-protocol",
-		"jinaai",
-		"reader",
-		"web-content",
-		"documentation",
-		"content-extraction",
-		"text-extraction",
-		"llm",
-		"ai",
-		"web-scraping",
-		"content-parser"
+		"model-context-protocol"
 	],
 	"author": "Scott Spence",
 	"license": "MIT",
@@ -46,7 +36,6 @@
 	},
 	"homepage": "https://github.com/spences10/mcp-svelte-docs#readme",
 	"dependencies": {
-		"@libsql/client": "^0.14.0",
 		"@modelcontextprotocol/sdk": "1.4.1"
 	},
 	"devDependencies": {
