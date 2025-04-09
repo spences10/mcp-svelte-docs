@@ -5,7 +5,7 @@ reference guide for Svelte 5, helping LLMs provide accurate guidance
 when users are working with Svelte. While it includes migration
 patterns from Svelte 4 to Svelte 5, it also serves as a detailed
 reference for Svelte 5 features, common mistakes, and best practices.
-poopl
+
 ## Features
 
 ### 📊 Content Categories
