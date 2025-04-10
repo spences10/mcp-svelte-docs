@@ -1,0 +1,254 @@
+name: 发布到 NPM
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'package.json'
+      - '**.js'
+      - '**.ts'
+      - '**.jsx'
+      - '**.tsx'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '发布版本 (例如: 1.0.0)'
+        required: false
+        default: ''
+      force_publish:
+        description: '强制发布（即使版本未变）'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org/'
+      
+      - name: 安装依赖
+        run: npm ci || npm install
+      
+      - name: 获取 MCP 信息
+        id: mcp_info
+        run: |
+          # 获取原始package.json中的包名和版本
+          ORIGINAL_NAME=$(node -p "require('./package.json').name")
+          ORIGINAL_VERSION=$(node -p "require('./package.json').version")
+          
+          # 生成MCPFlow格式的包名
+          REPO_NAME=$(echo ${{ github.repository }} | cut -d '/' -f 2)
+          MCP_NAME=$(echo ${REPO_NAME} | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g')
+          PACKAGE_NAME="@mcpflow.io/${MCP_NAME}"
+          
+          echo "original_name=${ORIGINAL_NAME}" >> $GITHUB_OUTPUT
+          echo "original_version=${ORIGINAL_VERSION}" >> $GITHUB_OUTPUT
+          echo "package_name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
+          
+          # 设置版本（使用手动输入或当前版本）
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ -n "${{ github.event.inputs.version }}" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${ORIGINAL_VERSION}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: 修改 package.json
+        run: |
+          # 读取package.json
+          PACKAGE_JSON=$(cat package.json)
+          
+          # 修改package.json内容
+          MODIFIED_JSON=$(echo "$PACKAGE_JSON" | jq \
+            --arg name "${{ steps.mcp_info.outputs.package_name }}" \
+            --arg version "${{ steps.mcp_info.outputs.version }}" \
+            --arg desc "$(node -p "require('./package.json').description || ''")" \
+            --arg originalName "${{ steps.mcp_info.outputs.original_name }}" \
+            --arg repoUrl "${{ github.server_url }}/${{ github.repository }}" \
+            --arg developer "${{ github.repository_owner }}" \
+            '.name = $name | 
+             .version = $version | 
+             .private = false |
+             .mcpflow = {
+               "originalName": $originalName,
+               "developer": $developer,
+               "gitRepo": $repoUrl,
+               "callType": "MCP"
+             } |
+             .keywords = ((.keywords // []) + ["mcpflow", "mcp"] | unique)'
+          )
+          
+          # 写回package.json
+          echo "$MODIFIED_JSON" > package.json
+          cat package.json
+      
+      - name: 创建或更新 README
+        run: |
+          PACKAGE_NAME="${{ steps.mcp_info.outputs.package_name }}"
+          REPO_NAME=$(echo ${{ github.repository }} | cut -d '/' -f 2)
+          
+          # 提取环境变量参数
+          ENV_PARAMS=""
+          
+          # 从 package.json 中查找主入口文件
+          MAIN_FILE=$(node -p "require('./package.json').main || 'index.js'")
+          BIN_FILE=$(node -p "typeof require('./package.json').bin === 'string' ? require('./package.json').bin : Object.values(require('./package.json').bin || {})[0]" 2>/dev/null || echo "")
+          
+          # 确定需要检查的启动文件
+          START_FILES=("$MAIN_FILE" "$BIN_FILE" "index.js" "cli.js" "bin/index.js" "src/index.js" "lib/index.js")
+          
+          # 搜索文件中的环境变量
+          for file in "${START_FILES[@]}"; do
+            if [ -f "$file" ]; then
+              # 从文件中提取 process.env 使用情况
+              ENV_VARS=$(grep -o "process\.env\.[A-Z_][A-Z0-9_]*" "$file" 2>/dev/null | sort | uniq | sed 's/process\.env\.//')
+              
+              if [ -n "$ENV_VARS" ]; then
+                for var in $ENV_VARS; do
+                  # 排除常见的不需要在命令行指定的环境变量
+                  if [[ "$var" != "NODE_ENV" && "$var" != "PORT" && "$var" != "HOST" && "$var" != "PATH" && "$var" != "HOME" ]]; then
+                    ENV_PARAMS="$ENV_PARAMS $var=<your-$var>"
+                  fi
+                done
+              fi
+            fi
+          done
+          
+          # 从现有 README 中提取使用方法
+          if [ -f README.md ]; then
+            # 查找可能的环境变量设置示例
+            README_ENV_VARS=$(grep -o "[A-Z_][A-Z0-9_]*=[^ ]*" README.md 2>/dev/null | cut -d '=' -f 1 | sort | uniq)
+            
+            if [ -n "$README_ENV_VARS" ]; then
+              for var in $README_ENV_VARS; do
+                # 排除已添加的和常见的不需要在命令行指定的环境变量
+                if [[ "$ENV_PARAMS" != *"$var"* && "$var" != "NODE_ENV" && "$var" != "PORT" && "$var" != "HOST" && "$var" != "PATH" && "$var" != "HOME" ]]; then
+                  ENV_PARAMS="$ENV_PARAMS $var=<your-$var>"
+                fi
+              done
+            fi
+          fi
+          
+          # 格式化环境变量参数字符串
+          if [ -n "$ENV_PARAMS" ]; then
+            ENV_PARAMS=$(echo $ENV_PARAMS | xargs)
+            ENV_PARAMS_EXAMPLE=$(echo $ENV_PARAMS | sed 's/<your-[^>]*>/example-value/g')
+          fi
+          
+          # 如果README不存在或不包含MCPFlow标记，则创建新的
+          if [ ! -f README.md ] || ! grep -q "MCPFlow Packaged MCP" README.md; then
+            # 保存现有README内容（如果存在）
+            if [ -f README.md ]; then
+              EXISTING_README=$(cat README.md)
+            else
+              EXISTING_README=""
+            fi
+            
+            # 创建新的README
+            cat > README.md << EOF
+# ${REPO_NAME}
+
+<!-- MCPFlow Packaged MCP -->
+> 此包由 [MCPFlow](https://mcpflow.io) 打包并发布到npm仓库。
+
+## 安装与使用
+
+直接使用npx运行:
+
+\`\`\`bash
+npx -y ${PACKAGE_NAME}$([ -n "$ENV_PARAMS" ] && echo " $ENV_PARAMS_EXAMPLE")
+\`\`\`
+
+或者先安装后使用:
+
+\`\`\`bash
+# 安装
+npm install ${PACKAGE_NAME}
+
+# 使用
+$([ -n "$ENV_PARAMS" ] && echo "# 设置必要的环境变量\n$ENV_PARAMS\n\n")npx ${PACKAGE_NAME}$([ -n "$ENV_PARAMS" ] && echo " $ENV_PARAMS_EXAMPLE")
+\`\`\`
+
+$([ -n "$ENV_PARAMS" ] && echo "### 所需环境变量\n\n$ENV_PARAMS\n\n请替换上述示例中的值为你自己的实际值。\n\n")## 原始信息
+
+- **开发者:** ${{ github.repository_owner }}
+- **版本:** ${{ steps.mcp_info.outputs.version }}
+- **原始仓库:** [${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})
+
+EOF
+            
+            # 如果有原始README，添加到最后
+            if [ -n "$EXISTING_README" ]; then
+              echo -e "\n## 原始README\n\n${EXISTING_README}" >> README.md
+            fi
+          fi
+      
+      - name: 检查包是否存在
+        id: check_package
+        if: ${{ github.event.inputs.force_publish != 'true' }}
+        continue-on-error: true
+        run: |
+          PACKAGE_EXISTS=false
+          CURRENT_VERSION="${{ steps.mcp_info.outputs.version }}"
+          
+          # 检查包是否存在
+          if npm view ${{ steps.mcp_info.outputs.package_name }} version &> /dev/null; then
+            REMOTE_VERSION=$(npm view ${{ steps.mcp_info.outputs.package_name }} version)
+            echo "远程版本: $REMOTE_VERSION, 当前版本: $CURRENT_VERSION"
+            
+            # 通过比较版本检查是否需要发布
+            if [[ "$(printf '%s\n' "$REMOTE_VERSION" "$CURRENT_VERSION" | sort -V | head -n1)" == "$CURRENT_VERSION" && "$REMOTE_VERSION" != "$CURRENT_VERSION" ]]; then
+              echo "远程版本较新，需要更新本地版本"
+              PACKAGE_EXISTS=true
+            elif [[ "$REMOTE_VERSION" == "$CURRENT_VERSION" ]]; then
+              echo "版本相同，无需重新发布"
+              PACKAGE_EXISTS=true
+            else
+              echo "本地版本较新，继续发布"
+            fi
+          else
+            echo "包不存在，可以安全发布"
+          fi
+          
+          echo "package_exists=${PACKAGE_EXISTS}" >> $GITHUB_OUTPUT
+      
+      - name: 递增版本（如果需要）
+        if: ${{ steps.check_package.outputs.package_exists == 'true' }}
+        run: |
+          CURRENT_VERSION="${{ steps.mcp_info.outputs.version }}"
+          
+          # 拆分版本号并递增补丁版本
+          IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
+          
+          # 确保有三部分
+          while [ ${#VERSION_PARTS[@]} -lt 3 ]; do
+            VERSION_PARTS+=("0")
+          done
+          
+          # 递增补丁版本
+          VERSION_PARTS[2]=$((VERSION_PARTS[2] + 1))
+          
+          # 组合新版本
+          NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.${VERSION_PARTS[2]}"
+          echo "递增版本: $CURRENT_VERSION -> $NEW_VERSION"
+          
+          # 更新package.json
+          npm version $NEW_VERSION --no-git-tag-version --allow-same-version
+      
+      - name: 运行测试
+        run: npm test
+        continue-on-error: true
+      
+      - name: 发布到 NPM
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
