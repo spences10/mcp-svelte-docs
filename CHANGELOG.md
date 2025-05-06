@@ -1,5 +1,12 @@
 # mcp-svelte-docs
 
+## 0.0.13
+
+### Patch Changes
+
+- 52616b4: now common definitions being used
+- update readme
+
 ## 0.0.12
 
 ### Patch Changes
