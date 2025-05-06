@@ -7,10 +7,13 @@ import {
 } from '@modelcontextprotocol/sdk/types.js';
 
 import {
-	get_common_mistakes,
-	get_patterns,
-	get_svelte5_features,
-} from '../patterns/index.js';
+	CommonMistake,
+	Feature,
+	features,
+	mistakes,
+	Pattern,
+	patterns,
+} from '../types.js';
 
 /**
  * Interface for pattern search arguments
@@ -152,11 +155,11 @@ export function register_tools(server: Server): void {
 			const { pattern } = request.params.arguments;
 
 			// Get all patterns
-			const all_patterns = get_patterns();
+			const all_patterns = patterns;
 
 			// Find matching patterns
 			const matches = all_patterns.filter(
-				(p) =>
+				(p: Pattern) =>
 					p.name.toLowerCase().includes(pattern.toLowerCase()) ||
 					p.description.toLowerCase().includes(pattern.toLowerCase()),
 			);
@@ -195,11 +198,11 @@ export function register_tools(server: Server): void {
 				request.params.arguments;
 
 			// Get all features
-			const all_features = get_svelte5_features();
+			const all_features = features;
 
 			// Find matching features
 			const matches = all_features.filter(
-				(f) =>
+				(f: Feature) =>
 					f.name.toLowerCase().includes(feature.toLowerCase()) ||
 					f.description.toLowerCase().includes(feature.toLowerCase()),
 			);
@@ -245,11 +248,11 @@ export function register_tools(server: Server): void {
 			const { feature } = request.params.arguments;
 
 			// Get all mistakes
-			const all_mistakes = get_common_mistakes();
+			const all_mistakes = mistakes;
 
 			// Find matching mistakes
 			const matches = all_mistakes.filter(
-				(m) =>
+				(m: CommonMistake) =>
 					m.name.toLowerCase().includes(feature.toLowerCase()) ||
 					m.description.toLowerCase().includes(feature.toLowerCase()),
 			);

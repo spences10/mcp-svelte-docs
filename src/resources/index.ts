@@ -1,17 +1,20 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import {
-	ErrorCode,
+	ReadResourceRequestSchema,
 	ListResourcesRequestSchema,
 	ListResourceTemplatesRequestSchema,
 	McpError,
-	ReadResourceRequestSchema,
+	ErrorCode,
 } from '@modelcontextprotocol/sdk/types.js';
 
 import {
-	get_common_mistakes,
-	get_global_state_patterns,
-	get_svelte5_features,
-} from '../patterns/index.js';
+	Feature,
+	Pattern,
+	CommonMistake,
+	features as docFeatures,
+	patterns as docPatterns,
+	mistakes as docMistakes
+} from '../types.js';
 
 /**
  * Registers all resources with the MCP server
@@ -229,7 +232,7 @@ For more details on specific features, see the relevant resources.`;
  * @returns Runes overview content
  */
 function generateRunesOverview(): string {
-	const features = get_svelte5_features();
+	const features = docFeatures;
 	const runeFeatures = features.filter(
 		(f) =>
 			f.name.startsWith('$') ||
@@ -265,57 +268,41 @@ Runes are special symbols that instruct the compiler to add reactivity to variab
  * @returns Snippets overview content
  */
 function generateSnippetsOverview(): string {
-	const features = get_svelte5_features();
+	const features = docFeatures;
 	const snippetsFeature = features.find((f) => f.name === 'Snippets');
 
-	if (!snippetsFeature) {
-		return `# Svelte 5 Snippets Overview
+	let content = '';
 
-Snippets are a new feature in Svelte 5 that allow you to define reusable chunks of markup inside your components.
+	if (snippetsFeature) {
+		content += `# Svelte 5 Snippets
 
-## Basic Usage
-
-\`\`\`svelte
-{#snippet figure(image)}
-<figure>
-  <img
-    src={image.src}
-    alt={image.caption}
-    width={image.width}
-    height={image.height}
-  />
-  <figcaption>{image.caption}</figcaption>
-</figure>
-{/snippet}
-
-{@render figure(headerImage)}
-\`\`\`
-
-## Best Practices
-
-- Use snippets to reduce duplication in your templates
-- Snippets can be passed as props to components
-- Snippets have lexical scoping rules - they are only visible in the same scope they are defined in
-- Use parameters to make snippets more flexible
-- Snippets can reference other snippets and even themselves (for recursion)
-`;
-	}
-
-	let content = `# Svelte 5 Snippets Overview
+## ${snippetsFeature.name}
 
 ${snippetsFeature.description}
 
-## Examples
-
 `;
 
-	for (const example of snippetsFeature.examples) {
-		content += `### Example\n\`\`\`svelte\n${example.code}\n\`\`\`\n\n${example.explanation}\n\n`;
-	}
+		if (snippetsFeature.examples && snippetsFeature.examples.length > 0) {
+			content += `## Examples
 
-	content += '## Best Practices\n\n';
-	for (const practice of snippetsFeature.bestPractices) {
-		content += `- ${practice}\n`;
+`;
+			snippetsFeature.examples.forEach((example) => {
+				content += `\`\`\`svelte
+${example}
+\`\`\`
+
+`;
+			});
+		}
+
+		if (snippetsFeature.bestPractices && snippetsFeature.bestPractices.length > 0) {
+			content += `## Best Practices
+
+`;
+			snippetsFeature.bestPractices.forEach((practice) => {
+				content += `- ${practice}\n`;
+			});
+		}
 	}
 
 	return content;
@@ -326,7 +313,7 @@ ${snippetsFeature.description}
  * @returns Global state overview content
  */
 function generateGlobalStateOverview(): string {
-	const patterns = get_global_state_patterns();
+	const patterns = docPatterns;
 
 	let content = `# Svelte 5 Global State Overview
 
@@ -337,10 +324,21 @@ Svelte 5 provides several approaches to global state management, each with its o
 `;
 
 	for (const pattern of patterns) {
-		content += `### ${pattern.name}\n${pattern.description}\n\n`;
-		content += `**Implementation:**\n\`\`\`typescript\n${pattern.code}\n\`\`\`\n\n`;
-		content += `**Usage:**\n\`\`\`svelte\n${pattern.usage}\n\`\`\`\n\n`;
-		content += `**Notes:**\n${pattern.notes}\n\n`;
+		content += `## ${pattern.name}
+
+${pattern.description}
+
+`;
+
+		if (pattern.examples && pattern.examples.length > 0) {
+			pattern.examples.forEach((example) => {
+				content += `\`\`\`svelte
+${example}
+\`\`\`
+
+`;
+			});
+		}
 	}
 
 	return content;
@@ -352,35 +350,43 @@ Svelte 5 provides several approaches to global state management, each with its o
  * @returns Rune reference content
  */
 function generateRuneReference(runeName: string): string {
-	const features = get_svelte5_features();
+	const features = docFeatures;
 	const runeFeature = features.find(
 		(f) =>
 			f.name.toLowerCase() === `$${runeName}`.toLowerCase() ||
 			f.name.toLowerCase() === runeName.toLowerCase(),
 	);
 
-	if (!runeFeature) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			`Rune not found: ${runeName}`,
-		);
-	}
+	let content = '';
 
-	let content = `# ${runeFeature.name}
+	if (runeFeature) {
+		content += `# ${runeFeature.name}
 
 ${runeFeature.description}
 
-## Examples
-
 `;
 
-	for (const example of runeFeature.examples) {
-		content += `### Example\n\`\`\`svelte\n${example.code}\n\`\`\`\n\n${example.explanation}\n\n`;
-	}
+		if (runeFeature.examples && runeFeature.examples.length > 0) {
+			content += `## Examples
 
-	content += '## Best Practices\n\n';
-	for (const practice of runeFeature.bestPractices) {
-		content += `- ${practice}\n`;
+`;
+			runeFeature.examples.forEach((example) => {
+				content += `\`\`\`svelte
+${example}
+\`\`\`
+
+`;
+			});
+		}
+
+		if (runeFeature.bestPractices && runeFeature.bestPractices.length > 0) {
+			content += `## Best Practices
+
+`;
+			runeFeature.bestPractices.forEach((practice) => {
+				content += `- ${practice}\n`;
+			});
+		}
 	}
 
 	return content;
@@ -426,7 +432,7 @@ Additional notes and considerations would go here.
  * @returns Mistake reference content
  */
 function generateMistakeReference(category: string): string {
-	const mistakes = get_common_mistakes();
+	const mistakes = docMistakes;
 	const categoryMistakes = mistakes.filter(
 		(m) =>
 			m.name.toLowerCase().includes(category.toLowerCase()) ||

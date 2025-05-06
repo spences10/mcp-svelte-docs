@@ -7,8 +7,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { get_config } from './config.js';
-import { register_resources } from './resources/index.js';
-import { register_tools } from './tools/handler.js';
+import { register_markdown_tools } from './tools/markdown-tools.js';
 
 // Get package info for server metadata
 const __filename = fileURLToPath(import.meta.url);
@@ -39,9 +38,8 @@ async function main() {
 	// Get configuration
 	const config = get_config();
 
-	// Register tools and resources
-	register_tools(server);
-	register_resources(server);
+	// Register markdown-based tools
+	register_markdown_tools(server);
 
 	// Set up error handling
 	server.onerror = (error) => {
