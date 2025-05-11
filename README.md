@@ -12,16 +12,12 @@ Claude Desktop (via WSL)
 
 ```json
 {
-  "mcpServers": {
-   "mcp-wsl-exec": {
-      "command": "wsl.exe",
-      "args": [
-        "bash",
-        "-c",
-        "npx -y mcp-wsl-exec"
-      ]
-    }
-  }
+	"mcpServers": {
+		"mcp-svelte-docs": {
+			"command": "wsl.exe",
+			"args": ["bash", "-c", "npx -y mcp-svelte-docs"]
+		}
+	}
 }
 ```
 
@@ -29,16 +25,38 @@ Windsurf (via WSL)
 
 ```json
 {
-  "mcpServers": {
-    "mcp-svelte-docs": {
-      "command": "wsl.exe",
-      "args": [
-        "bash",
-        "-c",
-        "npx -y mcp-svelte-docs"
-      ]
-    }
-  ]
+	"mcpServers": {
+		"mcp-svelte-docs": {
+			"command": "wsl.exe",
+			"args": ["bash", "-c", "npx -y mcp-svelte-docs"]
+		}
+	}
+}
+```
+
+Windows (without WSL)
+
+```json
+{
+	"mcpServers": {
+		"mcp-svelte-docs": {
+			"command": "npx",
+			"args": ["-y", "mcp-svelte-docs"]
+		}
+	}
+}
+```
+
+macOS / Linux
+
+```json
+{
+	"mcpServers": {
+		"mcp-svelte-docs": {
+			"command": "npx",
+			"args": ["-y", "mcp-svelte-docs"]
+		}
+	}
 }
 ```
 
