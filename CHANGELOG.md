@@ -1,5 +1,11 @@
 # mcp-svelte-docs
 
+## 0.0.15
+
+### Patch Changes
+
+- a20fefa: update docs
+
 ## 0.0.14
 
 ### Patch Changes
