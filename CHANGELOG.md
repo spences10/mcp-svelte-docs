@@ -1,5 +1,11 @@
 # mcp-svelte-docs
 
+## 0.0.14
+
+### Patch Changes
+
+- 963cbb0: add docs folder
+
 ## 0.0.13
 
 ### Patch Changes
