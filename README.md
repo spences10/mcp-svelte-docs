@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/mseep-audited.png)](https://mseep.ai/app/spences10-mcp-svelte-docs)
+
 # mcp-svelte-docs
 
 A Model Context Protocol (MCP) server that provides a comprehensive
