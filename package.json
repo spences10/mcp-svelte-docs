@@ -37,11 +37,11 @@
 	},
 	"homepage": "https://github.com/spences10/mcp-svelte-docs#readme",
 	"dependencies": {
-		"@modelcontextprotocol/sdk": "1.15.0"
+		"@modelcontextprotocol/sdk": "1.17.4"
 	},
 	"devDependencies": {
-		"@changesets/cli": "^2.29.4",
+		"@changesets/cli": "^2.29.6",
 		"@types/node": "^22.15.18",
-		"typescript": "^5.8.3"
+		"typescript": "^5.9.2"
 	}
 }
