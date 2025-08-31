@@ -21,6 +21,10 @@ Claude Desktop (via WSL)
 }
 ```
 
+Cursor
+
+[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=mcp-svelte-docs&config=eyJjb21tYW5kIjoibnB4IC15IG1jcC1zdmVsdGUtZG9jcyJ9)
+
 Windsurf (via WSL)
 
 ```json
