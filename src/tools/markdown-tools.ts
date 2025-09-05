@@ -207,6 +207,38 @@ export function register_markdown_tools(server: Server): void {
 						properties: {},
 					},
 				},
+
+				// New Async and Remote Functions Features
+				{
+					name: 'svelte5_await_expressions',
+					description:
+						'Get documentation about await expressions in Svelte 5 (experimental feature)',
+					inputSchema: {
+						type: 'object',
+						properties: {
+							includeExamples: {
+								type: 'boolean',
+								description:
+									'Whether to include code examples (default: true)',
+							},
+						},
+					},
+				},
+				{
+					name: 'sveltekit_remote_functions',
+					description:
+						'Get documentation about remote functions in SvelteKit (experimental feature)',
+					inputSchema: {
+						type: 'object',
+						properties: {
+							includeExamples: {
+								type: 'boolean',
+								description:
+									'Whether to include code examples (default: true)',
+							},
+						},
+					},
+				},
 			],
 		};
 	});
@@ -252,6 +284,12 @@ export function register_markdown_tools(server: Server): void {
 
 			case 'svelte5_runes_overview':
 				return handleRunesOverview();
+
+			case 'svelte5_await_expressions':
+				return handleAwaitExpressions(request.params.arguments);
+
+			case 'sveltekit_remote_functions':
+				return handleRemoteFunctions(request.params.arguments);
 
 			default:
 				throw new McpError(
@@ -626,6 +664,66 @@ async function handleRunesOverview() {
 			{
 				type: 'text',
 				text: doc.content,
+			},
+		],
+	};
+}
+
+async function handleAwaitExpressions(args: any = {}) {
+	const doc = getDocByCategoryAndId(
+		docs,
+		'features',
+		'await-expressions',
+	);
+
+	if (!doc) {
+		throw new McpError(
+			ErrorCode.InvalidRequest,
+			'Await expressions documentation not found',
+		);
+	}
+
+	// If includeExamples is false, remove code blocks
+	let content = doc.content;
+	if (args?.includeExamples === false) {
+		content = removeCodeExamples(content);
+	}
+
+	return {
+		content: [
+			{
+				type: 'text',
+				text: content,
+			},
+		],
+	};
+}
+
+async function handleRemoteFunctions(args: any = {}) {
+	const doc = getDocByCategoryAndId(
+		docs,
+		'features',
+		'remote-functions',
+	);
+
+	if (!doc) {
+		throw new McpError(
+			ErrorCode.InvalidRequest,
+			'Remote functions documentation not found',
+		);
+	}
+
+	// If includeExamples is false, remove code blocks
+	let content = doc.content;
+	if (args?.includeExamples === false) {
+		content = removeCodeExamples(content);
+	}
+
+	return {
+		content: [
+			{
+				type: 'text',
+				text: content,
 			},
 		],
 	};
