@@ -1,5 +1,11 @@
 # mcp-svelte-docs
 
+## 0.0.16
+
+### Patch Changes
+
+- dc6abd6: add await and remote functions docs
+
 ## 0.0.15
 
 ### Patch Changes
