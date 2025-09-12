@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { ValibotJsonSchemaAdapter } from '@tmcp/adapter-valibot';
+import { StdioTransport } from '@tmcp/transport-stdio';
+import { McpServer } from 'tmcp';
+
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -18,49 +20,100 @@ const pkg = JSON.parse(
 const { name, version } = pkg;
 
 /**
- * Main function to start the MCP server
+ * Main class for the Svelte Docs MCP server
  */
-async function main() {
-	// Create server instance with metadata
-	const server = new Server(
-		{
-			name,
-			version,
-		},
-		{
-			capabilities: {
-				tools: {},
-				resources: {},
+class SvelteDocsServer {
+	private server: McpServer<any>;
+	private adapter: ValibotJsonSchemaAdapter;
+
+	constructor() {
+		// Initialize the adapter
+		this.adapter = new ValibotJsonSchemaAdapter();
+
+		// Initialize the server with metadata
+		this.server = new McpServer<any>(
+			{
+				name,
+				version,
+				description: 'MCP server for Svelte docs',
 			},
-		},
-	);
+			{
+				adapter: this.adapter,
+				capabilities: {
+					tools: { listChanged: true },
+				},
+			},
+		);
 
-	// Get configuration
-	const config = get_config();
+		// Handle process termination
+		process.on('SIGINT', async () => {
+			await this.cleanup();
+			process.exit(0);
+		});
 
-	// Register markdown-based tools
-	register_markdown_tools(server);
+		process.on('SIGTERM', async () => {
+			await this.cleanup();
+			process.exit(0);
+		});
 
-	// Set up error handling
-	server.onerror = (error) => {
-		console.error('[MCP Error]', error);
-	};
+		process.on('exit', () => {
+			this.cleanup();
+		});
+	}
 
-	// Handle process termination
-	process.on('SIGINT', async () => {
-		await server.close();
-		process.exit(0);
-	});
+	/**
+	 * Cleanup resources
+	 */
+	private async cleanup(): Promise<void> {
+		try {
+			console.error('Svelte Docs MCP server shutdown complete');
+		} catch (error) {
+			console.error('Error during cleanup:', error);
+		}
+	}
 
-	// Connect to transport
-	const transport = new StdioServerTransport();
-	await server.connect(transport);
+	/**
+	 * Initialize the server
+	 */
+	private async initialize(): Promise<void> {
+		try {
+			// Load configuration
+			const config = get_config();
+			console.error('Svelte Docs MCP server initialized');
 
-	console.error('MCP Svelte Docs server running on stdio');
+			// Register markdown-based tools
+			register_markdown_tools(this.server);
+
+			console.error('All tools registered');
+		} catch (error) {
+			console.error('Failed to initialize server:', error);
+			process.exit(1);
+		}
+	}
+
+	/**
+	 * Run the server
+	 */
+	public async run(): Promise<void> {
+		try {
+			// Initialize the server
+			await this.initialize();
+
+			// Setup transport
+			const transport = new StdioTransport(this.server);
+			transport.listen();
+
+			console.error('Svelte Docs MCP server running on stdio');
+		} catch (error) {
+			console.error('Failed to start server:', error);
+			process.exit(1);
+		}
+	}
 }
 
-// Run the server
-main().catch((error) => {
-	console.error('Failed to start MCP server:', error);
+// Create and run the server
+const server = new SvelteDocsServer();
+server.run().catch((error) => {
+	console.error('Unhandled error:', error);
 	process.exit(1);
 });

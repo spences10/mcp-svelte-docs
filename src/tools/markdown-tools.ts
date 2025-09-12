@@ -1,12 +1,7 @@
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-import {
-	CallToolRequestSchema,
-	ErrorCode,
-	ListToolsRequestSchema,
-	McpError,
-} from '@modelcontextprotocol/sdk/types.js';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { McpServer } from 'tmcp';
+import * as v from 'valibot';
 
 import {
 	DocItem,
@@ -24,280 +19,210 @@ const docsDir = join(__dirname, '../../docs');
 // Load all markdown docs
 let docs: DocItem[] = [];
 
+// Input validation schemas
+const ExamplesSchema = v.object({
+	includeExamples: v.pipe(
+		v.optional(v.boolean(), true),
+		v.description('Whether to include code examples (default: true)'),
+	),
+});
+
+const MigrationSchema = v.object({
+	pattern: v.pipe(
+		v.optional(v.string()),
+		v.description(
+			'Specific pattern to look for (e.g., "reactive", "props", "events")',
+		),
+	),
+});
+
+const MistakesSchema = v.object({
+	category: v.pipe(
+		v.optional(v.string()),
+		v.description(
+			'Category of mistakes (e.g., "state", "props", "events")',
+		),
+	),
+});
+
+const EmptySchema = v.object({});
+
 /**
  * Registers the Svelte5 documentation tools with the MCP server
  */
-export function register_markdown_tools(server: Server): void {
+export function register_markdown_tools(
+	server: McpServer<any>,
+): void {
 	// Load all markdown docs
 	docs = loadMarkdownDocs(docsDir);
 
-	// Register the tools
-	server.setRequestHandler(ListToolsRequestSchema, async () => {
-		return {
-			tools: [
-				// Core Svelte 5 Runes
-				{
-					name: 'svelte5_state',
-					description:
-						'Get documentation about $state rune in Svelte 5',
-					inputSchema: {
-						type: 'object',
-						properties: {
-							includeExamples: {
-								type: 'boolean',
-								description:
-									'Whether to include code examples (default: true)',
-							},
-						},
-					},
-				},
-				{
-					name: 'svelte5_derived',
-					description:
-						'Get documentation about $derived rune in Svelte 5',
-					inputSchema: {
-						type: 'object',
-						properties: {
-							includeExamples: {
-								type: 'boolean',
-								description:
-									'Whether to include code examples (default: true)',
-							},
-						},
-					},
-				},
-				{
-					name: 'svelte5_props',
-					description:
-						'Get documentation about $props rune in Svelte 5',
-					inputSchema: {
-						type: 'object',
-						properties: {
-							includeExamples: {
-								type: 'boolean',
-								description:
-									'Whether to include code examples (default: true)',
-							},
-						},
-					},
-				},
-				{
-					name: 'svelte5_effect',
-					description:
-						'Get documentation about $effect rune in Svelte 5',
-					inputSchema: {
-						type: 'object',
-						properties: {
-							includeExamples: {
-								type: 'boolean',
-								description:
-									'Whether to include code examples (default: true)',
-							},
-						},
-					},
-				},
+	// Core Svelte 5 Runes
+	server.tool<typeof ExamplesSchema>(
+		{
+			name: 'svelte5_state',
+			description: 'Get documentation about $state rune in Svelte 5',
+			schema: ExamplesSchema,
+		},
+		async ({ includeExamples }) => {
+			return handleStateRune({ includeExamples });
+		},
+	);
 
-				// Svelte 5 Features
-				{
-					name: 'svelte5_snippets',
-					description:
-						'Get documentation about snippets in Svelte 5 (replacement for slots)',
-					inputSchema: {
-						type: 'object',
-						properties: {
-							includeExamples: {
-								type: 'boolean',
-								description:
-									'Whether to include code examples (default: true)',
-							},
-						},
-					},
-				},
-				{
-					name: 'svelte5_events',
-					description:
-						'Get documentation about event handling in Svelte 5',
-					inputSchema: {
-						type: 'object',
-						properties: {
-							includeExamples: {
-								type: 'boolean',
-								description:
-									'Whether to include code examples (default: true)',
-							},
-						},
-					},
-				},
-				{
-					name: 'svelte5_component_events',
-					description:
-						'Get documentation about component events in Svelte 5',
-					inputSchema: {
-						type: 'object',
-						properties: {
-							includeExamples: {
-								type: 'boolean',
-								description:
-									'Whether to include code examples (default: true)',
-							},
-						},
-					},
-				},
-				{
-					name: 'svelte5_global_state',
-					description:
-						'Get documentation about global state patterns in Svelte 5',
-					inputSchema: {
-						type: 'object',
-						properties: {
-							includeExamples: {
-								type: 'boolean',
-								description:
-									'Whether to include code examples (default: true)',
-							},
-						},
-					},
-				},
+	server.tool<typeof ExamplesSchema>(
+		{
+			name: 'svelte5_derived',
+			description:
+				'Get documentation about $derived rune in Svelte 5',
+			schema: ExamplesSchema,
+		},
+		async ({ includeExamples }) => {
+			return handleDerivedRune({ includeExamples });
+		},
+	);
 
-				// Migration and Common Mistakes
-				{
-					name: 'svelte5_migration',
-					description: 'Get Svelte 4 to Svelte 5 migration patterns',
-					inputSchema: {
-						type: 'object',
-						properties: {
-							pattern: {
-								type: 'string',
-								description:
-									'Specific pattern to look for (e.g., "reactive", "props", "events")',
-							},
-						},
-					},
-				},
-				{
-					name: 'svelte5_mistakes',
-					description: 'Get common mistakes when using Svelte 5',
-					inputSchema: {
-						type: 'object',
-						properties: {
-							category: {
-								type: 'string',
-								description:
-									'Category of mistakes (e.g., "state", "props", "events")',
-							},
-						},
-					},
-				},
+	server.tool<typeof ExamplesSchema>(
+		{
+			name: 'svelte5_props',
+			description: 'Get documentation about $props rune in Svelte 5',
+			schema: ExamplesSchema,
+		},
+		async ({ includeExamples }) => {
+			return handlePropsRune({ includeExamples });
+		},
+	);
 
-				// Overview Tools
-				{
-					name: 'svelte5_overview',
-					description:
-						'Get a general overview of Svelte 5 features and changes',
-					inputSchema: {
-						type: 'object',
-						properties: {},
-					},
-				},
-				{
-					name: 'svelte5_runes_overview',
-					description: 'Get an overview of all runes in Svelte 5',
-					inputSchema: {
-						type: 'object',
-						properties: {},
-					},
-				},
+	server.tool<typeof ExamplesSchema>(
+		{
+			name: 'svelte5_effect',
+			description: 'Get documentation about $effect rune in Svelte 5',
+			schema: ExamplesSchema,
+		},
+		async ({ includeExamples }) => {
+			return handleEffectRune({ includeExamples });
+		},
+	);
 
-				// New Async and Remote Functions Features
-				{
-					name: 'svelte5_await_expressions',
-					description:
-						'Get documentation about await expressions in Svelte 5 (experimental feature)',
-					inputSchema: {
-						type: 'object',
-						properties: {
-							includeExamples: {
-								type: 'boolean',
-								description:
-									'Whether to include code examples (default: true)',
-							},
-						},
-					},
-				},
-				{
-					name: 'sveltekit_remote_functions',
-					description:
-						'Get documentation about remote functions in SvelteKit (experimental feature)',
-					inputSchema: {
-						type: 'object',
-						properties: {
-							includeExamples: {
-								type: 'boolean',
-								description:
-									'Whether to include code examples (default: true)',
-							},
-						},
-					},
-				},
-			],
-		};
-	});
+	// Svelte 5 Features
+	server.tool<typeof ExamplesSchema>(
+		{
+			name: 'svelte5_snippets',
+			description:
+				'Get documentation about snippets in Svelte 5 (replacement for slots)',
+			schema: ExamplesSchema,
+		},
+		async ({ includeExamples }) => {
+			return handleSnippets({ includeExamples });
+		},
+	);
 
-	// Handle the tool calls
-	server.setRequestHandler(CallToolRequestSchema, async (request) => {
-		const toolName = request.params.name;
+	server.tool<typeof ExamplesSchema>(
+		{
+			name: 'svelte5_events',
+			description:
+				'Get documentation about event handling in Svelte 5',
+			schema: ExamplesSchema,
+		},
+		async ({ includeExamples }) => {
+			return handleEvents({ includeExamples });
+		},
+	);
 
-		// Handle each specific tool
-		switch (toolName) {
-			case 'svelte5_state':
-				return handleStateRune(request.params.arguments);
+	server.tool<typeof ExamplesSchema>(
+		{
+			name: 'svelte5_component_events',
+			description:
+				'Get documentation about component events in Svelte 5',
+			schema: ExamplesSchema,
+		},
+		async ({ includeExamples }) => {
+			return handleComponentEvents({ includeExamples });
+		},
+	);
 
-			case 'svelte5_derived':
-				return handleDerivedRune(request.params.arguments);
+	server.tool<typeof ExamplesSchema>(
+		{
+			name: 'svelte5_global_state',
+			description:
+				'Get documentation about global state management in Svelte 5',
+			schema: ExamplesSchema,
+		},
+		async ({ includeExamples }) => {
+			return handleGlobalState({ includeExamples });
+		},
+	);
 
-			case 'svelte5_props':
-				return handlePropsRune(request.params.arguments);
+	// Migration and Common Mistakes
+	server.tool<typeof MigrationSchema>(
+		{
+			name: 'svelte5_migration',
+			description:
+				'Get documentation about migration from Svelte 4 to Svelte 5',
+			schema: MigrationSchema,
+		},
+		async ({ pattern }) => {
+			return handleMigration({ pattern });
+		},
+	);
 
-			case 'svelte5_effect':
-				return handleEffectRune(request.params.arguments);
+	server.tool<typeof MistakesSchema>(
+		{
+			name: 'svelte5_mistakes',
+			description:
+				'Get documentation about common mistakes when using Svelte 5',
+			schema: MistakesSchema,
+		},
+		async ({ category }) => {
+			return handleMistakes({ category });
+		},
+	);
 
-			case 'svelte5_snippets':
-				return handleSnippets(request.params.arguments);
+	// Overview Tools
+	server.tool<typeof EmptySchema>(
+		{
+			name: 'svelte5_overview',
+			description: 'Get overview of Svelte 5 features and changes',
+			schema: EmptySchema,
+		},
+		async () => {
+			return handleOverview();
+		},
+	);
 
-			case 'svelte5_events':
-				return handleEvents(request.params.arguments);
+	server.tool<typeof EmptySchema>(
+		{
+			name: 'svelte5_runes_overview',
+			description: 'Get overview of all runes in Svelte 5',
+			schema: EmptySchema,
+		},
+		async () => {
+			return handleRunesOverview();
+		},
+	);
 
-			case 'svelte5_component_events':
-				return handleComponentEvents(request.params.arguments);
+	// New Async and Remote Functions Features
+	server.tool<typeof ExamplesSchema>(
+		{
+			name: 'svelte5_await_expressions',
+			description:
+				'Get documentation about await expressions in Svelte 5',
+			schema: ExamplesSchema,
+		},
+		async ({ includeExamples }) => {
+			return handleAwaitExpressions({ includeExamples });
+		},
+	);
 
-			case 'svelte5_global_state':
-				return handleGlobalState(request.params.arguments);
-
-			case 'svelte5_migration':
-				return handleMigration(request.params.arguments);
-
-			case 'svelte5_mistakes':
-				return handleMistakes(request.params.arguments);
-
-			case 'svelte5_overview':
-				return handleOverview();
-
-			case 'svelte5_runes_overview':
-				return handleRunesOverview();
-
-			case 'svelte5_await_expressions':
-				return handleAwaitExpressions(request.params.arguments);
-
-			case 'sveltekit_remote_functions':
-				return handleRemoteFunctions(request.params.arguments);
-
-			default:
-				throw new McpError(
-					ErrorCode.MethodNotFound,
-					`Unknown tool: ${toolName}`,
-				);
-		}
-	});
+	server.tool<typeof ExamplesSchema>(
+		{
+			name: 'sveltekit_remote_functions',
+			description:
+				'Get documentation about remote functions in SvelteKit',
+			schema: ExamplesSchema,
+		},
+		async ({ includeExamples }) => {
+			return handleRemoteFunctions({ includeExamples });
+		},
+	);
 }
 
 // Handler functions for each tool
@@ -306,10 +231,7 @@ async function handleStateRune(args: any = {}) {
 	const doc = getDocByCategoryAndId(docs, 'runes', 'state');
 
 	if (!doc) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'State rune documentation not found',
-		);
+		throw new Error('State rune documentation not found');
 	}
 
 	// If includeExamples is false, remove code blocks
@@ -321,7 +243,7 @@ async function handleStateRune(args: any = {}) {
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: content,
 			},
 		],
@@ -332,10 +254,7 @@ async function handleDerivedRune(args: any = {}) {
 	const doc = getDocByCategoryAndId(docs, 'runes', 'derived');
 
 	if (!doc) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'Derived rune documentation not found',
-		);
+		throw new Error('Derived rune documentation not found');
 	}
 
 	// If includeExamples is false, remove code blocks
@@ -347,7 +266,7 @@ async function handleDerivedRune(args: any = {}) {
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: content,
 			},
 		],
@@ -358,10 +277,7 @@ async function handlePropsRune(args: any = {}) {
 	const doc = getDocByCategoryAndId(docs, 'runes', 'props');
 
 	if (!doc) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'Props rune documentation not found',
-		);
+		throw new Error('Props rune documentation not found');
 	}
 
 	// If includeExamples is false, remove code blocks
@@ -373,7 +289,7 @@ async function handlePropsRune(args: any = {}) {
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: content,
 			},
 		],
@@ -384,10 +300,7 @@ async function handleEffectRune(args: any = {}) {
 	const doc = getDocByCategoryAndId(docs, 'runes', 'effect');
 
 	if (!doc) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'Effect rune documentation not found',
-		);
+		throw new Error('Effect rune documentation not found');
 	}
 
 	// If includeExamples is false, remove code blocks
@@ -399,7 +312,7 @@ async function handleEffectRune(args: any = {}) {
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: content,
 			},
 		],
@@ -410,10 +323,7 @@ async function handleSnippets(args: any = {}) {
 	const doc = getDocByCategoryAndId(docs, 'features', 'snippets');
 
 	if (!doc) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'Snippets documentation not found',
-		);
+		throw new Error('Snippets documentation not found');
 	}
 
 	// If includeExamples is false, remove code blocks
@@ -425,7 +335,7 @@ async function handleSnippets(args: any = {}) {
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: content,
 			},
 		],
@@ -436,10 +346,7 @@ async function handleEvents(args: any = {}) {
 	const doc = getDocByCategoryAndId(docs, 'features', 'events');
 
 	if (!doc) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'Events documentation not found',
-		);
+		throw new Error('Events documentation not found');
 	}
 
 	// If includeExamples is false, remove code blocks
@@ -451,7 +358,7 @@ async function handleEvents(args: any = {}) {
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: content,
 			},
 		],
@@ -466,10 +373,7 @@ async function handleComponentEvents(args: any = {}) {
 	);
 
 	if (!doc) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'Component events documentation not found',
-		);
+		throw new Error('Component events documentation not found');
 	}
 
 	// If includeExamples is false, remove code blocks
@@ -481,7 +385,7 @@ async function handleComponentEvents(args: any = {}) {
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: content,
 			},
 		],
@@ -492,10 +396,7 @@ async function handleGlobalState(args: any = {}) {
 	const doc = getDocByCategoryAndId(docs, 'patterns', 'global-state');
 
 	if (!doc) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'Global state documentation not found',
-		);
+		throw new Error('Global state documentation not found');
 	}
 
 	// If includeExamples is false, remove code blocks
@@ -507,7 +408,7 @@ async function handleGlobalState(args: any = {}) {
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: content,
 			},
 		],
@@ -518,10 +419,7 @@ async function handleMigration(args: any = {}) {
 	const doc = getDocByCategoryAndId(docs, 'patterns', 'migration');
 
 	if (!doc) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'Migration documentation not found',
-		);
+		throw new Error('Migration documentation not found');
 	}
 
 	// If a specific pattern is requested, filter the content
@@ -573,7 +471,7 @@ async function handleMigration(args: any = {}) {
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: content,
 			},
 		],
@@ -596,7 +494,7 @@ async function handleMistakes(args: any = {}) {
 			return {
 				content: [
 					{
-						type: 'text',
+						type: 'text' as const,
 						text: doc.content,
 					},
 				],
@@ -608,10 +506,7 @@ async function handleMistakes(args: any = {}) {
 	const mistakesDocs = getDocsByCategory(docs, 'common-mistakes');
 
 	if (mistakesDocs.length === 0) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'Common mistakes documentation not found',
-		);
+		throw new Error('Common mistakes documentation not found');
 	}
 
 	// Combine all mistakes docs
@@ -622,7 +517,7 @@ async function handleMistakes(args: any = {}) {
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: content,
 			},
 		],
@@ -633,16 +528,13 @@ async function handleOverview() {
 	const doc = getDocById(docs, 'overview');
 
 	if (!doc) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'Overview documentation not found',
-		);
+		throw new Error('Overview documentation not found');
 	}
 
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: doc.content,
 			},
 		],
@@ -653,16 +545,13 @@ async function handleRunesOverview() {
 	const doc = getDocByCategoryAndId(docs, 'runes', 'overview');
 
 	if (!doc) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'Runes overview documentation not found',
-		);
+		throw new Error('Runes overview documentation not found');
 	}
 
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: doc.content,
 			},
 		],
@@ -677,10 +566,7 @@ async function handleAwaitExpressions(args: any = {}) {
 	);
 
 	if (!doc) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'Await expressions documentation not found',
-		);
+		throw new Error('Await expressions documentation not found');
 	}
 
 	// If includeExamples is false, remove code blocks
@@ -692,7 +578,7 @@ async function handleAwaitExpressions(args: any = {}) {
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: content,
 			},
 		],
@@ -707,10 +593,7 @@ async function handleRemoteFunctions(args: any = {}) {
 	);
 
 	if (!doc) {
-		throw new McpError(
-			ErrorCode.InvalidRequest,
-			'Remote functions documentation not found',
-		);
+		throw new Error('Remote functions documentation not found');
 	}
 
 	// If includeExamples is false, remove code blocks
@@ -722,7 +605,7 @@ async function handleRemoteFunctions(args: any = {}) {
 	return {
 		content: [
 			{
-				type: 'text',
+				type: 'text' as const,
 				text: content,
 			},
 		],
