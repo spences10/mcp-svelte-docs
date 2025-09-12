@@ -17,40 +17,40 @@ export interface DocItem {
  * @param baseDir The base directory to search
  * @returns An array of DocItem objects
  */
-export function loadMarkdownDocs(baseDir: string): DocItem[] {
+export function load_markdown_docs(baseDir: string): DocItem[] {
 	const docs: DocItem[] = [];
 
-	function processDirectory(dir: string, category: string) {
+	function process_directory(dir: string, category: string) {
 		const files = readdirSync(dir, { withFileTypes: true });
 
 		for (const file of files) {
-			const fullPath = join(dir, file.name);
+			const full_path = join(dir, file.name);
 
 			if (file.isDirectory()) {
 				// Process subdirectories with their name as the category
-				processDirectory(fullPath, file.name);
+				process_directory(full_path, file.name);
 			} else if (file.isFile() && extname(file.name) === '.md') {
 				// Process markdown files
-				const content = readFileSync(fullPath, 'utf-8');
+				const content = readFileSync(full_path, 'utf-8');
 				const id = basename(file.name, '.md');
 
 				// Extract title from the first heading
-				const titleMatch = content.match(/^# (.+)$/m);
-				const title = titleMatch ? titleMatch[1] : id;
+				const title_match = content.match(/^# (.+)$/m);
+				const title = title_match ? title_match[1] : id;
 
 				docs.push({
 					id,
 					title,
 					content,
 					category,
-					path: fullPath,
+					path: full_path,
 				});
 			}
 		}
 	}
 
 	// Start processing from the base directory
-	processDirectory(baseDir, 'root');
+	process_directory(baseDir, 'root');
 
 	return docs;
 }
@@ -61,18 +61,18 @@ export function loadMarkdownDocs(baseDir: string): DocItem[] {
  * @param query The search query
  * @returns An array of matching DocItem objects
  */
-export function searchDocs(
+export function search_docs(
 	docs: DocItem[],
 	query: string,
 ): DocItem[] {
-	const normalizedQuery = query.toLowerCase();
+	const normalized_query = query.toLowerCase();
 
 	return docs.filter((doc) => {
 		return (
-			doc.title.toLowerCase().includes(normalizedQuery) ||
-			doc.content.toLowerCase().includes(normalizedQuery) ||
-			doc.category.toLowerCase().includes(normalizedQuery) ||
-			doc.id.toLowerCase().includes(normalizedQuery)
+			doc.title.toLowerCase().includes(normalized_query) ||
+			doc.content.toLowerCase().includes(normalized_query) ||
+			doc.category.toLowerCase().includes(normalized_query) ||
+			doc.id.toLowerCase().includes(normalized_query)
 		);
 	});
 }
@@ -83,7 +83,7 @@ export function searchDocs(
  * @param category The category to filter by
  * @returns An array of DocItem objects in the specified category
  */
-export function getDocsByCategory(
+export function get_docs_by_category(
 	docs: DocItem[],
 	category: string,
 ): DocItem[] {
@@ -96,7 +96,7 @@ export function getDocsByCategory(
  * @param id The ID to search for
  * @returns The matching DocItem or undefined
  */
-export function getDocById(
+export function get_doc_by_id(
 	docs: DocItem[],
 	id: string,
 ): DocItem | undefined {
@@ -110,7 +110,7 @@ export function getDocById(
  * @param id The ID to search for
  * @returns The matching DocItem or undefined
  */
-export function getDocByCategoryAndId(
+export function get_doc_by_category_and_id(
 	docs: DocItem[],
 	category: string,
 	id: string,
