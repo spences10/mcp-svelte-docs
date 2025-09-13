@@ -1,7 +1,13 @@
 #!/usr/bin/env node
 
 import Database from 'better-sqlite3';
-import { existsSync, readFileSync, readdirSync, statSync, unlinkSync } from 'node:fs';
+import {
+	existsSync,
+	readFileSync,
+	readdirSync,
+	statSync,
+	unlinkSync,
+} from 'node:fs';
 import { basename, extname, join } from 'node:path';
 
 const DB_PATH = 'dist/definitions.db';
@@ -89,14 +95,24 @@ console.log(`📚 Loaded ${docs.length} markdown documents`);
 // Insert all docs
 const insert_many = db.transaction((docs: Doc[]) => {
 	for (const doc of docs) {
-		insert.run(doc.id, doc.title, doc.content, doc.category, doc.path);
+		insert.run(
+			doc.id,
+			doc.title,
+			doc.content,
+			doc.category,
+			doc.path,
+		);
 	}
 });
 
 insert_many(docs);
 
 // Get stats
-const stats = db.prepare('SELECT COUNT(*) as count, category FROM definitions GROUP BY category').all() as Array<{ count: number; category: string }>;
+const stats = db
+	.prepare(
+		'SELECT COUNT(*) as count, category FROM definitions GROUP BY category',
+	)
+	.all() as Array<{ count: number; category: string }>;
 console.log('📊 Database populated:');
 stats.forEach((stat) => {
 	console.log(`   ${stat.category}: ${stat.count} definitions`);

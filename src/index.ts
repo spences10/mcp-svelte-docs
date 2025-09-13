@@ -36,7 +36,8 @@ class SvelteDocsServer {
 			{
 				name,
 				version,
-				description: 'MCP server for Svelte docs - Definition-first architecture',
+				description:
+					'MCP server for Svelte docs - Definition-first architecture',
 			},
 			{
 				adapter: this.adapter,
@@ -85,7 +86,9 @@ class SvelteDocsServer {
 			// Register definition tools (single svelte_definition tool)
 			register_definition_tools(this.server);
 
-			console.error('Definition tools registered - Pure database architecture');
+			console.error(
+				'Definition tools registered - Pure database architecture',
+			);
 		} catch (error) {
 			console.error('Failed to initialize server:', error);
 			process.exit(1);

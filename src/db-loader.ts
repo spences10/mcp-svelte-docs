@@ -35,7 +35,9 @@ function initDb(): Database.Database {
  */
 export function load_markdown_docs(): DocItem[] {
 	const database = initDb();
-	const stmt = database.prepare('SELECT id, title, content, category, path FROM definitions ORDER BY category, id');
+	const stmt = database.prepare(
+		'SELECT id, title, content, category, path FROM definitions ORDER BY category, id',
+	);
 	return stmt.all() as DocItem[];
 }
 
@@ -45,7 +47,7 @@ export function load_markdown_docs(): DocItem[] {
 export function search_docs(query: string): DocItem[] {
 	const database = initDb();
 	const normalizedQuery = `%${query.toLowerCase()}%`;
-	
+
 	const stmt = database.prepare(`
 		SELECT id, title, content, category, path 
 		FROM definitions 
@@ -55,8 +57,13 @@ export function search_docs(query: string): DocItem[] {
 		   OR LOWER(id) LIKE ?
 		ORDER BY category, id
 	`);
-	
-	return stmt.all(normalizedQuery, normalizedQuery, normalizedQuery, normalizedQuery) as DocItem[];
+
+	return stmt.all(
+		normalizedQuery,
+		normalizedQuery,
+		normalizedQuery,
+		normalizedQuery,
+	) as DocItem[];
 }
 
 /**
@@ -64,7 +71,9 @@ export function search_docs(query: string): DocItem[] {
  */
 export function get_docs_by_category(category: string): DocItem[] {
 	const database = initDb();
-	const stmt = database.prepare('SELECT id, title, content, category, path FROM definitions WHERE category = ? ORDER BY id');
+	const stmt = database.prepare(
+		'SELECT id, title, content, category, path FROM definitions WHERE category = ? ORDER BY id',
+	);
 	return stmt.all(category) as DocItem[];
 }
 
@@ -73,16 +82,23 @@ export function get_docs_by_category(category: string): DocItem[] {
  */
 export function get_doc_by_id(id: string): DocItem | undefined {
 	const database = initDb();
-	const stmt = database.prepare('SELECT id, title, content, category, path FROM definitions WHERE id = ?');
+	const stmt = database.prepare(
+		'SELECT id, title, content, category, path FROM definitions WHERE id = ?',
+	);
 	return stmt.get(id) as DocItem | undefined;
 }
 
 /**
  * Get a documentation item by category and ID
  */
-export function get_doc_by_category_and_id(category: string, id: string): DocItem | undefined {
+export function get_doc_by_category_and_id(
+	category: string,
+	id: string,
+): DocItem | undefined {
 	const database = initDb();
-	const stmt = database.prepare('SELECT id, title, content, category, path FROM definitions WHERE category = ? AND id = ?');
+	const stmt = database.prepare(
+		'SELECT id, title, content, category, path FROM definitions WHERE category = ? AND id = ?',
+	);
 	return stmt.get(category, id) as DocItem | undefined;
 }
 

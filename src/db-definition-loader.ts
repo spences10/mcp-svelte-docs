@@ -61,34 +61,47 @@ function extract_related_definitions(content: string): string[] {
  */
 export function load_definitions(): DefinitionItem[] {
 	const database = initDb();
-	const stmt = database.prepare('SELECT id, title, content, path FROM definitions ORDER BY id');
-	const rows = stmt.all() as Array<{id: string, title: string, content: string, path: string}>;
-	
-	return rows.map(row => ({
+	const stmt = database.prepare(
+		'SELECT id, title, content, path FROM definitions ORDER BY id',
+	);
+	const rows = stmt.all() as Array<{
+		id: string;
+		title: string;
+		content: string;
+		path: string;
+	}>;
+
+	return rows.map((row) => ({
 		identifier: row.id,
 		title: row.title,
 		content: row.content,
 		related: extract_related_definitions(row.content),
-		path: row.path
+		path: row.path,
 	}));
 }
 
 /**
  * Get a definition by identifier
  */
-export function get_definition_by_identifier(identifier: string): DefinitionItem | undefined {
+export function get_definition_by_identifier(
+	identifier: string,
+): DefinitionItem | undefined {
 	const database = initDb();
-	const stmt = database.prepare('SELECT id, title, content, path FROM definitions WHERE id = ?');
-	const row = stmt.get(identifier) as {id: string, title: string, content: string, path: string} | undefined;
-	
+	const stmt = database.prepare(
+		'SELECT id, title, content, path FROM definitions WHERE id = ?',
+	);
+	const row = stmt.get(identifier) as
+		| { id: string; title: string; content: string; path: string }
+		| undefined;
+
 	if (!row) return undefined;
-	
+
 	return {
 		identifier: row.id,
 		title: row.title,
 		content: row.content,
 		related: extract_related_definitions(row.content),
-		path: row.path
+		path: row.path,
 	};
 }
 
@@ -98,7 +111,7 @@ export function get_definition_by_identifier(identifier: string): DefinitionItem
 export function search_definitions(query: string): DefinitionItem[] {
 	const database = initDb();
 	const normalizedQuery = `%${query.toLowerCase()}%`;
-	
+
 	// Get all potentially matching rows with scoring
 	const stmt = database.prepare(`
 		SELECT id, title, content, path,
@@ -114,17 +127,27 @@ export function search_definitions(query: string): DefinitionItem[] {
 		WHERE score > 0
 		ORDER BY score DESC, id
 	`);
-	
-	const rows = stmt.all(query, query, normalizedQuery, normalizedQuery, normalizedQuery) as Array<{
-		id: string, title: string, content: string, path: string, score: number
+
+	const rows = stmt.all(
+		query,
+		query,
+		normalizedQuery,
+		normalizedQuery,
+		normalizedQuery,
+	) as Array<{
+		id: string;
+		title: string;
+		content: string;
+		path: string;
+		score: number;
 	}>;
-	
-	return rows.map(row => ({
+
+	return rows.map((row) => ({
 		identifier: row.id,
 		title: row.title,
 		content: row.content,
 		related: extract_related_definitions(row.content),
-		path: row.path
+		path: row.path,
 	}));
 }
 
@@ -133,7 +156,9 @@ export function search_definitions(query: string): DefinitionItem[] {
  */
 export function get_all_identifiers(): string[] {
 	const database = initDb();
-	const stmt = database.prepare('SELECT id FROM definitions ORDER BY id');
+	const stmt = database.prepare(
+		'SELECT id FROM definitions ORDER BY id',
+	);
 	return stmt.all().map((row: any) => row.id);
 }
 
@@ -149,33 +174,44 @@ export function suggest_similar_identifiers(query: string): string[] {
 /**
  * Get definitions by category (based on identifier patterns)
  */
-export function get_definitions_by_category(category: string): DefinitionItem[] {
+export function get_definitions_by_category(
+	category: string,
+): DefinitionItem[] {
 	const database = initDb();
 	let whereClause = '';
-	
+
 	switch (category.toLowerCase()) {
 		case 'runes':
 			whereClause = "WHERE id LIKE '$%'";
 			break;
 		case 'events':
-			whereClause = "WHERE (id LIKE '%click%' OR id LIKE '%event%' OR id LIKE 'on%')";
+			whereClause =
+				"WHERE (id LIKE '%click%' OR id LIKE '%event%' OR id LIKE 'on%')";
 			break;
 		case 'features':
-			whereClause = "WHERE id NOT LIKE '$%' AND id NOT LIKE '%event%' AND id NOT LIKE 'on%'";
+			whereClause =
+				"WHERE id NOT LIKE '$%' AND id NOT LIKE '%event%' AND id NOT LIKE 'on%'";
 			break;
 		default:
 			return [];
 	}
-	
-	const stmt = database.prepare(`SELECT id, title, content, path FROM definitions ${whereClause} ORDER BY id`);
-	const rows = stmt.all() as Array<{id: string, title: string, content: string, path: string}>;
-	
-	return rows.map(row => ({
+
+	const stmt = database.prepare(
+		`SELECT id, title, content, path FROM definitions ${whereClause} ORDER BY id`,
+	);
+	const rows = stmt.all() as Array<{
+		id: string;
+		title: string;
+		content: string;
+		path: string;
+	}>;
+
+	return rows.map((row) => ({
 		identifier: row.id,
 		title: row.title,
 		content: row.content,
 		related: extract_related_definitions(row.content),
-		path: row.path
+		path: row.path,
 	}));
 }
 

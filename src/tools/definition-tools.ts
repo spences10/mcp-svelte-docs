@@ -2,11 +2,11 @@ import { McpServer } from 'tmcp';
 import * as v from 'valibot';
 
 import {
-  DefinitionItem,
-  get_all_identifiers,
-  get_definition_by_identifier,
-  load_definitions,
-  suggest_similar_identifiers,
+	DefinitionItem,
+	get_all_identifiers,
+	get_definition_by_identifier,
+	load_definitions,
+	suggest_similar_identifiers,
 } from '../db-definition-loader.js';
 
 // Load all definitions

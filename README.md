@@ -1,93 +1,105 @@
 # mcp-svelte-docs
 
-A Model Context Protocol (MCP) server that provides a comprehensive
-reference guide for Svelte 5 and SvelteKit, helping LLMs provide
-accurate guidance when users are working with Svelte. It includes
-detailed documentation for:
+A Model Context Protocol (MCP) server providing authoritative Svelte 5
+and SvelteKit definitions extracted directly from TypeScript
+declarations. Get precise syntax, parameters, and examples for all
+Svelte 5 concepts through a single, unified interface.
 
-- **Svelte 5 core features** (runes, components, events)
-- **Modern async patterns** (await expressions, loading states)
-- **SvelteKit remote functions** (type-safe client-server
+## Architecture
+
+**Definition-First Approach**: Rather than multiple specialized tools,
+this server provides one powerful `svelte_definition` tool that
+accesses 28+ comprehensive definitions covering:
+
+- **All Svelte 5 runes** ($state, $derived, $props, $effect variants)
+- **Modern features** (snippets, await expressions, remote functions)
+- **Event handling** (DOM events, custom events, component
   communication)
-- **Migration patterns** from Svelte 4 to Svelte 5
-- **Common mistakes** and best practices
-- **Advanced patterns** for state management and data flow
+- **Migration guidance** (Svelte 4 to 5 patterns and best practices)
+- **TypeScript interfaces** (Snippet, Snapshot types)
+- **Advanced patterns** (global state, common mistakes, lifecycle
+  equivalents)
 
-## Available Tools
+## Available Tool
 
-This MCP server provides 16 specialized tools for Svelte 5 and
-SvelteKit development:
+### `svelte_definition`
 
-### Core Svelte 5 Runes
+**Single, powerful tool** for all Svelte 5 and SvelteKit concepts:
 
-- `svelte5_state` - Documentation for `$state` rune (reactive state)
-- `svelte5_derived` - Documentation for `$derived` rune (computed
-  values)
-- `svelte5_props` - Documentation for `$props` rune (component
-  properties)
-- `svelte5_effect` - Documentation for `$effect` rune (side effects)
+```typescript
+svelte_definition(identifier: string, format?: "syntax"|"quick"|"full")
+```
 
-### Svelte 5 Features
+**Examples:**
 
-- `svelte5_snippets` - Documentation for snippets (replacement for
-  slots)
-- `svelte5_events` - Event handling patterns in Svelte 5
-- `svelte5_component_events` - Component event patterns and best
-  practices
-- `svelte5_global_state` - Global state management patterns
+- `svelte_definition("$state")` - Complete $state documentation
+- `svelte_definition("snippets", "quick")` - Snippet overview with
+  example
+- `svelte_definition("onclick", "syntax")` - Just the TypeScript
+  signature
+- `svelte_definition("migration-patterns")` - Svelte 4 → 5 migration
+  guide
 
-### Modern Async Features ✨ NEW
+**Response Formats:**
 
-- `svelte5_await_expressions` - Await expressions for async operations
-  (experimental)
-- `sveltekit_remote_functions` - Remote functions for type-safe
-  client-server communication (experimental)
+- `"syntax"` - TypeScript signature only (~50 words)
+- `"quick"` - Definition + minimal example (~200 words)
+- `"full"` - Complete documentation with examples (~500-1000 words,
+  default)
 
-### Migration & Guidance
+### Available Identifiers (28+)
 
-- `svelte5_migration` - Migration patterns from Svelte 4 to Svelte 5
-- `svelte5_mistakes` - Common mistakes and how to avoid them
-- `svelte5_overview` - General overview of Svelte 5 features
-- `svelte5_runes_overview` - Comprehensive overview of all runes
+**Core Runes:** `$state`, `$state.raw`, `$state.snapshot`, `$derived`,
+`$derived.by`, `$props`, `$bindable`, `$effect`, `$effect.pre`,
+`$effect.root`, `$effect.pending`, `$effect.tracking`
 
-### Tool Parameters
+**Development Tools:** `$inspect`, `$host`
 
-All tools support an optional `includeExamples` parameter:
+**Features & Patterns:** `snippets`, `onclick`, `component-events`,
+`migration-patterns`, `await-expressions`, `remote-functions`,
+`global-state`, `common-mistakes`, `lifecycle-equivalents`
 
-- `includeExamples: true` (default) - Include code examples and
-  demonstrations
-- `includeExamples: false` - Return documentation without code
-  examples for concise reference
+**Event Handling:** `custom-events`, `event-delegation`,
+`event-modifiers`
+
+**TypeScript Interfaces:** `snippet`, `snapshot`
 
 ## Key Features
 
-### 🚀 Experimental Async Support
+### 🎯 **Authoritative & TypeScript-First**
 
-- **Await Expressions**: Use `await` directly in components,
-  `$derived`, and markup
-- **Boundaries**: Error handling and loading states with
-  `<svelte:boundary>`
-- **Synchronized Updates**: Consistent UI updates during async
-  operations
-- **Performance Patterns**: Avoid waterfalls, optimize concurrent
-  requests
+- **Direct from Source**: Definitions extracted from official Svelte 5
+  TypeScript declarations
+- **Always Current**: Reflects the actual API, not outdated tutorials
+- **Type-Safe**: Includes precise parameter types, return values, and
+  constraints
 
-### ⚡ Remote Functions
+### ⚡ **Single Interface, Complete Coverage**
 
-- **Type-safe Communication**: Full TypeScript support between client
-  and server
-- **Four Function Types**: Query (read), Form (submit), Command
-  (execute), Prerender (static)
-- **Optimistic Updates**: Immediate UI feedback with server
-  synchronization
-- **Progressive Enhancement**: Works with and without JavaScript
+- **One Tool**: `svelte_definition` replaces 16+ specialized tools
+- **28+ Definitions**: Every Svelte 5 rune, feature, and pattern
+  covered
+- **Consistent Responses**: Same interface whether you need `$state`
+  or `remote-functions`
 
-### 📚 Comprehensive Documentation
+### 🚀 **Modern Svelte 5 & SvelteKit Support**
 
-- **Real-world Examples**: Patterns from core maintainer projects
-- **Migration Guidance**: Step-by-step Svelte 4 to 5 migration
-- **Error Prevention**: Common mistakes and corrections
-- **Best Practices**: Production-ready patterns and recommendations
+- **Await Expressions**: Async operations directly in templates
+  (`await-expressions`)
+- **Remote Functions**: Type-safe client-server communication
+  (`remote-functions`)
+- **All Runes**: Complete `$effect` family, `$state` variants,
+  `$derived.by`, `$bindable`
+- **Advanced Patterns**: Event handling, global state, component
+  communication
+
+### 📚 **Smart Error Recovery**
+
+- **Fuzzy Matching**: Suggests correct identifiers for typos
+- **Related Concepts**: Points to similar definitions when searches
+  fail
+- **Migration Help**: Converts Svelte 4 patterns to Svelte 5
+  equivalents
 
 ## Config
 
