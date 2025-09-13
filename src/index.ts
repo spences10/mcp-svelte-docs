@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 import { get_config } from './config.js';
 import { register_markdown_tools } from './tools/markdown-tools.js';
+import { register_definition_tools } from './tools/definition-tools.js';
 
 // Get package info for server metadata
 const __filename = fileURLToPath(import.meta.url);
@@ -81,7 +82,10 @@ class SvelteDocsServer {
 			const config = get_config();
 			console.error('Svelte Docs MCP server initialized');
 
-			// Register markdown-based tools
+			// Register definition tools (new primary interface)
+			register_definition_tools(this.server);
+			
+			// Register markdown-based tools (legacy/tutorial interface)
 			register_markdown_tools(this.server);
 
 			console.error('All tools registered');
