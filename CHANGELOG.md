@@ -1,5 +1,18 @@
 # mcp-svelte-docs
 
+## 0.0.17
+
+### Patch Changes
+
+- 89cb89d: more effect definitions, await and remote function
+  definitions
+- 6c7e8ee: improve discoverability on docs
+- 32c92e6: add definition tools as primary interface for Svelte docs
+- 7bc6c23: update definitions, run prettier format
+- 9eee928: ship SQLite instead of .md files
+- cfbd7a5: refactor of handlers
+- 8fe8e34: replace @mcp sdk with tmcp
+
 ## 0.0.16
 
 ### Patch Changes
