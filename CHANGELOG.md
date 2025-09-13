@@ -1,5 +1,11 @@
 # mcp-svelte-docs
 
+## 0.0.20
+
+### Patch Changes
+
+- d43e63d: add more defintions update readme
+
 ## 0.0.19
 
 ### Patch Changes
