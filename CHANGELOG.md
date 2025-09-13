@@ -1,5 +1,12 @@
 # mcp-svelte-docs
 
+## 0.0.19
+
+### Patch Changes
+
+- 417c747: remove markdown loaders from package tools
+- 53c4b33: wire up db definition loader
+
 ## 0.0.18
 
 ### Patch Changes
