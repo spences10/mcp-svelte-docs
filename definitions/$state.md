@@ -1,37 +1,29 @@
 # $state Definition
 
-**Definition:** Creates reactive state that triggers UI updates when
-the value changes  
-**Syntax:** `$state<T>(initial: T): T` |
-`$state<T>(): T | undefined`  
-**Parameters:**
-
-- `initial` - The initial value (optional)  
-  **Returns:** Reactive proxy of the initial value  
-  **Variants:**
-- `$state.raw<T>(initial: T): T` - Non-deeply-reactive state
-- `$state.snapshot<T>(state: T): Snapshot<T>` - Static snapshot of
-  reactive state
+**Definition:** Declares reactive state. When the value changes, the
+UI updates. Arrays and plain objects become deeply reactive proxies;
+primitives (like numbers/strings/booleans) remain normal values.  
+**Also see:** `$state.raw`, `$state.snapshot`
 
 ## Examples
 
-```js
+```ts
 // Basic reactive state
 let count = $state(0);
-count++; // Triggers reactivity
+count++; // triggers an update
 
-// Object state (deeply reactive)
+// Object/array state (deeply reactive)
 let user = $state({ name: 'Alice', age: 30 });
-user.name = 'Bob'; // Triggers reactivity
+user.name = 'Bob'; // triggers an update of only the places that read `user.name`
 
-// Optional initial value
+// You can declare without an initial value with generics
 let data = $state<string>(); // undefined initially
 ```
 
 ## Notes
 
-- Deep reactivity: Arrays and simple objects are proxied deeply, so
-  property changes and array methods (e.g., `push`) trigger granular
+- Deep reactivity: Arrays and simple objects are proxied deeply;
+  property changes and array methods (e.g. `push`) trigger granular
   updates.
 - Raw state: Use `$state.raw` to avoid deep reactivity and update only
   on reassignment for performance with large data.

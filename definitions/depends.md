@@ -8,7 +8,8 @@ results to invalidation.
 **Parameters:**
 
 - `keys` — strings like `app:resource` used by
-  `invalidate`/`invalidateAll`
+  `invalidate`/`invalidateAll`. For custom identifiers, use a
+  lowercase prefix followed by `:` to conform to URI rules.
 
 **Returns:** Void — registers dependency for the current `load`.
 

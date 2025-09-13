@@ -21,7 +21,7 @@ Note: `$app/state` values update reactively only via runes (e.g.
 ## Example
 
 ```svelte
-<script>
+<script lang="ts">
   import { page, navigating, updated } from '$app/state';
   const path = $derived(page.url.pathname);
 </script>

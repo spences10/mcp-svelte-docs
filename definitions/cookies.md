@@ -7,9 +7,11 @@ requests.
 
 **API:**
 
-- `get(name)` — read a cookie
-- `set(name, value, options)` — set cookie
-- `delete(name, options)` — delete cookie
+- `get(name)` — read a cookie (optionally `getAll()`)
+- `set(name, value, { path, ...options })` — set cookie (path is
+  required)
+- `delete(name, { path, ...options })` — delete cookie (path must
+  match)
 
 **Returns:** Cookie helpers bound to the current request.
 
@@ -18,6 +20,7 @@ requests.
 ```ts
 export const load = ({ cookies }) => {
 	const theme = cookies.get('theme') ?? 'light';
+	cookies.set('seen', '1', { path: '/', httpOnly: true });
 	return { theme };
 };
 ```
@@ -28,5 +31,5 @@ export const load = ({ cookies }) => {
 
 Notes:
 
-- `event.fetch` forwards cookies for same-origin and certain
-  subdomains; otherwise add them in `handleFetch`.
+- `event.fetch` forwards cookies for same-origin requests; to forward
+  to other origins, add headers in `handleFetch`.

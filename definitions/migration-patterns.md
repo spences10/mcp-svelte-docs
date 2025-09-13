@@ -19,7 +19,7 @@ direct equivalents
 
 ## Examples
 
-```js
+```ts
 // STATE MIGRATION
 // Svelte 4
 let count = 0;

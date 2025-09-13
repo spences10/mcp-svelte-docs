@@ -17,7 +17,7 @@ identical APIs via runes). Existing apps may still use `$app/stores`.
 ## Example
 
 ```svelte
-<script>
+<script lang="ts">
   import { page, navigating, updated } from '$app/stores';
   $: title = $page.url.pathname;
 </script>

@@ -16,7 +16,7 @@
 
 ## Examples
 
-```js
+```ts
 // onMount equivalent
 // Svelte 4 (legacy)
 import { onMount } from 'svelte';

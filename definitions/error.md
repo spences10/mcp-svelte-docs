@@ -1,23 +1,20 @@
 # error Definition
 
-**Definition:** Helper to abort `load`/actions/endpoints with an HTTP
-error.
+**Definition:** Throw an HTTP error from `load`/actions/`+server`
+handlers.
 
-**Syntax (Kit 2+):**
-`error(status: number, body?: string | { message: string })`
+**Syntax (Kit 2+):** `throw error(status, messageOrBody)`
 
 Important:
 
-- Call `error(...)` directly — do not `throw` it (it throws
-  internally).
-- Use inside server and universal `load`, form actions, and endpoint
-  handlers.
+- You must `throw error(...)` — do not call it without throwing.
+- Use inside server/universal `load`, actions, and `+server` handlers.
 
 ## Example
 
 ```ts
 import { error } from '@sveltejs/kit';
-if (!item) error(404, 'Not found');
+if (!item) throw error(404, 'Not found');
 ```
 
 ## Related

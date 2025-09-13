@@ -24,6 +24,7 @@ components.)
 // src/routes/data.remote.ts
 import * as v from 'valibot';
 import { query, form } from '$app/server';
+import { error, redirect } from '@sveltejs/kit';
 import * as db from '$lib/server/database';
 
 export const getPosts = query(async () => db.listPosts());
@@ -32,9 +33,9 @@ export const getPost = query(v.string(), async (slug) =>
 );
 export const createPost = form(async (data) => {
 	const title = data.get('title');
-	if (typeof title !== 'string') error(400, 'title required');
+	if (typeof title !== 'string') throw error(400, 'title required');
 	await db.createPost(title);
-	redirect(303, '/blog');
+	throw redirect(303, '/blog');
 });
 ```
 

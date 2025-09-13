@@ -16,10 +16,10 @@ route IDs respecting `config.kit.paths`.
 ## Example
 
 ```svelte
-<script>
+<script lang="ts">
   import { asset, resolve } from '$app/paths';
-  const img = asset('/logo.png');
-  const url = resolve('/blog/[slug]', { slug: 'hello-world' });
+  const img: string = asset('/logo.png');
+  const url: string = resolve('/blog/[slug]', { slug: 'hello-world' });
 </script>
 
 <img src={img} alt="logo" />

@@ -22,7 +22,7 @@ import type { LayoutServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 
 export const load: LayoutServerLoad = async ({ locals }) => {
-	if (!locals.user) error(401, 'not logged in');
+	if (!locals.user) throw error(401, 'not logged in');
 	return { user: locals.user };
 };
 ```

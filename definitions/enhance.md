@@ -1,16 +1,16 @@
 # enhance Definition
 
 **Definition:** Client-side helper to progressively enhance `<form>`
-submissions by calling actions via fetch and updating UI without full
-navigation.
+submissions by calling actions via fetch and updating UI without a
+full navigation.
 
 **Syntax:** `import { enhance } from '$app/forms'`
 
 **Parameters:**
 
 - `use:enhance` — enhance a `<form method="POST">`
-- Callback:
-  `({ formElement, formData, action, cancel, submitter }) => ( { result, update } ) => void`
+- Callback (SubmitFunction):
+  `({ action, formData, formElement, controller, submitter, cancel }) => ( { formData, formElement, action, result, update } ) => void`
 - `update({ reset?, invalidateAll? })` — run default post-submit
   behavior
 - Requires `method="POST"` and an action in `+page.server.*`
@@ -20,12 +20,12 @@ navigation.
 ## Example
 
 ```svelte
-<script>
+<script lang="ts">
   import { enhance } from '$app/forms';
   let pending = false;
 </script>
 
-<form method="POST" use:enhance={({ formElement, formData, action, cancel }) => {
+<form method="POST" use:enhance={({ action, formData, formElement, cancel, controller, submitter }) => {
   return async ({ result, update }) => {
     await update(); // default behavior (updates form/page.form, invalidates)
   };

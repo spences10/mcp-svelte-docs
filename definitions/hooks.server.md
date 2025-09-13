@@ -10,6 +10,7 @@
 - `handleFetch` — intercepts server-side fetch
 - `handleError` — central error logging/formatting
 - `init` — optional async initialization on server startup
+  (ServerInit)
 - `handleValidationError` — customize remote function validation
   errors
 
@@ -33,6 +34,23 @@ export const handleFetch: HandleFetch = async ({
 
 export const handleError: HandleError = ({ error, event }) => {
 	console.error('Error', event.route.id, error);
+};
+
+// Optional: run once before first request is handled
+import type {
+	ServerInit,
+	HandleValidationError,
+} from '@sveltejs/kit';
+
+export const init: ServerInit = async () => {
+	// warm caches, connect to services, etc.
+};
+
+export const handleValidationError: HandleValidationError = ({
+	issues,
+	event,
+}) => {
+	return { message: 'Invalid request' };
 };
 ```
 

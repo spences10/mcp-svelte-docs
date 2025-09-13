@@ -20,15 +20,16 @@ to handle POSTed form data and mutations.
 
 ```ts
 // +page.server.ts
+import type { Actions } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 
-export const actions = {
+export const actions: Actions = {
 	login: async ({ request, locals }) => {
 		const data = await request.formData();
 		const email = data.get('email');
 		if (!email) return fail(400, { message: 'Email required' });
 		await locals.auth.login(email as string);
-		redirect(303, '/dashboard');
+		throw redirect(303, '/dashboard');
 	},
 };
 ```

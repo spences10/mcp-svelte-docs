@@ -1,5 +1,10 @@
 # event-delegation Definition
 
+Note: This page describes a common JavaScript pattern and is not an
+official Svelte/SvelteKit API reference. For canonical event handling
+docs see Svelte’s template syntax (e.g. `onclick`) and events
+reference.
+
 **Definition:** Advanced event handling patterns using event
 delegation for performance and dynamic content  
 **Syntax:** Single parent event listener (e.g., `onclick`) handling
@@ -17,7 +22,7 @@ events from multiple child elements
 ## Examples
 
 ```svelte
-<script>
+<script lang="ts">
   let items = $state([
     { id: 1, name: 'Item 1', type: 'button' },
     { id: 2, name: 'Item 2', type: 'link' },
@@ -25,9 +30,10 @@ events from multiple child elements
   ]);
 
   // Single delegated event handler
-  function handleListClick(event) {
+  function handleListClick(event: MouseEvent) {
     // Find the clicked item element
-    const itemElement = event.target.closest('[data-item-id]');
+    const target = event.target as HTMLElement | null;
+    const itemElement = target?.closest('[data-item-id]') as HTMLElement | null;
     if (!itemElement) return;
 
     const itemId = itemElement.dataset.itemId;
@@ -44,11 +50,11 @@ events from multiple child elements
     }
   }
 
-  function handleButtonClick(item) {
+  function handleButtonClick(item: { id: number; name: string; type: string }) {
     console.log('Button clicked:', item.name);
   }
 
-  function handleLinkClick(item) {
+  function handleLinkClick(item: { id: number; name: string; type: string }) {
     console.log('Link clicked:', item.name);
   }
 
@@ -61,6 +67,7 @@ events from multiple child elements
       type: 'button'
     });
   }
+  let tableData: { id: number; name: string }[] = $state([]);
 </script>
 
 <!-- Single event listener on parent -->
@@ -87,10 +94,11 @@ events from multiple child elements
 <button onclick={addItem}>Add Item</button>
 
 <!-- Table delegation example -->
-<script>
-  function handleTableClick(event) {
-    const row = event.target.closest('tr[data-row-id]');
-    const cell = event.target.closest('td[data-action]');
+<script lang="ts">
+  function handleTableClick(event: MouseEvent) {
+    const target = event.target as HTMLElement | null;
+    const row = target?.closest('tr[data-row-id]') as HTMLElement | null;
+    const cell = target?.closest('td[data-action]') as HTMLElement | null;
 
     if (row && cell) {
       const rowId = row.dataset.rowId;
@@ -98,11 +106,7 @@ events from multiple child elements
 
       console.log(`${action} clicked for row ${rowId}`);
 
-      if (action === 'edit') {
-        editRow(rowId);
-      } else if (action === 'delete') {
-        deleteRow(rowId);
-      }
+      // handle accordingly
     }
   }
 </script>

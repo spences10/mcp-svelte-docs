@@ -29,9 +29,9 @@ export const load: PageServerLoad = async ({
 	locals,
 }) => {
 	const session = cookies.get('sessionid');
-	if (!session) redirect(307, '/login');
+	if (!session) throw redirect(307, '/login');
 	const user = await locals.db.getUser(session);
-	if (!user) error(401, 'not logged in');
+	if (!user) throw error(401, 'not logged in');
 	return { user };
 };
 
