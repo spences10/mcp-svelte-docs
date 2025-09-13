@@ -1,5 +1,11 @@
 # mcp-svelte-docs
 
+## 0.0.21
+
+### Patch Changes
+
+- a7d9758: update defninitions
+
 ## 0.0.20
 
 ### Patch Changes
