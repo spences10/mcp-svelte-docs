@@ -62,6 +62,28 @@ const validation = $derived.by(() => {
 		errors,
 	};
 });
+
+// Override a derived temporarily (e.g., optimistic UI)
+let likes = $derived(post.likes);
+async function like() {
+	likes += 1; // override
+	try {
+		await sendLike();
+	} catch {
+		likes -= 1; // rollback on error
+	}
+}
+
+// Destructuring: each piece remains reactive
+let { a, b } = $derived(getPair()); // roughly equivalent to $derived(getPair().a) and ...b
+
+// Dependency control
+let total2 = $derived.by(() => {
+	// anything read synchronously is a dependency
+	return items.reduce((s, n) => s + n, 0);
+});
+
+// To exempt values from tracking, use untrack(...)
 ```
 
 ## Related

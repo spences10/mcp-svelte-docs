@@ -8,7 +8,12 @@ direct equivalents
 - State management: `let` → `$state`
 - Reactivity: `$:` → `$derived` or `$effect`
 - Props: `export let` → `$props()`
-- Lifecycle: `onMount` → `$effect`  
+- Lifecycle: `onMount` → `$effect`
+- Events: `on:click` → `onclick`
+- Slots: `<slot>`/named slots → `{#snippet}`/`{@render}`
+- Component events: `createEventDispatcher` → event props (see
+  `component-events`, `custom-events`)
+- Bindings: `bind:` remains; add `$bindable` for 2‑way prop binding
   **Returns:** Direct migration patterns for upgrading components  
   **Purpose:** Systematic conversion guide from Svelte 4 patterns
 

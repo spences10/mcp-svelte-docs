@@ -1,9 +1,10 @@
 # lifecycle-equivalents Definition
 
-**Definition:** Direct equivalents of Svelte 4 lifecycle functions
-using Svelte 5 `$effect` patterns  
-**Syntax:** `$effect` replacements for `onMount`, `onDestroy`,
-`beforeUpdate`, `afterUpdate`  
+**Definition:** Legacy Svelte 4 lifecycle functions (`onMount`,
+`onDestroy`, `beforeUpdate`, `afterUpdate`) mapped to Svelte 5
+`$effect` patterns. Prefer `$effect` in Svelte 5. **Syntax:**
+`$effect` replacements for `onMount`, `onDestroy`, `beforeUpdate`,
+`afterUpdate`  
 **Conversions:**
 
 - `onMount` → `$effect` with empty dependency
@@ -17,25 +18,25 @@ using Svelte 5 `$effect` patterns
 
 ```js
 // onMount equivalent
-// Svelte 4
+// Svelte 4 (legacy)
 import { onMount } from 'svelte';
 onMount(() => {
 	console.log('Component mounted');
 });
 
-// Svelte 5
+// Svelte 5 (preferred)
 $effect(() => {
 	console.log('Component mounted');
 });
 
 // onDestroy equivalent
-// Svelte 4
+// Svelte 4 (legacy)
 import { onDestroy } from 'svelte';
 onDestroy(() => {
 	console.log('Component destroyed');
 });
 
-// Svelte 5
+// Svelte 5 (preferred)
 $effect(() => {
 	return () => {
 		console.log('Component destroyed');
@@ -56,25 +57,25 @@ $effect(() => {
 });
 
 // beforeUpdate equivalent
-// Svelte 4
+// Svelte 4 (legacy)
 import { beforeUpdate } from 'svelte';
 beforeUpdate(() => {
 	console.log('Before DOM updates');
 });
 
-// Svelte 5
+// Svelte 5 (preferred)
 $effect.pre(() => {
 	console.log('Before DOM updates');
 });
 
 // afterUpdate equivalent
-// Svelte 4
+// Svelte 4 (legacy)
 import { afterUpdate } from 'svelte';
 afterUpdate(() => {
 	console.log('After DOM updates');
 });
 
-// Svelte 5
+// Svelte 5 (preferred)
 let count = $state(0);
 $effect(() => {
 	count; // Track state dependency
@@ -103,4 +104,5 @@ $effect(() => {
 - `$effect` - Main lifecycle replacement rune
 - `$effect.pre` - beforeUpdate equivalent
 - `migration-patterns` - Complete Svelte 4→5 conversion guide
+- `$effect` - Primary lifecycle mechanism in Svelte 5
 - `common-mistakes` - Pitfalls when converting lifecycle code

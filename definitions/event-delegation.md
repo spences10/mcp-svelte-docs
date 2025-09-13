@@ -2,8 +2,8 @@
 
 **Definition:** Advanced event handling patterns using event
 delegation for performance and dynamic content  
-**Syntax:** Single parent event listener handling events from multiple
-child elements  
+**Syntax:** Single parent event listener (e.g., `onclick`) handling
+events from multiple child elements  
 **Benefits:**
 
 - Better performance for many similar elements
@@ -64,7 +64,7 @@ child elements
 </script>
 
 <!-- Single event listener on parent -->
-<div on:click={handleListClick} class="item-list">
+<div onclick={handleListClick} class="item-list">
   {#each items as item (item.id)}
     <div
       class="item"
@@ -84,7 +84,7 @@ child elements
   {/each}
 </div>
 
-<button on:click={addItem}>Add Item</button>
+<button onclick={addItem}>Add Item</button>
 
 <!-- Table delegation example -->
 <script>
@@ -107,7 +107,7 @@ child elements
   }
 </script>
 
-<table on:click={handleTableClick}>
+<table onclick={handleTableClick}>
   <tbody>
     {#each tableData as row (row.id)}
       <tr data-row-id={row.id}>
