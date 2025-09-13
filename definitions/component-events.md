@@ -2,6 +2,7 @@
 
 **Definition:** Callback props replace event dispatching  
 **Pattern:**
+
 ```svelte
 <!-- Child component -->
 let { onMessage } = $props();
@@ -9,9 +10,11 @@ let { onMessage } = $props();
 <!-- Parent component -->
 <Child onMessage={(data) => console.log(data)} />
 ```
+
 **Parameters:**
-- Callback functions passed as props
-**Returns:** void (callbacks handle the communication)
+
+- Callback functions passed as props **Returns:** void (callbacks
+  handle the communication)
 
 ## Examples
 
@@ -19,9 +22,9 @@ let { onMessage } = $props();
 <!-- Child.svelte -->
 <script>
   let { onSubmit, onCancel } = $props();
-  
+
   let formData = $state({ name: '', email: '' });
-  
+
   function handleSubmit() {
     onSubmit?.(formData);
   }
@@ -39,19 +42,20 @@ let { onMessage } = $props();
   function handleFormSubmit(data) {
     console.log('Form submitted:', data);
   }
-  
+
   function handleCancel() {
     console.log('Form cancelled');
   }
 </script>
 
-<Child 
+<Child
   onSubmit={handleFormSubmit}
   onCancel={handleCancel}
 />
 ```
 
 ## Related
+
 - `$props` - For receiving callback props
 - `onclick` - For DOM event handling
 - `createEventDispatcher` - Svelte 4 pattern that callbacks replace

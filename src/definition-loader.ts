@@ -17,11 +17,15 @@ export interface DefinitionItem {
  * @param definitionsDir The definitions directory path
  * @returns An array of DefinitionItem objects
  */
-export function load_definitions(definitionsDir: string): DefinitionItem[] {
+export function load_definitions(
+	definitionsDir: string,
+): DefinitionItem[] {
 	const definitions: DefinitionItem[] = [];
 
 	try {
-		const files = readdirSync(definitionsDir, { withFileTypes: true });
+		const files = readdirSync(definitionsDir, {
+			withFileTypes: true,
+		});
 
 		for (const file of files) {
 			if (file.isFile() && extname(file.name) === '.md') {
@@ -46,7 +50,10 @@ export function load_definitions(definitionsDir: string): DefinitionItem[] {
 			}
 		}
 	} catch (error) {
-		console.warn(`Warning: Could not load definitions from ${definitionsDir}:`, error);
+		console.warn(
+			`Warning: Could not load definitions from ${definitionsDir}:`,
+			error,
+		);
 		return [];
 	}
 
@@ -60,12 +67,14 @@ export function load_definitions(definitionsDir: string): DefinitionItem[] {
  */
 function extract_related_definitions(content: string): string[] {
 	const related: string[] = [];
-	
+
 	// Look for the Related section
-	const related_section_match = content.match(/## Related\n([\s\S]*?)(?=\n##|$)/);
+	const related_section_match = content.match(
+		/## Related\n([\s\S]*?)(?=\n##|$)/,
+	);
 	if (related_section_match) {
 		const related_content = related_section_match[1];
-		
+
 		// Extract identifiers from markdown links and code blocks
 		const identifier_matches = related_content.matchAll(/`([^`]+)`/g);
 		for (const match of identifier_matches) {
@@ -75,7 +84,7 @@ function extract_related_definitions(content: string): string[] {
 			}
 		}
 	}
-	
+
 	return related;
 }
 
@@ -103,7 +112,10 @@ export function search_definitions(
 	query: string,
 ): DefinitionItem[] {
 	const normalized_query = query.toLowerCase();
-	const matches: Array<{ definition: DefinitionItem; score: number }> = [];
+	const matches: Array<{
+		definition: DefinitionItem;
+		score: number;
+	}> = [];
 
 	for (const definition of definitions) {
 		let score = 0;
@@ -127,7 +139,9 @@ export function search_definitions(
 			score = 40;
 		}
 		// Content matches get lowest score
-		else if (definition.content.toLowerCase().includes(normalized_query)) {
+		else if (
+			definition.content.toLowerCase().includes(normalized_query)
+		) {
 			score = 20;
 		}
 
@@ -147,7 +161,9 @@ export function search_definitions(
  * @param definitions The array of DefinitionItem objects
  * @returns Array of all identifiers
  */
-export function get_all_identifiers(definitions: DefinitionItem[]): string[] {
+export function get_all_identifiers(
+	definitions: DefinitionItem[],
+): string[] {
 	return definitions.map((def) => def.identifier).sort();
 }
 
@@ -162,7 +178,7 @@ export function suggest_similar_identifiers(
 	query: string,
 ): string[] {
 	const suggestions = search_definitions(definitions, query);
-	
+
 	// Return top 5 suggestions
 	return suggestions.slice(0, 5).map((def) => def.identifier);
 }
@@ -179,18 +195,22 @@ export function get_definitions_by_category(
 ): DefinitionItem[] {
 	switch (category.toLowerCase()) {
 		case 'runes':
-			return definitions.filter((def) => def.identifier.startsWith('$'));
+			return definitions.filter((def) =>
+				def.identifier.startsWith('$'),
+			);
 		case 'events':
-			return definitions.filter((def) => 
-				def.identifier.includes('click') || 
-				def.identifier.includes('event') ||
-				def.identifier.startsWith('on')
+			return definitions.filter(
+				(def) =>
+					def.identifier.includes('click') ||
+					def.identifier.includes('event') ||
+					def.identifier.startsWith('on'),
 			);
 		case 'features':
-			return definitions.filter((def) => 
-				!def.identifier.startsWith('$') && 
-				!def.identifier.includes('event') &&
-				!def.identifier.startsWith('on')
+			return definitions.filter(
+				(def) =>
+					!def.identifier.startsWith('$') &&
+					!def.identifier.includes('event') &&
+					!def.identifier.startsWith('on'),
 			);
 		default:
 			return [];

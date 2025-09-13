@@ -1,11 +1,13 @@
 # $props Definition
 
-**Definition:** Declares component props (replaces export let from Svelte 4)  
+**Definition:** Declares component props (replaces export let from
+Svelte 4)  
 **Syntax:** `$props(): any`  
 **Parameters:** None  
 **Returns:** Object containing all component props  
 **Variants:**
-- `$props.id(): string` - Returns unique ID for the props object  
+
+- `$props.id(): string` - Returns unique ID for the props object
 
 ## Examples
 
@@ -26,6 +28,7 @@ let { name, ...rest } = $props();
 ```
 
 ## Related
+
 - `$bindable` - For two-way binding props
 - `$state` - For local component state
 - `component-events` - For component communication patterns

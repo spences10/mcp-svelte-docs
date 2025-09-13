@@ -84,7 +84,7 @@ class SvelteDocsServer {
 
 			// Register definition tools (new primary interface)
 			register_definition_tools(this.server);
-			
+
 			// Register markdown-based tools (legacy/tutorial interface)
 			register_markdown_tools(this.server);
 

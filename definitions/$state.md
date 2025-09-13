@@ -1,13 +1,17 @@
 # $state Definition
 
-**Definition:** Creates reactive state that triggers UI updates when the value changes  
-**Syntax:** `$state<T>(initial: T): T` | `$state<T>(): T | undefined`  
+**Definition:** Creates reactive state that triggers UI updates when
+the value changes  
+**Syntax:** `$state<T>(initial: T): T` |
+`$state<T>(): T | undefined`  
 **Parameters:**
+
 - `initial` - The initial value (optional)  
-**Returns:** Reactive proxy of the initial value  
-**Variants:**
+  **Returns:** Reactive proxy of the initial value  
+  **Variants:**
 - `$state.raw<T>(initial: T): T` - Non-deeply-reactive state
-- `$state.snapshot<T>(state: T): Snapshot<T>` - Static snapshot of reactive state  
+- `$state.snapshot<T>(state: T): Snapshot<T>` - Static snapshot of
+  reactive state
 
 ## Examples
 
@@ -25,6 +29,7 @@ let data = $state<string>(); // undefined initially
 ```
 
 ## Related
+
 - `$derived` - For computed values based on state
 - `$effect` - For side effects responding to state changes
 - `$state.raw` - For non-deeply-reactive state

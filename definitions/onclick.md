@@ -1,13 +1,14 @@
 # onclick Definition
 
-**Definition:** Standard HTML event attributes replace on: directives  
+**Definition:** Standard HTML event attributes replace on:
+directives  
 **Syntax:** `onclick={handler}` (instead of `on:click={handler}`)  
 **Parameters:**
-- `handler` - Function to handle the click event
-**Returns:** void
-**Examples:**
+
+- `handler` - Function to handle the click event **Returns:** void
+  **Examples:**
 - `onclick={handleClick}`
-- `onsubmit={handleSubmit}`  
+- `onsubmit={handleSubmit}`
 - `oninput={handleInput}`
 
 ## Examples
@@ -15,11 +16,11 @@
 ```svelte
 <script>
   let count = $state(0);
-  
+
   function handleClick() {
     count++;
   }
-  
+
   function handleInput(event) {
     console.log(event.target.value);
   }
@@ -39,6 +40,7 @@
 ```
 
 ## Related
+
 - `component-events` - For component-to-component communication
 - `$effect` - For responding to state changes from events
 - `on:click` - Svelte 4 pattern that onclick replaces
