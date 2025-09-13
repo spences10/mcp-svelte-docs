@@ -1,5 +1,11 @@
 # mcp-svelte-docs
 
+## 0.0.18
+
+### Patch Changes
+
+- add back defnitions and docs for now
+
 ## 0.0.17
 
 ### Patch Changes

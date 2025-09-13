@@ -1,6 +1,6 @@
 {
 	"name": "mcp-svelte-docs",
-	"version": "0.0.17",
+	"version": "0.0.18",
 	"description": "MCP server for Svelte docs",
 	"type": "module",
 	"main": "dist/index.js",
@@ -10,6 +10,8 @@
 	},
 	"files": [
 		"dist",
+		"definitions",
+		"docs",
 		"README.md",
 		"LICENSE"
 	],
