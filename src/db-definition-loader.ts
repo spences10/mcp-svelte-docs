@@ -24,7 +24,7 @@ let db: Database.Database | null = null;
  */
 function initDb(): Database.Database {
 	if (!db) {
-		const dbPath = join(__dirname, 'definitions.db');
+		const dbPath = join(__dirname, '../definitions.db');
 		db = Database(dbPath, { readonly: true });
 	}
 	return db;

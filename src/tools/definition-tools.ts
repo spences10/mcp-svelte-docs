@@ -1,20 +1,13 @@
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { McpServer } from 'tmcp';
 import * as v from 'valibot';
 
 import {
-	DefinitionItem,
-	get_all_identifiers,
-	get_definition_by_identifier,
-	load_definitions,
-	suggest_similar_identifiers,
-} from '../definition-loader.js';
-
-// Get the definitions directory path
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const definitionsDir = join(__dirname, '../../definitions');
+  DefinitionItem,
+  get_all_identifiers,
+  get_definition_by_identifier,
+  load_definitions,
+  suggest_similar_identifiers,
+} from '../db-definition-loader.js';
 
 // Load all definitions
 let definitions: DefinitionItem[] = [];
@@ -155,11 +148,8 @@ function create_definition_error(
 	identifier: string,
 	definitions: DefinitionItem[],
 ): Error {
-	const suggestions = suggest_similar_identifiers(
-		definitions,
-		identifier,
-	);
-	const all_identifiers = get_all_identifiers(definitions);
+	const suggestions = suggest_similar_identifiers(identifier);
+	const all_identifiers = get_all_identifiers();
 
 	let error_message = `Definition for '${identifier}' not found.`;
 
@@ -211,10 +201,7 @@ async function definition_handler(args: any) {
 		);
 
 		// Find the definition
-		const definition = get_definition_by_identifier(
-			definitions,
-			identifier,
-		);
+		const definition = get_definition_by_identifier(identifier);
 
 		if (!definition) {
 			throw create_definition_error(identifier, definitions);
@@ -294,7 +281,7 @@ export function register_definition_tools(
 	server: McpServer<any>,
 ): void {
 	// Load all definitions
-	definitions = load_definitions(definitionsDir);
+	definitions = load_definitions();
 
 	if (definitions.length === 0) {
 		console.warn(
@@ -303,7 +290,7 @@ export function register_definition_tools(
 	} else {
 		console.log(
 			`Loaded ${definitions.length} definitions:`,
-			get_all_identifiers(definitions),
+			get_all_identifiers(),
 		);
 	}
 
