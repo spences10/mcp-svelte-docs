@@ -12,10 +12,10 @@ computations
 
 ## Examples
 
-```js
+```ts
 // Expensive computation that should be memoized
-let items = $state([1, 2, 3, 4, 5]);
-let filter = $state('even');
+let items: number[] = $state([1, 2, 3, 4, 5]);
+let filter: 'even' | 'odd' = $state('even');
 
 const expensiveResult = $derived.by(() => {
 	console.log('Computing expensive result...');
@@ -47,7 +47,7 @@ const processedData = $derived.by(() => {
 
 // When you need multiple statements
 const validation = $derived.by(() => {
-	const errors = [];
+	const errors: string[] = [];
 
 	if (items.length === 0) {
 		errors.push('Items cannot be empty');
@@ -62,6 +62,28 @@ const validation = $derived.by(() => {
 		errors,
 	};
 });
+
+// Override a derived temporarily (e.g., optimistic UI)
+let likes = $derived(post.likes);
+async function like() {
+	likes += 1; // override
+	try {
+		await sendLike();
+	} catch {
+		likes -= 1; // rollback on error
+	}
+}
+
+// Destructuring: each piece remains reactive
+let { a, b } = $derived(getPair()); // each remains reactive
+
+// Dependency control
+let total2 = $derived.by(() => {
+	// anything read synchronously is a dependency
+	return items.reduce((s, n) => s + n, 0);
+});
+
+// To exempt values from tracking, use untrack(...)
 ```
 
 ## Related

@@ -1,94 +1,54 @@
 # remote-functions Definition
 
-**Definition:** SvelteKit experimental feature for type-safe
-client-server communication without manual API endpoints  
-**Syntax:** `export async function myFunction() { ... }` in
-`+page.server.js` with client import  
-**Parameters:**
+**Definition:** Experimental, opt-in feature (Kit ≥2.27) for type-safe
+client→server functions defined in `.remote.(js|ts)` using
+`$app/server` helpers: `query`, `form`, `command`, `prerender`.
 
-- Server-side function definitions
-- Client-side imports and calls **Returns:** Type-safe function calls
-  across client-server boundary  
-  **Status:** Experimental SvelteKit feature
+**Opt-in:** `kit.experimental.remoteFunctions = true` (and optionally
+Svelte compiler `experimental.async = true` for `await` in
+components.)
 
-## Examples
+**Flavours:**
 
-```js
-// src/routes/+page.server.js
-export async function getUserData(userId) {
-  // This runs on the server
-  const user = await db.users.findById(userId);
-  return {
-    id: user.id,
-    name: user.name,
-    email: user.email
-  };
-}
+- `query` — read dynamic data; callable from components; supports
+  argument validation; has `.refresh()/.set()`
+- `form` — write via spreadable form object; progressively enhances;
+  supports single-flight updates
+- `command` — write from arbitrary code; cannot redirect; can
+  `.updates(...)`
+- `prerender` — build-time data (with `inputs` and `dynamic` options)
 
-export async function updateUser(userId, data) {
-  // Server-side validation and update
-  const updatedUser = await db.users.update(userId, data);
-  return updatedUser;
-}
+## Example
 
-// src/routes/+page.svelte
-<script>
-  import { getUserData, updateUser } from './+page.server.js';
+```ts
+// src/routes/data.remote.ts
+import * as v from 'valibot';
+import { query, form } from '$app/server';
+import { error, redirect } from '@sveltejs/kit';
+import * as db from '$lib/server/database';
 
-  let userId = $state(1);
-  let userData = $state(null);
-
-  // Call server function from client
-  async function loadUser() {
-    userData = await getUserData(userId);
-  }
-
-  async function saveUser(newData) {
-    userData = await updateUser(userId, newData);
-  }
-
-  // Load user on mount
-  $effect(() => {
-    loadUser();
-  });
-</script>
-
-<div>
-  {#if userData}
-    <h1>{userData.name}</h1>
-    <p>{userData.email}</p>
-    <button onclick={() => saveUser({ name: 'New Name' })}>
-      Update User
-    </button>
-  {:else}
-    <p>Loading...</p>
-  {/if}
-</div>
-
-// TypeScript support
-// src/routes/api/+page.server.ts
-export async function getTypedData(): Promise<{ count: number; items: string[] }> {
-  return {
-    count: 42,
-    items: ['a', 'b', 'c']
-  };
-}
-
-// Client gets full type safety
-// src/routes/+page.svelte
-<script lang="ts">
-  import { getTypedData } from './api/+page.server.js';
-
-  let data = $state<Awaited<ReturnType<typeof getTypedData>> | null>(null);
-
-  $effect(async () => {
-    data = await getTypedData(); // Fully typed!
-  });
-</script>
+export const getPosts = query(async () => db.listPosts());
+export const getPost = query(v.string(), async (slug) =>
+	db.getPost(slug),
+);
+export const createPost = form(async (data) => {
+	const title = data.get('title');
+	if (typeof title !== 'string') throw error(400, 'title required');
+	await db.createPost(title);
+	throw redirect(303, '/blog');
+});
 ```
+
+## Notes
+
+- Remote files live under `src/` and export functions; client calls
+  fetch generated endpoints.
+- Use `getRequestEvent()` inside to access cookies/locals.
+- Validation uses Standard Schema (e.g., Zod/Valibot). Use
+  `'unchecked'` to skip.
+- `redirect(...)` allowed in `query/form/prerender`, not in `command`.
 
 ## Related
 
-- `await-expressions` - For handling async calls in templates
-- `$effect` - For calling remote functions reactively
-- `$state` - For storing remote function results
+- `$app/server`, `$app/navigation.refreshAll`, `await-expressions`,
+  `$derived`
