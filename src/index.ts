@@ -8,7 +8,6 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { get_config } from './config.js';
 import { register_definition_tools } from './tools/definition-tools.js';
 
 // Get package info for server metadata
@@ -48,30 +47,13 @@ class SvelteDocsServer {
 		);
 
 		// Handle process termination
-		process.on('SIGINT', async () => {
-			await this.cleanup();
+		process.on('SIGINT', () => {
 			process.exit(0);
 		});
 
-		process.on('SIGTERM', async () => {
-			await this.cleanup();
+		process.on('SIGTERM', () => {
 			process.exit(0);
 		});
-
-		process.on('exit', () => {
-			this.cleanup();
-		});
-	}
-
-	/**
-	 * Cleanup resources
-	 */
-	private async cleanup(): Promise<void> {
-		try {
-			// Server shutdown complete
-		} catch (error) {
-			// Error during cleanup
-		}
 	}
 
 	/**
@@ -79,12 +61,8 @@ class SvelteDocsServer {
 	 */
 	private async initialize(): Promise<void> {
 		try {
-			// Load configuration
-			const config = get_config();
-
 			// Register definition tools (single svelte_definition tool)
 			register_definition_tools(this.server);
-
 		} catch (error) {
 			process.exit(1);
 		}
@@ -101,7 +79,6 @@ class SvelteDocsServer {
 			// Setup transport
 			const transport = new StdioTransport(this.server);
 			transport.listen();
-
 		} catch (error) {
 			process.exit(1);
 		}
