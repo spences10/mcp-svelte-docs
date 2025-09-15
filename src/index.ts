@@ -68,9 +68,9 @@ class SvelteDocsServer {
 	 */
 	private async cleanup(): Promise<void> {
 		try {
-			console.error('Svelte Docs MCP server shutdown complete');
+			// Server shutdown complete
 		} catch (error) {
-			console.error('Error during cleanup:', error);
+			// Error during cleanup
 		}
 	}
 
@@ -81,16 +81,11 @@ class SvelteDocsServer {
 		try {
 			// Load configuration
 			const config = get_config();
-			console.error('Svelte Docs MCP server initialized');
 
 			// Register definition tools (single svelte_definition tool)
 			register_definition_tools(this.server);
 
-			console.error(
-				'Definition tools registered - Pure database architecture',
-			);
 		} catch (error) {
-			console.error('Failed to initialize server:', error);
 			process.exit(1);
 		}
 	}
@@ -107,9 +102,7 @@ class SvelteDocsServer {
 			const transport = new StdioTransport(this.server);
 			transport.listen();
 
-			console.error('Svelte Docs MCP server running on stdio');
 		} catch (error) {
-			console.error('Failed to start server:', error);
 			process.exit(1);
 		}
 	}
@@ -118,6 +111,5 @@ class SvelteDocsServer {
 // Create and run the server
 const server = new SvelteDocsServer();
 server.run().catch((error) => {
-	console.error('Unhandled error:', error);
 	process.exit(1);
 });
