@@ -1,5 +1,11 @@
 # mcp-svelte-docs
 
+## 0.0.22
+
+### Patch Changes
+
+- 6e6a2cb: remove cleanup and logging
+
 ## 0.0.21
 
 ### Patch Changes
