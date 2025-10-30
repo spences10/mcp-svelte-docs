@@ -39,7 +39,7 @@
 	"homepage": "https://github.com/spences10/mcp-svelte-docs#readme",
 	"dependencies": {
 		"@tmcp/adapter-valibot": "^0.1.4",
-		"@tmcp/transport-stdio": "^0.3.1",
+		"@tmcp/transport-stdio": "^0.4.0",
 		"better-sqlite3": "^12.4.1",
 		"tmcp": "^1.14.0",
 		"valibot": "^1.1.0"
