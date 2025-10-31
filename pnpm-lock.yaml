@@ -10,29 +10,29 @@ importers:
     dependencies:
       '@tmcp/adapter-valibot':
         specifier: ^0.1.4
-        version: 0.1.4(tmcp@1.16.0(typescript@5.9.3))(valibot@1.1.0(typescript@5.9.3))
+        version: 0.1.4(tmcp@1.16.1(typescript@5.9.3))(valibot@1.1.0(typescript@5.9.3))
       '@tmcp/transport-stdio':
         specifier: ^0.4.0
-        version: 0.4.0(tmcp@1.16.0(typescript@5.9.3))
+        version: 0.4.0(tmcp@1.16.1(typescript@5.9.3))
       better-sqlite3:
         specifier: ^12.4.1
         version: 12.4.1
       tmcp:
-        specifier: ^1.16.0
-        version: 1.16.0(typescript@5.9.3)
+        specifier: ^1.16.1
+        version: 1.16.1(typescript@5.9.3)
       valibot:
         specifier: ^1.1.0
         version: 1.1.0(typescript@5.9.3)
     devDependencies:
       '@changesets/cli':
         specifier: ^2.29.7
-        version: 2.29.7(@types/node@24.6.2)
+        version: 2.29.7(@types/node@24.9.2)
       '@types/better-sqlite3':
         specifier: ^7.6.13
         version: 7.6.13
       '@types/node':
-        specifier: ^24.6.2
-        version: 24.6.2
+        specifier: ^24.9.2
+        version: 24.9.2
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -148,8 +148,8 @@ packages:
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
 
-  '@types/node@24.6.2':
-    resolution: {integrity: sha512-d2L25Y4j+W3ZlNAeMKcy7yDsK425ibcAOO2t7aPTz6gNMH0z2GThtwENCDc0d/Pw9wgyRqE5Px1wkV7naz8ang==}
+  '@types/node@24.9.2':
+    resolution: {integrity: sha512-uWN8YqxXxqFMX2RqGOrumsKeti4LlmIMIyV0lgut4jx7KQBcBiW6vkDtIBvHnHIquwNfJhk8v2OtmO8zXWHfPA==}
 
   '@valibot/to-json-schema@1.3.0':
     resolution: {integrity: sha512-82Vv6x7sOYhv5YmTRgSppSqj1nn2pMCk5BqCMGWYp0V/fq+qirrbGncqZAtZ09/lrO40ne/7z8ejwE728aVreg==}
@@ -548,8 +548,8 @@ packages:
     resolution: {integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==}
     engines: {node: '>=8'}
 
-  tmcp@1.16.0:
-    resolution: {integrity: sha512-E2ypyH00XoNaliR+gilZAtWGQBkgfrCT2bjEcJsnlVwZfsHYOTMp9Q8K9G5JtDB/UaCP2TJyjp+UG5BumUc/4Q==}
+  tmcp@1.16.1:
+    resolution: {integrity: sha512-pmqdFMfYi8e57p8bzpIkEtTt6GfAXGpub8rwySgo1yEEQogTpGdXFjGbISeS0SKrYN/MnIsHN6nj8gPjmAc+EQ==}
 
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
@@ -563,8 +563,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  undici-types@7.13.0:
-    resolution: {integrity: sha512-Ov2Rr9Sx+fRgagJ5AX0qvItZG/JKKoBRAVITs1zk7IqZGTJUwgUr7qoYBpWwakpWilTZFM98rG/AFRocu10iIQ==}
+  undici-types@7.16.0:
+    resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
   universalify@0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
@@ -627,7 +627,7 @@ snapshots:
     dependencies:
       '@changesets/types': 6.1.0
 
-  '@changesets/cli@2.29.7(@types/node@24.6.2)':
+  '@changesets/cli@2.29.7(@types/node@24.9.2)':
     dependencies:
       '@changesets/apply-release-plan': 7.0.13
       '@changesets/assemble-release-plan': 6.0.9
@@ -643,7 +643,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@changesets/write': 0.4.0
-      '@inquirer/external-editor': 1.0.1(@types/node@24.6.2)
+      '@inquirer/external-editor': 1.0.1(@types/node@24.9.2)
       '@manypkg/get-packages': 1.1.3
       ansi-colors: 4.1.3
       ci-info: 3.9.0
@@ -742,12 +742,12 @@ snapshots:
       human-id: 4.1.1
       prettier: 2.8.8
 
-  '@inquirer/external-editor@1.0.1(@types/node@24.6.2)':
+  '@inquirer/external-editor@1.0.1(@types/node@24.9.2)':
     dependencies:
       chardet: 2.1.0
       iconv-lite: 0.6.3
     optionalDependencies:
-      '@types/node': 24.6.2
+      '@types/node': 24.9.2
 
   '@manypkg/find-root@1.1.0':
     dependencies:
@@ -779,26 +779,26 @@ snapshots:
 
   '@standard-schema/spec@1.0.0': {}
 
-  '@tmcp/adapter-valibot@0.1.4(tmcp@1.16.0(typescript@5.9.3))(valibot@1.1.0(typescript@5.9.3))':
+  '@tmcp/adapter-valibot@0.1.4(tmcp@1.16.1(typescript@5.9.3))(valibot@1.1.0(typescript@5.9.3))':
     dependencies:
       '@standard-schema/spec': 1.0.0
       '@valibot/to-json-schema': 1.3.0(valibot@1.1.0(typescript@5.9.3))
-      tmcp: 1.16.0(typescript@5.9.3)
+      tmcp: 1.16.1(typescript@5.9.3)
       valibot: 1.1.0(typescript@5.9.3)
 
-  '@tmcp/transport-stdio@0.4.0(tmcp@1.16.0(typescript@5.9.3))':
+  '@tmcp/transport-stdio@0.4.0(tmcp@1.16.1(typescript@5.9.3))':
     dependencies:
-      tmcp: 1.16.0(typescript@5.9.3)
+      tmcp: 1.16.1(typescript@5.9.3)
 
   '@types/better-sqlite3@7.6.13':
     dependencies:
-      '@types/node': 24.6.2
+      '@types/node': 24.9.2
 
   '@types/node@12.20.55': {}
 
-  '@types/node@24.6.2':
+  '@types/node@24.9.2':
     dependencies:
-      undici-types: 7.13.0
+      undici-types: 7.16.0
 
   '@valibot/to-json-schema@1.3.0(valibot@1.1.0(typescript@5.9.3))':
     dependencies:
@@ -1161,7 +1161,7 @@ snapshots:
 
   term-size@2.2.1: {}
 
-  tmcp@1.16.0(typescript@5.9.3):
+  tmcp@1.16.1(typescript@5.9.3):
     dependencies:
       '@standard-schema/spec': 1.0.0
       json-rpc-2.0: 1.7.1
@@ -1181,7 +1181,7 @@ snapshots:
 
   typescript@5.9.3: {}
 
-  undici-types@7.13.0: {}
+  undici-types@7.16.0: {}
 
   universalify@0.1.2: {}
 
