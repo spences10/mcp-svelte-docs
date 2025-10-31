@@ -18,13 +18,13 @@ const DefinitionSchema = v.object({
 		v.string(),
 		v.minLength(1),
 		v.description(
-			'Svelte 5 identifier to look up. Examples: "$state", "$derived", "$props", "$effect", "snippets", "onclick", "component-events". Use exact identifiers for best results.',
+			'Svelte 5 identifier: $state, $derived, $props, $effect, snippets, onclick, component-events',
 		),
 	),
 	format: v.pipe(
 		v.optional(v.picklist(['syntax', 'quick', 'full']), 'full'),
 		v.description(
-			'Response format: "syntax" returns just TypeScript signature (~50 words), "quick" returns definition + minimal example (~200 words), "full" returns complete definition with examples (~500-1000 words).',
+			'Output detail level: "syntax" (signature only), "quick" (with example), "full" (complete docs)',
 		),
 	),
 });
@@ -299,7 +299,7 @@ export function register_definition_tools(
 		{
 			name: 'svelte_definition',
 			description:
-				'Get authoritative Svelte 5 definitions extracted from TypeScript declarations. Returns precise syntax, parameters, and variants for runes ($state, $derived, $props, $effect), features (snippets, onclick), and patterns (component-events). Use "syntax" format for quick reference (~50 words), "quick" for definition + example (~200 words), or "full" for complete documentation (~500-1000 words). Replaces 13+ specialized tools with a single, consistent interface.',
+				'Lookup Svelte 5 & SvelteKit definitions from TypeScript declarations. Covers all runes ($state, $derived, $props, $effect), features (snippets, onclick, component-events), and patterns. Supports syntax/quick/full format for varying detail levels.',
 			schema: DefinitionSchema,
 		},
 		definition_handler,
