@@ -13,7 +13,7 @@ importers:
         version: 0.1.4(tmcp@1.17.0(typescript@5.9.3))(valibot@1.1.0(typescript@5.9.3))
       '@tmcp/transport-stdio':
         specifier: ^0.4.0
-        version: 0.4.0(tmcp@1.17.0(typescript@5.9.3))
+        version: 0.4.1(tmcp@1.17.0(typescript@5.9.3))
       better-sqlite3:
         specifier: ^12.4.1
         version: 12.4.6
@@ -137,10 +137,10 @@ packages:
       tmcp: ^1.10.2
       valibot: ^1.1.0
 
-  '@tmcp/transport-stdio@0.4.0':
-    resolution: {integrity: sha512-GPfYj8Yn7OqLv7yDzOzonZ2E9SyPphgmmiByBfhNYKBb5Mzp5aSVUJ3cjuiOOz4ZvpM9FzwMmxOt8wNURZxjmQ==}
+  '@tmcp/transport-stdio@0.4.1':
+    resolution: {integrity: sha512-464x8HNrvjLLtKZsrFWUL13GnBFFtrNoWxnE0rHbcmQSYRqtS8WseWtQCYstj2Vcg9kRlIUVFGDIljGNP4/N4A==}
     peerDependencies:
-      tmcp: ^1.16.0
+      tmcp: ^1.16.3
 
   '@types/better-sqlite3@7.6.13':
     resolution: {integrity: sha512-NMv9ASNARoKksWtsq/SHakpYAYnhBrQgGD8zkLYk/jaK8jUGn08CfEdTRgYhMypUQAfzSP8W6gNLe0q19/t4VA==}
@@ -791,7 +791,7 @@ snapshots:
       tmcp: 1.17.0(typescript@5.9.3)
       valibot: 1.1.0(typescript@5.9.3)
 
-  '@tmcp/transport-stdio@0.4.0(tmcp@1.17.0(typescript@5.9.3))':
+  '@tmcp/transport-stdio@0.4.1(tmcp@1.17.0(typescript@5.9.3))':
     dependencies:
       tmcp: 1.17.0(typescript@5.9.3)
 
