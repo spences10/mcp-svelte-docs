@@ -13,7 +13,7 @@ importers:
         version: 0.1.5(tmcp@1.18.1(typescript@5.9.3))(valibot@1.1.0(typescript@5.9.3))
       '@tmcp/transport-stdio':
         specifier: ^0.4.0
-        version: 0.4.1(tmcp@1.18.1(typescript@5.9.3))
+        version: 0.4.3(tmcp@1.18.1(typescript@5.9.3))
       better-sqlite3:
         specifier: ^12.4.1
         version: 12.4.6
@@ -137,8 +137,8 @@ packages:
       tmcp: ^1.17.0
       valibot: ^1.1.0
 
-  '@tmcp/transport-stdio@0.4.1':
-    resolution: {integrity: sha512-464x8HNrvjLLtKZsrFWUL13GnBFFtrNoWxnE0rHbcmQSYRqtS8WseWtQCYstj2Vcg9kRlIUVFGDIljGNP4/N4A==}
+  '@tmcp/transport-stdio@0.4.3':
+    resolution: {integrity: sha512-chdmSwk7PSXjkaQId2OAY8ZMFrTFWwckfCyXJuw6b6WFK9IMK95EoU2VDFioybcmawuQox0MNPM5R2DVxlptoA==}
     peerDependencies:
       tmcp: ^1.16.3
 
@@ -436,6 +436,7 @@ packages:
   prebuild-install@7.1.3:
     resolution: {integrity: sha512-8Mf2cbV7x1cXPUILADGI3wuhfqWvtiLA1iclTDbFRZkgRQS0NqsPZphna9V+HyTEadheuPmjaJMsbzKQFOzLug==}
     engines: {node: '>=10'}
+    deprecated: No longer maintained. Please contact the author of the relevant native addon; alternatives are available.
     hasBin: true
 
   prettier@2.8.8:
@@ -791,7 +792,7 @@ snapshots:
       tmcp: 1.18.1(typescript@5.9.3)
       valibot: 1.1.0(typescript@5.9.3)
 
-  '@tmcp/transport-stdio@0.4.1(tmcp@1.18.1(typescript@5.9.3))':
+  '@tmcp/transport-stdio@0.4.3(tmcp@1.18.1(typescript@5.9.3))':
     dependencies:
       tmcp: 1.18.1(typescript@5.9.3)
 
